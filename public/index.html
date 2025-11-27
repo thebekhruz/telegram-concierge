@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Oxbridge International School</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="showTab('apply')">Apply</button>
+            <button class="tab-btn" onclick="showTab('about')">About</button>
+            <button class="tab-btn" onclick="showTab('location')">Location</button>
+            <button class="tab-btn" onclick="showTab('faq')">FAQ</button>
+        </div>
+
+        <!-- Apply Tab -->
+        <div class="tab-content active" id="applyTab">
+            <!-- Hero Section -->
+            <div class="hero-section-compact">
+                <img src="/images/campus-hero.jpg" alt="Oxbridge Campus" class="hero-image-compact" onerror="this.src='/images/placeholder.svg'">
+                <div class="hero-overlay-compact">
+                    <h1 class="school-name-compact">Oxbridge International School</h1>
+                </div>
+            </div>
+
+            <!-- Application Form -->
+            <div class="form-section">
+                <h2>🎓 Admissions Application</h2>
+                <p class="section-description">Fill out the form below and our admissions team will contact you</p>
+
+                <!-- Parent Information -->
+                <div class="form-card">
+                    <h3>Parent Information</h3>
+
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="parentName" class="form-control" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="parentEmail" class="form-control" placeholder="your.email@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="parentPhone" class="form-control" placeholder="+998 XX XXX XX XX">
+                    </div>
+                </div>
+
+                <!-- Campus & Program Selection -->
+                <div class="form-card">
+                    <h3>Campus & Program</h3>
+
+                    <div class="form-group">
+                        <label>Preferred Campus *</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="campus" value="MU" required>
+                                <span class="radio-label">
+                                    <strong>MU Campus</strong>
+                                    <small>Mirzo-Ulugbek District</small>
+                                </span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="campus" value="YASH">
+                                <span class="radio-label">
+                                    <strong>Yashnobod Campus</strong>
+                                    <small>Yashnobod District</small>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Children Information -->
+                <div class="form-card">
+                    <h3>Children Information</h3>
+                    <p class="helper-text">Add each child separately (you can add multiple children at different grade levels)</p>
+
+                    <div id="childrenList"></div>
+
+                    <button type="button" class="secondary-btn" onclick="addChild()">
+                        ➕ Add Child
+                    </button>
+                </div>
+
+                <!-- Additional Information -->
+                <div class="form-card">
+                    <h3>Additional Information</h3>
+
+                    <div class="form-group">
+                        <label>When would you like to start? *</label>
+                        <select id="startDate" class="form-control" required>
+                            <option value="">Select start date...</option>
+                            <option value="2025-09">September 2025</option>
+                            <option value="2026-01">January 2026</option>
+                            <option value="2026-09">September 2026</option>
+                            <option value="later">Later</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Preferred Language of Instruction *</label>
+                        <select id="preferredLanguage" class="form-control" required>
+                            <option value="">Select language...</option>
+                            <option value="english">English</option>
+                            <option value="russian">Russian</option>
+                            <option value="bilingual">Bilingual (English + Russian)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>How did you hear about us?</label>
+                        <select id="referralSource" class="form-control">
+                            <option value="">Select...</option>
+                            <option value="friend">Friend/Family Recommendation</option>
+                            <option value="social">Social Media</option>
+                            <option value="website">Website/Google</option>
+                            <option value="event">School Event</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Questions or Special Requirements</label>
+                        <textarea id="additionalComments" class="form-control" rows="3" placeholder="Any questions or special needs we should know about..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="tourRequest">
+                            <span>I would like to schedule a campus tour</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="button" class="primary-btn submit-btn" onclick="submitApplication()">
+                    📤 Submit Application
+                </button>
+
+                <p class="privacy-text">By submitting this form, you agree to be contacted by our admissions team</p>
+            </div>
+        </div>
+
+        <!-- About Tab -->
+        <div class="tab-content" id="aboutTab">
+            <div class="content-section">
+                <h2>About Oxbridge</h2>
+
+                <div class="info-card">
+                    <h3>🌍 International Education</h3>
+                    <p>Oxbridge International School is an authorized IB World School offering the Primary Years Programme (PYP), Middle Years Programme (MYP), and Diploma Programme (DP).</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>🎓 Programs We Offer</h3>
+                    <ul>
+                        <li><strong>International Baccalaureate (IB):</strong> World-class curriculum recognized globally</li>
+                        <li><strong>Russian Curriculum:</strong> Grades 1-11 following the Russian education system</li>
+                        <li><strong>Kindergarten Programs:</strong> Russian and Bilingual options for early years</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>✨ What's Included</h3>
+                    <ul>
+                        <li>Full academic program with qualified international teachers</li>
+                        <li>Learning materials and textbooks</li>
+                        <li>Access to modern facilities (library, labs, sports)</li>
+                        <li>Extracurricular activities and clubs</li>
+                        <li>Daily meals (breakfast, lunch, snacks)</li>
+                        <li>Small class sizes (max 15-20 students)</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>🏆 Why Choose Us</h3>
+                    <ul>
+                        <li>Experienced international and local teachers</li>
+                        <li>Modern campus with state-of-the-art facilities</li>
+                        <li>Individual approach to each student</li>
+                        <li>Strong academic results and university placements</li>
+                        <li>Safe and supportive learning environment</li>
+                    </ul>
+                </div>
+
+                <div class="gallery-section">
+                    <h3>📸 Campus Gallery</h3>
+                    <div class="gallery-grid">
+                        <img src="/images/campus-mu.jpg" alt="MU Campus" onerror="this.src='/images/placeholder.svg'">
+                        <img src="/images/campus-yash.jpg" alt="Yashnobod Campus" onerror="this.src='/images/placeholder.svg'">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Location Tab -->
+        <div class="tab-content" id="locationTab">
+            <div class="content-section">
+                <h2>📍 Our Campuses</h2>
+
+                <div class="location-card">
+                    <img src="/images/campus-mu.jpg" alt="MU Campus" class="location-image" onerror="this.src='/images/placeholder.svg'">
+                    <h3>🏫 MU Campus (Mirzo-Ulugbek)</h3>
+                    <div class="location-details">
+                        <p><strong>Address:</strong> Tashkent, Mirzo-Ulugbek District</p>
+                        <p><strong>Phone:</strong> +998 XX XXX XX XX</p>
+                        <p><strong>Programs:</strong> IB (PYP, MYP, DP), Russian School, Russian Kindergarten</p>
+                        <p><strong>Hours:</strong> Monday - Friday, 8:30 AM - 5:00 PM</p>
+                    </div>
+                </div>
+
+                <div class="location-card">
+                    <img src="/images/campus-yash.jpg" alt="Yashnobod Campus" class="location-image" onerror="this.src='/images/placeholder.svg'">
+                    <h3>🏫 Yashnobod Campus</h3>
+                    <div class="location-details">
+                        <p><strong>Address:</strong> Tashkent, Yashnobod District</p>
+                        <p><strong>Phone:</strong> +998 XX XXX XX XX</p>
+                        <p><strong>Programs:</strong> IB (PYP, MYP), Russian School, Bilingual Kindergarten</p>
+                        <p><strong>Hours:</strong> Monday - Friday, 8:30 AM - 5:00 PM</p>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>🌐 Contact Us</h3>
+                    <p><strong>Email:</strong> info@oxbridge.uz</p>
+                    <p><strong>Website:</strong> www.oxbridge.uz</p>
+                    <p><strong>Instagram:</strong> @oxbridge_school</p>
+                    <p><strong>Facebook:</strong> OxbridgeSchool</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Tab -->
+        <div class="tab-content" id="faqTab">
+            <div class="content-section">
+                <h2>❓ Frequently Asked Questions</h2>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>What is the admission process?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <ol>
+                            <li>Submit application form (via this mini app or website)</li>
+                            <li>Schedule a campus tour (optional but recommended)</li>
+                            <li>Entrance assessment for the student</li>
+                            <li>Interview with parents and student</li>
+                            <li>Receive admission decision (usually within 1 week)</li>
+                            <li>Complete enrollment and payment</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>What documents are required?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <ul>
+                            <li>Student's birth certificate or passport</li>
+                            <li>Previous school records/transcripts</li>
+                            <li>Medical certificate</li>
+                            <li>Parent/guardian ID documents</li>
+                            <li>Passport photos of student</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>What are the school hours?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p><strong>Regular School Day:</strong> 8:30 AM - 3:30 PM</p>
+                        <p><strong>After-School Activities:</strong> Until 5:00 PM</p>
+                        <p><strong>Extended Day Program:</strong> Available until 6:00 PM</p>
+                        <p>School operates Monday through Friday.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Is transportation available?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, we offer school bus service covering most areas of Tashkent. Transportation is available for an additional fee. Routes are planned to minimize travel time for students.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Are meals provided?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, tuition includes:</p>
+                        <ul>
+                            <li>Breakfast</li>
+                            <li>Lunch</li>
+                            <li>Afternoon snacks</li>
+                        </ul>
+                        <p>We accommodate dietary restrictions and preferences. Our kitchen follows strict hygiene standards.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>What is the student-teacher ratio?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We maintain small class sizes to ensure individual attention:</p>
+                        <ul>
+                            <li><strong>Kindergarten:</strong> Maximum 12-15 students per class</li>
+                            <li><strong>Primary (Grades 1-5):</strong> Maximum 15-18 students</li>
+                            <li><strong>Secondary (Grades 6-11):</strong> Maximum 18-20 students</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Can students transfer mid-year?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, we accept mid-year transfers subject to space availability. The student will need to complete an assessment to determine appropriate grade placement. Contact admissions for specific dates and requirements.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>What extracurricular activities are offered?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We offer a wide range of activities including:</p>
+                        <ul>
+                            <li>Sports: Football, Basketball, Swimming, Tennis</li>
+                            <li>Arts: Music, Drama, Visual Arts, Dance</li>
+                            <li>STEM: Robotics, Coding, Science Club</li>
+                            <li>Languages: Additional language classes</li>
+                            <li>Leadership: Student Council, Model UN</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>Still have questions?</h3>
+                    <p>Submit the application form and our admissions team will contact you to answer all your questions personally.</p>
+                    <button class="secondary-btn" onclick="showTab('apply')">Go to Application Form</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading-overlay" id="loading" style="display: none;">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <p>Submitting your application...</p>
+            </div>
+        </div>
+
+        <!-- Success State -->
+        <div class="success-overlay" id="successMessage" style="display: none;">
+            <div class="success-content">
+                <div class="success-icon">✅</div>
+                <h3>Application Submitted!</h3>
+                <p>Thank you for your interest in Oxbridge International School.</p>
+                <p>Our admissions team will contact you within 24-48 hours.</p>
+                <button class="primary-btn" onclick="tg.close()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
