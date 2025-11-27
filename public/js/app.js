@@ -2,29 +2,17 @@
 let tg = window.Telegram.WebApp;
 tg.expand();
 
-// User data storage
-const userData = {
-    campus: '',
-    program: '',
-    numberOfChildren: 0,
-    childAge: '',
-    educationLevel: '',
-    preferredLanguage: '',
-    startDate: '',
-    additionalComments: ''
-};
-
-// Step tracking
-let currentStep = 0;
-const steps = ['welcomeCard', 'step1', 'step2', 'step3', 'step4', 'step5'];
+// Children counter
+let childCounter = 0;
+const children = [];
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     // Apply Telegram theme
     applyTelegramTheme();
 
-    // Show welcome screen
-    showStep(0);
+    // Add first child by default
+    addChild();
 });
 
 // Apply Telegram theme colors
@@ -33,7 +21,6 @@ function applyTelegramTheme() {
         document.body.classList.add('dark-theme');
     }
 
-    // Set theme color
     if (tg.themeParams.bg_color) {
         document.documentElement.style.setProperty('--bg-light', tg.themeParams.bg_color);
     }
@@ -47,193 +34,263 @@ function applyTelegramTheme() {
     }
 }
 
-// Start the journey
-function startJourney() {
-    currentStep = 1;
-    showStep(currentStep);
-    updateNavigation();
+// Tab Navigation
+function showTab(tabName) {
+    // Remove active class from all tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+    });
+
+    // Add active class to selected tab
+    const activeTabBtn = Array.from(document.querySelectorAll('.tab-btn')).find(
+        btn => btn.textContent.toLowerCase().includes(tabName.toLowerCase())
+    );
+
+    if (activeTabBtn) {
+        activeTabBtn.classList.add('active');
+    }
+
+    // Show selected content
+    const tabMap = {
+        'apply': 'applyTab',
+        'about': 'aboutTab',
+        'location': 'locationTab',
+        'faq': 'faqTab'
+    };
+
+    const contentId = tabMap[tabName];
+    if (contentId) {
+        document.getElementById(contentId).classList.add('active');
+    }
 }
 
-// Show specific step
-function showStep(stepIndex) {
-    // Hide all steps
-    steps.forEach(step => {
-        const element = document.getElementById(step);
-        if (element) {
-            element.style.display = 'none';
+// Add Child
+function addChild() {
+    childCounter++;
+    const childId = `child-${childCounter}`;
+
+    const childEntry = document.createElement('div');
+    childEntry.className = 'child-entry';
+    childEntry.id = childId;
+    childEntry.innerHTML = `
+        <div class="child-entry-header">
+            <span class="child-entry-title">Child #${childCounter}</span>
+            ${childCounter > 1 ? `<button type="button" class="remove-child-btn" onclick="removeChild('${childId}')">Remove</button>` : ''}
+        </div>
+
+        <div class="form-group">
+            <label>Child's Name *</label>
+            <input type="text" class="form-control child-name" placeholder="Enter child's name" required>
+        </div>
+
+        <div class="form-group">
+            <label>Program *</label>
+            <select class="form-control child-program" required onchange="updateGradeOptions(this)">
+                <option value="">Select program...</option>
+                <option value="IB">International Baccalaureate (IB)</option>
+                <option value="RUS">Russian School (Grades 1-11)</option>
+                <option value="KG_RUS">Russian Kindergarten</option>
+                <option value="KG_BI">Bilingual Kindergarten</option>
+            </select>
+        </div>
+
+        <div class="form-group grade-group" style="display: none;">
+            <label>Grade/Level *</label>
+            <select class="form-control child-grade" required>
+                <option value="">Select grade...</option>
+            </select>
+        </div>
+    `;
+
+    document.getElementById('childrenList').appendChild(childEntry);
+    children.push({ id: childId, counter: childCounter });
+}
+
+// Remove Child
+function removeChild(childId) {
+    const childElement = document.getElementById(childId);
+    if (childElement) {
+        childElement.remove();
+        const index = children.findIndex(c => c.id === childId);
+        if (index > -1) {
+            children.splice(index, 1);
+        }
+        // Renumber remaining children
+        renumberChildren();
+    }
+}
+
+// Renumber Children
+function renumberChildren() {
+    const childEntries = document.querySelectorAll('.child-entry');
+    childEntries.forEach((entry, index) => {
+        const title = entry.querySelector('.child-entry-title');
+        if (title) {
+            title.textContent = `Child #${index + 1}`;
         }
     });
-
-    // Show current step
-    const currentElement = document.getElementById(steps[stepIndex]);
-    if (currentElement) {
-        currentElement.style.display = 'block';
-    }
-
-    currentStep = stepIndex;
-    updateNavigation();
 }
 
-// Update navigation buttons
-function updateNavigation() {
-    const backBtn = document.getElementById('backBtn');
-    const startBtn = document.getElementById('startBtn');
+// Update Grade Options
+function updateGradeOptions(selectElement) {
+    const childEntry = selectElement.closest('.child-entry');
+    const gradeGroup = childEntry.querySelector('.grade-group');
+    const gradeSelect = childEntry.querySelector('.child-grade');
+    const program = selectElement.value;
 
-    if (currentStep === 0) {
-        backBtn.style.display = 'none';
-        startBtn.style.display = 'block';
-        startBtn.textContent = 'Get Started';
-    } else if (currentStep === steps.length - 1) {
-        // On summary/final step
-        backBtn.style.display = 'none';
-        startBtn.style.display = 'none';
-    } else {
-        backBtn.style.display = 'block';
-        startBtn.style.display = 'none';
-    }
-}
+    // Clear existing options
+    gradeSelect.innerHTML = '<option value="">Select grade...</option>';
 
-// Go back to previous step
-function goBack() {
-    if (currentStep > 1) {
-        currentStep--;
-        showStep(currentStep);
-    }
-}
-
-// Campus Selection
-function selectCampus(campus) {
-    userData.campus = campus;
-
-    // Visual feedback
-    document.querySelectorAll('.campus-card').forEach(card => {
-        card.classList.remove('selected');
-    });
-    event.target.closest('.campus-card').classList.add('selected');
-
-    // Move to next step after short delay
-    setTimeout(() => {
-        currentStep = 2;
-        showStep(currentStep);
-    }, 300);
-}
-
-// Program Selection
-function selectProgram(program) {
-    userData.program = program;
-
-    // Visual feedback
-    document.querySelectorAll('.program-card').forEach(card => {
-        card.classList.remove('selected');
-    });
-    event.target.closest('.program-card').classList.add('selected');
-
-    // Move to next step after short delay
-    setTimeout(() => {
-        currentStep = 3;
-        showStep(currentStep);
-    }, 300);
-}
-
-// Number of Children Selection
-function selectChildren(number) {
-    userData.numberOfChildren = number;
-
-    // Visual feedback
-    document.querySelectorAll('.option-btn').forEach(btn => {
-        btn.classList.remove('selected');
-    });
-    event.target.classList.add('selected');
-
-    // Move to next step after short delay
-    setTimeout(() => {
-        currentStep = 4;
-        showStep(currentStep);
-    }, 300);
-}
-
-// Show Summary
-function showSummary() {
-    // Collect form data
-    userData.childAge = document.getElementById('childAge').value;
-    userData.educationLevel = document.getElementById('educationLevel').value;
-    userData.preferredLanguage = document.getElementById('preferredLanguage').value;
-    userData.startDate = document.getElementById('startDate').value;
-    userData.additionalComments = document.getElementById('additionalComments').value;
-
-    // Validate required fields
-    if (!userData.childAge || !userData.educationLevel || !userData.preferredLanguage || !userData.startDate) {
-        tg.showAlert('Please fill in all required fields');
+    if (!program) {
+        gradeGroup.style.display = 'none';
         return;
     }
 
-    // Display summary
-    displaySummary();
+    gradeGroup.style.display = 'block';
 
-    // Move to summary step
-    currentStep = 5;
-    showStep(currentStep);
+    // Populate grade options based on program
+    if (program === 'IB') {
+        const ibGrades = [
+            { value: 'KG', label: 'Kindergarten' },
+            { value: 'PYP1', label: 'PYP 1' },
+            { value: 'PYP2', label: 'PYP 2' },
+            { value: 'PYP3', label: 'PYP 3' },
+            { value: 'PYP4', label: 'PYP 4' },
+            { value: 'PYP5', label: 'PYP 5' },
+            { value: 'MYP1', label: 'MYP 1' },
+            { value: 'MYP2', label: 'MYP 2' },
+            { value: 'MYP3', label: 'MYP 3' },
+            { value: 'MYP4', label: 'MYP 4' },
+            { value: 'MYP5', label: 'MYP 5' },
+            { value: 'DP1', label: 'DP 1 (Year 11)' },
+            { value: 'DP2', label: 'DP 2 (Year 12)' }
+        ];
+        ibGrades.forEach(grade => {
+            const option = document.createElement('option');
+            option.value = grade.value;
+            option.textContent = grade.label;
+            gradeSelect.appendChild(option);
+        });
+    } else if (program === 'RUS') {
+        for (let i = 1; i <= 11; i++) {
+            const option = document.createElement('option');
+            option.value = `Grade${i}`;
+            option.textContent = `Grade ${i}`;
+            gradeSelect.appendChild(option);
+        }
+    } else if (program === 'KG_RUS' || program === 'KG_BI') {
+        const option = document.createElement('option');
+        option.value = 'KG';
+        option.textContent = 'Kindergarten';
+        gradeSelect.appendChild(option);
+        gradeSelect.value = 'KG';
+    }
 }
 
-// Display Summary
-function displaySummary() {
-    const campusNames = {
-        'MU': 'MU Campus (Mirzo-Ulugbek)',
-        'YASH': 'Yashnobod Campus'
-    };
-
-    const programNames = {
-        'IB': 'International Baccalaureate',
-        'RUS': 'Russian School',
-        'KG_RUS': 'Russian Kindergarten',
-        'KG_BI': 'Bilingual Kindergarten'
-    };
-
-    const languageNames = {
-        'english': 'English',
-        'russian': 'Russian',
-        'bilingual': 'Bilingual (English + Russian)'
-    };
-
-    const educationNames = {
-        'kindergarten': 'Kindergarten',
-        'primary': 'Primary School',
-        'secondary': 'Secondary School',
-        'high': 'High School',
-        'none': 'Not yet in school'
-    };
-
-    const startDateNames = {
-        '2025-09': 'September 2025',
-        '2026-01': 'January 2026',
-        '2026-09': 'September 2026',
-        'later': 'Later'
-    };
-
-    document.getElementById('summaryCampus').textContent = campusNames[userData.campus] || userData.campus;
-    document.getElementById('summaryProgram').textContent = programNames[userData.program] || userData.program;
-    document.getElementById('summaryChildren').textContent = userData.numberOfChildren;
-    document.getElementById('summaryAge').textContent = userData.childAge;
-    document.getElementById('summaryEducation').textContent = educationNames[userData.educationLevel] || userData.educationLevel;
-    document.getElementById('summaryLanguage').textContent = languageNames[userData.preferredLanguage] || userData.preferredLanguage;
-    document.getElementById('summaryStartDate').textContent = startDateNames[userData.startDate] || userData.startDate;
+// Toggle FAQ
+function toggleFaq(button) {
+    const answer = button.nextElementSibling;
+    button.classList.toggle('active');
+    answer.classList.toggle('active');
 }
 
-// Connect to Manager
-async function connectToManager() {
-    // Show loading state
-    document.getElementById('step5').style.display = 'none';
-    document.getElementById('loading').style.display = 'block';
+// Submit Application
+async function submitApplication() {
+    // Validate required fields
+    const parentName = document.getElementById('parentName').value.trim();
+    const campus = document.querySelector('input[name="campus"]:checked');
+    const startDate = document.getElementById('startDate').value;
+    const preferredLanguage = document.getElementById('preferredLanguage').value;
+
+    if (!parentName) {
+        tg.showAlert('Please enter your full name');
+        return;
+    }
+
+    if (!campus) {
+        tg.showAlert('Please select a campus');
+        return;
+    }
+
+    if (!startDate) {
+        tg.showAlert('Please select a start date');
+        return;
+    }
+
+    if (!preferredLanguage) {
+        tg.showAlert('Please select preferred language of instruction');
+        return;
+    }
+
+    // Collect children data
+    const childrenData = [];
+    const childEntries = document.querySelectorAll('.child-entry');
+
+    for (let i = 0; i < childEntries.length; i++) {
+        const entry = childEntries[i];
+        const childName = entry.querySelector('.child-name').value.trim();
+        const program = entry.querySelector('.child-program').value;
+        const grade = entry.querySelector('.child-grade').value;
+
+        if (!childName) {
+            tg.showAlert(`Please enter name for Child #${i + 1}`);
+            return;
+        }
+
+        if (!program) {
+            tg.showAlert(`Please select program for Child #${i + 1}`);
+            return;
+        }
+
+        if (!grade) {
+            tg.showAlert(`Please select grade/level for Child #${i + 1}`);
+            return;
+        }
+
+        childrenData.push({
+            name: childName,
+            program: program,
+            grade: grade
+        });
+    }
+
+    if (childrenData.length === 0) {
+        tg.showAlert('Please add at least one child');
+        return;
+    }
+
+    // Collect all form data
+    const applicationData = {
+        parent: {
+            name: parentName,
+            email: document.getElementById('parentEmail').value.trim(),
+            phone: document.getElementById('parentPhone').value.trim()
+        },
+        campus: campus.value,
+        children: childrenData,
+        startDate: startDate,
+        preferredLanguage: preferredLanguage,
+        referralSource: document.getElementById('referralSource').value,
+        additionalComments: document.getElementById('additionalComments').value.trim(),
+        campusTourRequested: document.getElementById('tourRequest').checked
+    };
+
+    // Show loading
+    document.getElementById('loading').style.display = 'flex';
 
     try {
-        // Send data to backend
+        // Send to backend
         const response = await fetch('/api/submit-lead', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                userData,
+                applicationData,
                 telegramUser: tg.initDataUnsafe?.user || {}
             })
         });
@@ -243,47 +300,26 @@ async function connectToManager() {
         if (result.success) {
             // Show success message
             document.getElementById('loading').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('successMessage').style.display = 'flex';
 
-            // Notify Telegram
-            tg.showAlert('Thank you! A manager will contact you soon.');
-
-            // Close mini app after 3 seconds
+            // Close after 3 seconds
             setTimeout(() => {
                 tg.close();
             }, 3000);
         } else {
-            throw new Error(result.error || 'Failed to submit');
+            throw new Error(result.error || 'Failed to submit application');
         }
     } catch (error) {
         console.error('Error:', error);
         document.getElementById('loading').style.display = 'none';
-        document.getElementById('step5').style.display = 'block';
         tg.showAlert('Something went wrong. Please try again or contact us directly.');
     }
 }
 
-// Handle back button
+// Telegram back button
 tg.BackButton.onClick(() => {
-    if (currentStep > 1) {
-        goBack();
-    } else {
-        tg.close();
-    }
+    tg.close();
 });
 
-// Show back button when needed
-function updateTelegramBackButton() {
-    if (currentStep > 0) {
-        tg.BackButton.show();
-    } else {
-        tg.BackButton.hide();
-    }
-}
-
-// Update back button visibility when step changes
-const originalShowStep = showStep;
-showStep = function(stepIndex) {
-    originalShowStep(stepIndex);
-    updateTelegramBackButton();
-};
+// Always show back button
+tg.BackButton.show();

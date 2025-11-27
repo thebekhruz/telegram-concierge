@@ -19,10 +19,14 @@ app.use(express.static(path.join(__dirname, '../../public')));
 // API endpoint to submit lead from mini app
 app.post('/api/submit-lead', async (req: Request, res: Response) => {
   try {
-    const { userData, telegramUser } = req.body;
+    const { applicationData, telegramUser } = req.body;
 
     if (!telegramUser || !telegramUser.id) {
       return res.status(400).json({ success: false, error: 'Invalid Telegram user data' });
+    }
+
+    if (!applicationData) {
+      return res.status(400).json({ success: false, error: 'Invalid application data' });
     }
 
     // Find or create user
@@ -33,15 +37,20 @@ app.post('/api/submit-lead', async (req: Request, res: Response) => {
       telegramUser.last_name
     );
 
+    // Update phone number if provided
+    if (applicationData.parent && applicationData.parent.phone) {
+      await userRepo.setPhoneNumber(user.telegramId, applicationData.parent.phone);
+    }
+
     // Create lead with mini app data
     const lead = await leadRepo.createLead({
       userId: user.id,
-      phoneNumber: user.phoneNumber || undefined,
-      campus: userData.campus,
-      programType: userData.program,
-      classLevel: userData.childAge,
-      numberOfChildren: userData.numberOfChildren,
-      year: userData.startDate,
+      phoneNumber: applicationData.parent?.phone || user.phoneNumber || undefined,
+      campus: applicationData.campus,
+      programType: applicationData.children?.[0]?.program,
+      classLevel: applicationData.children?.[0]?.grade,
+      numberOfChildren: applicationData.children?.length || 0,
+      year: applicationData.startDate,
     });
 
     // Send notification to CRM channel if configured
@@ -49,10 +58,13 @@ app.post('/api/submit-lead', async (req: Request, res: Response) => {
       try {
         const bot = new Telegraf(config.botToken);
 
-        let crmMessage = `🎓 New Lead from Mini App\n\n`;
-        crmMessage += `👤 Name: ${user.firstName || ''} ${user.lastName || ''}\n`;
-        if (user.phoneNumber) {
-          crmMessage += `📱 Phone: ${user.phoneNumber}\n`;
+        let crmMessage = `🎓 New Application from Mini App\n\n`;
+        crmMessage += `👤 Parent: ${applicationData.parent.name}\n`;
+        if (applicationData.parent.email) {
+          crmMessage += `📧 Email: ${applicationData.parent.email}\n`;
+        }
+        if (applicationData.parent.phone) {
+          crmMessage += `📱 Phone: ${applicationData.parent.phone}\n`;
         }
         if (user.username) {
           crmMessage += `🔗 Username: @${user.username}\n`;
@@ -60,16 +72,30 @@ app.post('/api/submit-lead', async (req: Request, res: Response) => {
         crmMessage += `🆔 Telegram ID: ${user.telegramId}\n`;
 
         crmMessage += `\n📊 Application Details:\n`;
-        crmMessage += `🏫 Campus: ${userData.campus}\n`;
-        crmMessage += `📚 Program: ${userData.program}\n`;
-        crmMessage += `👨‍👩‍👧‍👦 Children: ${userData.numberOfChildren}\n`;
-        crmMessage += `👶 Child Age: ${userData.childAge}\n`;
-        crmMessage += `📖 Current Level: ${userData.educationLevel}\n`;
-        crmMessage += `🌐 Preferred Language: ${userData.preferredLanguage}\n`;
-        crmMessage += `📅 Start Date: ${userData.startDate}\n`;
+        crmMessage += `🏫 Campus: ${applicationData.campus}\n`;
+        crmMessage += `🌐 Preferred Language: ${applicationData.preferredLanguage}\n`;
+        crmMessage += `📅 Start Date: ${applicationData.startDate}\n`;
 
-        if (userData.additionalComments) {
-          crmMessage += `\n💬 Comments: ${userData.additionalComments}\n`;
+        if (applicationData.referralSource) {
+          crmMessage += `📢 Referral: ${applicationData.referralSource}\n`;
+        }
+
+        if (applicationData.campusTourRequested) {
+          crmMessage += `🏛️ Tour Requested: Yes\n`;
+        }
+
+        // List each child
+        if (applicationData.children && applicationData.children.length > 0) {
+          crmMessage += `\n👨‍👩‍👧‍👦 Children (${applicationData.children.length}):\n`;
+          applicationData.children.forEach((child: any, index: number) => {
+            crmMessage += `\n  ${index + 1}. ${child.name}\n`;
+            crmMessage += `     Program: ${child.program}\n`;
+            crmMessage += `     Grade/Level: ${child.grade}\n`;
+          });
+        }
+
+        if (applicationData.additionalComments) {
+          crmMessage += `\n💬 Comments:\n${applicationData.additionalComments}\n`;
         }
 
         crmMessage += `\n🔗 Lead ID: #${lead.id}`;
