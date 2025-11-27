@@ -12,20 +12,28 @@ export interface PriceEntry {
   year_2025_26?: number;
 }
 
-export interface PriceData {
-  [campus: string]: {
-    [programType: string]: {
-      [classLevel: string]: PriceEntry;
-    };
-    sibling_discount?: {
-      [childNumber: number]: number;
-    };
-    entry_fee?: {
-      base: number;
-      year_2025_26_factor?: number;
-    };
+// Program data structure
+export type ProgramData = {
+  [classLevel: string]: PriceEntry;
+};
+
+// Campus data structure
+export type CampusData = {
+  [programType: string]: ProgramData;
+} & {
+  sibling_discount?: {
+    [childNumber: number]: number;
   };
-}
+  entry_fee?: {
+    base: number;
+    year_2025_26_factor?: number;
+  };
+};
+
+// Price data structure for all campuses
+export type PriceData = {
+  [campus: string]: CampusData;
+};
 
 export interface CalculationInput {
   campus: Campus;

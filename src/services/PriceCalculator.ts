@@ -1,12 +1,28 @@
+// ==========================================
+// PRICE CALCULATOR SERVICE
+// Calculates tuition fees with all applicable discounts
+// ==========================================
+
 import { CalculationInput, CalculationResult, Campus, PaymentPeriod } from '../types';
 import { PRICES } from '../data/prices';
 
 export class PriceCalculator {
-  /**
-   * Calculate tuition fees based on user inputs
-   */
+  // ==========================================
+  // MAIN CALCULATION METHOD
+  // Calculates tuition fees based on:
+  // - Campus (MU or YASH)
+  // - Program type (IB, RUS, KG_RUS, KG_BI)
+  // - Class level
+  // - Number of children (for sibling discounts at MU)
+  // - Academic year (special discounts for 2025-2026 at YASH)
+  // - Payment period (monthly, quarterly, annually)
+  // ==========================================
   calculate(input: CalculationInput): CalculationResult {
     const { campus, programType, classLevel, numberOfChildren, year } = input;
+
+    // ==========================================
+    // STEP 1: Validate and retrieve pricing data
+    // ==========================================
 
     // Get the campus price data
     const campusData = PRICES[campus];
@@ -26,6 +42,10 @@ export class PriceCalculator {
       throw new Error(`Invalid class level: ${classLevel}`);
     }
 
+    // ==========================================
+    // STEP 2: Determine base price and apply year discounts
+    // ==========================================
+
     // Determine base period and price
     const basePeriod = priceEntry.period;
     let basePrice = priceEntry.base;
@@ -40,7 +60,14 @@ export class PriceCalculator {
       discountsApplied.push(`${year} year discount: ${discountPercent}%`);
     }
 
-    // Calculate per-child breakdown with sibling discounts (MU only)
+    // ==========================================
+    // STEP 3: Calculate per-child breakdown with sibling discounts
+    // MU Campus offers sibling discounts:
+    // - 1st child: 100% (no discount)
+    // - 2nd child: 95% (5% discount)
+    // - 3rd+ child: 90% (10% discount)
+    // ==========================================
+
     const breakdown: CalculationResult['breakdown'] = [];
     let totalPrice = 0;
 
@@ -48,7 +75,7 @@ export class PriceCalculator {
       let childPrice = basePrice;
       let discount = 0;
 
-      // Apply sibling discount if available (MU campus)
+      // Apply sibling discount if available (MU campus only)
       if (campus === 'MU' && campusData.sibling_discount) {
         const siblingFactor = campusData.sibling_discount[childNum] || campusData.sibling_discount[3];
         childPrice = basePrice * siblingFactor;
@@ -74,7 +101,10 @@ export class PriceCalculator {
 
     totalPrice = Math.round(totalPrice);
 
-    // Calculate entry fee (Yashnobod only for IB programs)
+    // ==========================================
+    // STEP 4: Calculate entry fee (Yashnobod campus only)
+    // ==========================================
+
     let entryFee: number | undefined;
     if (campus === 'YASH' && campusData.entry_fee) {
       entryFee = campusData.entry_fee.base;
@@ -87,16 +117,23 @@ export class PriceCalculator {
       }
     }
 
-    // Calculate annual savings if paid yearly
+    // ==========================================
+    // STEP 5: Apply annual payment discount (5%)
+    // ==========================================
+
     let annualSavings: number | undefined;
     const requestedPeriod = input.paymentPeriod || basePeriod;
 
     if (requestedPeriod === 'year') {
-      // Assume 5% discount for annual payment
+      // 5% discount for annual payment at both campuses
       annualSavings = Math.round(totalPrice * 0.05);
       totalPrice = totalPrice - annualSavings;
       discountsApplied.push('Annual payment discount: 5%');
     }
+
+    // ==========================================
+    // STEP 6: Convert prices to requested payment period
+    // ==========================================
 
     // Convert price to requested period if different from base
     const { convertedTotal, period } = this.convertPeriod(
@@ -105,6 +142,7 @@ export class PriceCalculator {
       requestedPeriod
     );
 
+    // Return the complete calculation result
     return {
       perChildPrice: Math.round(convertedTotal / numberOfChildren),
       totalPrice: convertedTotal,
@@ -124,47 +162,51 @@ export class PriceCalculator {
     };
   }
 
-  /**
-   * Convert price from one period to another
-   */
+  // ==========================================
+  // PERIOD CONVERSION METHOD
+  // Converts prices between monthly, quarterly, and annual periods
+  // ==========================================
   private convertPeriod(
     price: number,
     fromPeriod: PaymentPeriod,
     toPeriod: PaymentPeriod
   ): { convertedTotal: number; period: PaymentPeriod } {
+    // If same period, no conversion needed
     if (fromPeriod === toPeriod) {
       return { convertedTotal: Math.round(price), period: toPeriod };
     }
 
-    // Convert to monthly basis first
+    // Step 1: Convert to monthly basis first
     let monthlyPrice = price;
     if (fromPeriod === 'quarter') {
-      monthlyPrice = price / 3;
+      monthlyPrice = price / 3;  // Quarterly → Monthly
     } else if (fromPeriod === 'year') {
-      monthlyPrice = price / 12;
+      monthlyPrice = price / 12; // Annual → Monthly
     }
 
-    // Convert to target period
+    // Step 2: Convert from monthly to target period
     let convertedPrice = monthlyPrice;
     if (toPeriod === 'quarter') {
-      convertedPrice = monthlyPrice * 3;
+      convertedPrice = monthlyPrice * 3;  // Monthly → Quarterly
     } else if (toPeriod === 'year') {
-      convertedPrice = monthlyPrice * 12;
+      convertedPrice = monthlyPrice * 12; // Monthly → Annual
     }
 
     return { convertedTotal: Math.round(convertedPrice), period: toPeriod };
   }
 
-  /**
-   * Format price with thousand separators
-   */
+  // ==========================================
+  // PRICE FORMATTING METHOD
+  // Formats numbers with spaces as thousand separators
+  // Example: 1000000 → "1 000 000"
+  // ==========================================
   formatPrice(price: number): string {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   }
 
-  /**
-   * Get available class levels for a program
-   */
+  // ==========================================
+  // UTILITY: Get available class levels for a program
+  // ==========================================
   getAvailableClasses(campus: Campus, programType: string): string[] {
     const campusData = PRICES[campus];
     if (!campusData) return [];

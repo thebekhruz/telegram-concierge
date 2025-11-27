@@ -1,6 +1,8 @@
-import { PriceData } from '../types';
+import { PriceData, Campus, ProgramType } from '../types';
 
-export const PRICES: PriceData = {
+// Type assertion is used here because TypeScript has difficulty with
+// index signatures mixed with explicit properties (sibling_discount, entry_fee)
+export const PRICES = {
   MU: {
     IB: {
       KG: { period: 'quarter', base: 28875000 },
@@ -118,7 +120,7 @@ export const PRICES: PriceData = {
       year_2025_26_factor: 0.7, // 30% discount => pay 70%
     },
   },
-};
+} as unknown as PriceData;
 
 // Helper function to get class level options based on program type
 export function getClassLevelOptions(campus: Campus, programType: ProgramType): string[] {
@@ -126,7 +128,7 @@ export function getClassLevelOptions(campus: Campus, programType: ProgramType): 
   if (!campusData || !campusData[programType]) {
     return [];
   }
-  return Object.keys(campusData[programType]);
+  return Object.keys(campusData[programType] as any);
 }
 
 // Helper to map grade number to class level key

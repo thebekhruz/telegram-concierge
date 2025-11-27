@@ -25,9 +25,12 @@ export const translations: Translations = {
     btn_main_menu: '🏠 Main Menu',
 
     // Price Calculator
+    calc_intro: '💰 Welcome to the Tuition Calculator!\n\n💡 Here\'s what you should know:\n\n🎁 MU Campus offers sibling discounts:\n  • 2nd child: 5% discount\n  • 3rd+ child: 10% discount\n\n📅 Yashnobod Campus offers special discounts for 2025-2026:\n  • Up to 20% off tuition\n  • 30% off entry fee\n\n💳 Annual payment gets an additional 5% discount at both campuses!\n\nLet\'s get started!',
     calc_select_campus: '🏫 Please select a campus:',
     campus_mu: 'MU Campus (Mirzo-Ulugbek)',
     campus_yash: 'Yashnobod Campus',
+    btn_campus_compare: '🔍 Compare Campuses',
+    campus_compare_url: 'https://oxbridge.uz/campuses',
 
     calc_select_program: '📚 Please select a program:',
     program_ib: 'International Baccalaureate (IB)',
@@ -36,9 +39,9 @@ export const translations: Translations = {
     program_kg_bi: 'Bilingual Kindergarten',
 
     calc_select_class: '🎒 Please select the class/grade level:',
-    calc_enter_class_rus: 'Please enter the grade number (1-11):',
+    calc_select_class_rus: '🎒 Please select the grade (1-11):',
 
-    calc_number_of_children: '👨‍👩‍👧‍👦 How many children will attend Oxbridge in 2025-2026?',
+    calc_number_of_children: '👨‍👩‍👧‍👦 How many children will attend Oxbridge in 2025-2026?\n\n💡 Note: MU Campus offers discounts for multiple children:\n  • 2 children: 5% off for the 2nd child\n  • 3+ children: 10% off for 3rd+ child',
     btn_1_child: '1 child',
     btn_2_children: '2 children',
     btn_3_children: '3+ children',
@@ -161,9 +164,12 @@ export const translations: Translations = {
     btn_main_menu: '🏠 Главное меню',
 
     // Price Calculator
+    calc_intro: '💰 Добро пожаловать в Калькулятор стоимости обучения!\n\n💡 Вот что вам следует знать:\n\n🎁 Кампус МУ предлагает скидки для нескольких детей:\n  • 2-й ребёнок: скидка 5%\n  • 3-й+ ребёнок: скидка 10%\n\n📅 Кампус Яшнобод предлагает специальные скидки на 2025-2026:\n  • До 20% на обучение\n  • 30% на вступительный взнос\n\n💳 Годовая оплата даёт дополнительную скидку 5% в обоих кампусах!\n\nДавайте начнём!',
     calc_select_campus: '🏫 Пожалуйста, выберите кампус:',
     campus_mu: 'Кампус МУ (Мирзо-Улугбек)',
     campus_yash: 'Кампус Яшнобод',
+    btn_campus_compare: '🔍 Сравнить кампусы',
+    campus_compare_url: 'https://oxbridge.uz/campuses',
 
     calc_select_program: '📚 Пожалуйста, выберите программу:',
     program_ib: 'Международный бакалавриат (IB)',
@@ -172,9 +178,9 @@ export const translations: Translations = {
     program_kg_bi: 'Билингвальный детский сад',
 
     calc_select_class: '🎒 Пожалуйста, выберите класс/уровень:',
-    calc_enter_class_rus: 'Пожалуйста, введите номер класса (1-11):',
+    calc_select_class_rus: '🎒 Пожалуйста, выберите класс (1-11):',
 
-    calc_number_of_children: '👨‍👩‍👧‍👦 Сколько детей будут учиться в Oxbridge в 2025-2026?',
+    calc_number_of_children: '👨‍👩‍👧‍👦 Сколько детей будут учиться в Oxbridge в 2025-2026?\n\n💡 Примечание: Кампус МУ предлагает скидки для нескольких детей:\n  • 2 ребёнка: 5% скидка на 2-го ребёнка\n  • 3+ детей: 10% скидка на 3-го+ ребёнка',
     btn_1_child: '1 ребёнок',
     btn_2_children: '2 ребёнка',
     btn_3_children: '3+ детей',
@@ -297,9 +303,12 @@ export const translations: Translations = {
     btn_main_menu: '🏠 Asosiy menyu',
 
     // Price Calculator
+    calc_intro: '💰 O\'qish narxini hisoblash kalkulyatoriga xush kelibsiz!\n\n💡 Bilishingiz kerak bo\'lgan ma\'lumotlar:\n\n🎁 MU Kampus bir nechta bolalar uchun chegirmalar taklif qiladi:\n  • 2-bola: 5% chegirma\n  • 3+ bola: 10% chegirma\n\n📅 Yashnobod Kampus 2025-2026 uchun maxsus chegirmalar taklif qiladi:\n  • O\'qish uchun 20% gacha chegirma\n  • Kirish to\'loviga 30% chegirma\n\n💳 Yillik to\'lov ikkala kampusda ham qo\'shimcha 5% chegirma beradi!\n\nBoshlaylik!',
     calc_select_campus: '🏫 Iltimos, kampusni tanlang:',
     campus_mu: 'MU Kampus (Mirzo-Ulug\'bek)',
     campus_yash: 'Yashnobod Kampus',
+    btn_campus_compare: '🔍 Kampuslarni solishtirish',
+    campus_compare_url: 'https://oxbridge.uz/campuses',
 
     calc_select_program: '📚 Iltimos, dasturni tanlang:',
     program_ib: 'Xalqaro Bakalavr (IB)',
@@ -308,9 +317,9 @@ export const translations: Translations = {
     program_kg_bi: 'Ikki tilli bog\'cha',
 
     calc_select_class: '🎒 Iltimos, sinf/darajani tanlang:',
-    calc_enter_class_rus: 'Iltimos, sinf raqamini kiriting (1-11):',
+    calc_select_class_rus: '🎒 Iltimos, sinfni tanlang (1-11):',
 
-    calc_number_of_children: '👨‍👩‍👧‍👦 2025-2026 da Oxbridge\'da nechta bola o\'qiydi?',
+    calc_number_of_children: '👨‍👩‍👧‍👦 2025-2026 da Oxbridge\'da nechta bola o\'qiydi?\n\n💡 Eslatma: MU Kampus bir nechta bolalar uchun chegirmalar taklif qiladi:\n  • 2 bola: 2-bola uchun 5% chegirma\n  • 3+ bola: 3+ bola uchun 10% chegirma',
     btn_1_child: '1 bola',
     btn_2_children: '2 bola',
     btn_3_children: '3+ bola',
@@ -433,9 +442,12 @@ export const translations: Translations = {
     btn_main_menu: '🏠 Ana Menü',
 
     // Price Calculator
+    calc_intro: '💰 Öğrenim Ücreti Hesaplayıcısına hoş geldiniz!\n\n💡 Bilmeniz gerekenler:\n\n🎁 MU Kampüsü çoklu çocuk indirimleri sunuyor:\n  • 2. çocuk: %5 indirim\n  • 3+ çocuk: %10 indirim\n\n📅 Yashnobod Kampüsü 2025-2026 için özel indirimler sunuyor:\n  • Öğrenim ücretinde %20\'ye kadar indirim\n  • Giriş ücretinde %30 indirim\n\n💳 Yıllık ödeme her iki kampüste de ek %5 indirim sağlar!\n\nHadi başlayalım!',
     calc_select_campus: '🏫 Lütfen kampüs seçin:',
     campus_mu: 'MU Kampüsü (Mirzo-Ulugbek)',
     campus_yash: 'Yashnobod Kampüsü',
+    btn_campus_compare: '🔍 Kampüsleri Karşılaştır',
+    campus_compare_url: 'https://oxbridge.uz/campuses',
 
     calc_select_program: '📚 Lütfen program seçin:',
     program_ib: 'Uluslararası Bakalorya (IB)',
@@ -444,9 +456,9 @@ export const translations: Translations = {
     program_kg_bi: 'İki Dilli Anaokulu',
 
     calc_select_class: '🎒 Lütfen sınıf/seviye seçin:',
-    calc_enter_class_rus: 'Lütfen sınıf numarasını girin (1-11):',
+    calc_select_class_rus: '🎒 Lütfen sınıfı seçin (1-11):',
 
-    calc_number_of_children: '👨‍👩‍👧‍👦 2025-2026\'da Oxbridge\'de kaç çocuk okuyacak?',
+    calc_number_of_children: '👨‍👩‍👧‍👦 2025-2026\'da Oxbridge\'de kaç çocuk okuyacak?\n\n💡 Not: MU Kampüsü çoklu çocuk indirimleri sunuyor:\n  • 2 çocuk: 2. çocuk için %5 indirim\n  • 3+ çocuk: 3+ çocuk için %10 indirim',
     btn_1_child: '1 çocuk',
     btn_2_children: '2 çocuk',
     btn_3_children: '3+ çocuk',

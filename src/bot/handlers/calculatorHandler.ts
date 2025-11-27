@@ -1,3 +1,8 @@
+// ==========================================
+// CALCULATOR HANDLER
+// Handles the tuition fee calculator flow
+// ==========================================
+
 import { Context } from 'telegraf';
 import { UserRepository } from '../../database/repositories/UserRepository';
 import { SessionRepository } from '../../database/repositories/SessionRepository';
@@ -8,6 +13,7 @@ import {
   getCampusKeyboard,
   getProgramKeyboard,
   getClassKeyboard,
+  getRussianClassKeyboard,
   getNumberOfChildrenKeyboard,
   getYearKeyboard,
   getPaymentPeriodKeyboard,
@@ -15,10 +21,17 @@ import {
 } from '../keyboards';
 import { priceCalculator } from '../../services/PriceCalculator';
 
+// ==========================================
+// REPOSITORY INSTANCES
+// ==========================================
 const userRepo = new UserRepository();
 const sessionRepo = new SessionRepository();
 const conversationRepo = new ConversationRepository();
 
+// ==========================================
+// CALCULATOR START
+// Shows introduction with discount information
+// ==========================================
 export async function handleCalculatorStart(ctx: Context) {
   if (!ctx.from) return;
 
@@ -29,12 +42,18 @@ export async function handleCalculatorStart(ctx: Context) {
 
   // Clear session and start fresh
   await sessionRepo.clearSession(ctx.from.id);
-  await sessionRepo.setStep(ctx.from.id, 'select_campus');
+  await sessionRepo.setStep(ctx.from.id, 'show_intro');
 
   await ctx.answerCbQuery();
-  await ctx.editMessageText(t(lang, 'calc_select_campus'), getCampusKeyboard(lang));
+
+  // Show introduction message with discount information
+  const introMessage = t(lang, 'calc_intro') + '\n\n' + t(lang, 'calc_select_campus');
+  await ctx.editMessageText(introMessage, getCampusKeyboard(lang));
 }
 
+// ==========================================
+// CAMPUS SELECTION HANDLER
+// ==========================================
 export async function handleCampusSelection(ctx: Context, campus: Campus) {
   if (!ctx.from) return;
 
@@ -43,6 +62,7 @@ export async function handleCampusSelection(ctx: Context, campus: Campus) {
 
   const lang = user.language as Language;
 
+  // Save selected campus to session
   await sessionRepo.updateSession(ctx.from.id, { campus });
   await sessionRepo.setStep(ctx.from.id, 'select_program');
 
@@ -50,6 +70,9 @@ export async function handleCampusSelection(ctx: Context, campus: Campus) {
   await ctx.editMessageText(t(lang, 'calc_select_program'), getProgramKeyboard(lang, campus));
 }
 
+// ==========================================
+// PROGRAM SELECTION HANDLER
+// ==========================================
 export async function handleProgramSelection(ctx: Context, programType: ProgramType) {
   if (!ctx.from) return;
 
@@ -64,16 +87,21 @@ export async function handleProgramSelection(ctx: Context, programType: ProgramT
     return;
   }
 
+  // Save selected program to session
   await sessionRepo.updateSession(ctx.from.id, { programType });
 
-  // If Russian school, ask user to type grade number
+  // If Russian school, show button selection for grade (1-11)
   if (programType === 'RUS') {
-    await sessionRepo.setStep(ctx.from.id, 'enter_class_rus');
+    await sessionRepo.setStep(ctx.from.id, 'select_class_rus');
     await ctx.answerCbQuery();
-    await ctx.editMessageText(t(lang, 'calc_enter_class_rus'));
+    await ctx.editMessageText(
+      t(lang, 'calc_select_class_rus'),
+      getRussianClassKeyboard(lang, session.campus as Campus)
+    );
     return;
   }
 
+  // For other programs (IB, KG), show class keyboard
   await sessionRepo.setStep(ctx.from.id, 'select_class');
   await ctx.answerCbQuery();
   await ctx.editMessageText(
@@ -82,6 +110,9 @@ export async function handleProgramSelection(ctx: Context, programType: ProgramT
   );
 }
 
+// ==========================================
+// CLASS/GRADE LEVEL SELECTION HANDLER (IB, KG programs)
+// ==========================================
 export async function handleClassSelection(ctx: Context, classLevel: string) {
   if (!ctx.from) return;
 
@@ -90,6 +121,7 @@ export async function handleClassSelection(ctx: Context, classLevel: string) {
 
   const lang = user.language as Language;
 
+  // Save selected class level to session
   await sessionRepo.updateSession(ctx.from.id, { classLevel });
   await sessionRepo.setStep(ctx.from.id, 'select_children');
 
@@ -97,6 +129,44 @@ export async function handleClassSelection(ctx: Context, classLevel: string) {
   await ctx.editMessageText(t(lang, 'calc_number_of_children'), getNumberOfChildrenKeyboard(lang));
 }
 
+// ==========================================
+// RUSSIAN SCHOOL CLASS BUTTON SELECTION HANDLER
+// Handles button-based selection for Russian school grades (1-11)
+// ==========================================
+export async function handleRussianClassButtonSelection(ctx: Context, grade: number) {
+  if (!ctx.from) return;
+
+  const user = await userRepo.getUser(ctx.from.id);
+  if (!user) return;
+
+  const lang = user.language as Language;
+
+  // Map grade number to class level key for pricing
+  let classLevel: string;
+  if (grade >= 1 && grade <= 4) {
+    classLevel = '1-4';  // Primary school
+  } else if (grade >= 5 && grade <= 8) {
+    classLevel = '5-8';  // Middle school
+  } else if (grade >= 9 && grade <= 11) {
+    classLevel = '9-11'; // High school
+  } else {
+    await ctx.answerCbQuery(t(lang, 'error_invalid_input'));
+    return;
+  }
+
+  // Save class level to session
+  await sessionRepo.updateSession(ctx.from.id, { classLevel });
+  await sessionRepo.setStep(ctx.from.id, 'select_children');
+
+  await ctx.answerCbQuery();
+  await ctx.editMessageText(t(lang, 'calc_number_of_children'), getNumberOfChildrenKeyboard(lang));
+}
+
+// ==========================================
+// LEGACY: Russian Class Text Input Handler
+// This is kept for backward compatibility but should not be used
+// as we now use button-based selection
+// ==========================================
 export async function handleRussianClassInput(ctx: Context, grade: number) {
   if (!ctx.from) return;
 
@@ -127,6 +197,10 @@ export async function handleRussianClassInput(ctx: Context, grade: number) {
   await ctx.reply(t(lang, 'calc_number_of_children'), getNumberOfChildrenKeyboard(lang));
 }
 
+// ==========================================
+// NUMBER OF CHILDREN SELECTION HANDLER
+// Important for calculating sibling discounts (MU campus)
+// ==========================================
 export async function handleChildrenSelection(ctx: Context, numberOfChildren: number) {
   if (!ctx.from) return;
 
@@ -135,6 +209,7 @@ export async function handleChildrenSelection(ctx: Context, numberOfChildren: nu
 
   const lang = user.language as Language;
 
+  // Save number of children to session
   await sessionRepo.updateSession(ctx.from.id, { numberOfChildren });
   await sessionRepo.setStep(ctx.from.id, 'select_year');
 
@@ -142,6 +217,9 @@ export async function handleChildrenSelection(ctx: Context, numberOfChildren: nu
   await ctx.editMessageText(t(lang, 'calc_select_year'), getYearKeyboard(lang));
 }
 
+// ==========================================
+// ACADEMIC YEAR SELECTION HANDLER
+// ==========================================
 export async function handleYearSelection(ctx: Context, year: string) {
   if (!ctx.from) return;
 
@@ -150,6 +228,7 @@ export async function handleYearSelection(ctx: Context, year: string) {
 
   const lang = user.language as Language;
 
+  // Save selected year to session
   await sessionRepo.updateSession(ctx.from.id, { year });
   await sessionRepo.setStep(ctx.from.id, 'select_payment_period');
 
@@ -157,6 +236,10 @@ export async function handleYearSelection(ctx: Context, year: string) {
   await ctx.editMessageText(t(lang, 'calc_select_payment_period'), getPaymentPeriodKeyboard(lang));
 }
 
+// ==========================================
+// PAYMENT PERIOD SELECTION & FINAL CALCULATION
+// Calculates tuition fees and applies all discounts
+// ==========================================
 export async function handlePaymentPeriodSelection(ctx: Context, period: PaymentPeriod) {
   if (!ctx.from) return;
 

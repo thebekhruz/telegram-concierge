@@ -12,6 +12,7 @@ import {
   handleCampusSelection,
   handleProgramSelection,
   handleClassSelection,
+  handleRussianClassButtonSelection,
   handleRussianClassInput,
   handleChildrenSelection,
   handleYearSelection,
@@ -70,28 +71,69 @@ export function createBot(): Telegraf {
     );
   });
 
-  // Calculator flow
+  // ==========================================
+  // CALCULATOR FLOW HANDLERS
+  // ==========================================
   bot.action('calc_start', handleCalculatorStart);
-  bot.action(/^campus_(.+)$/, (ctx) => {
-    const campus = ctx.match[1] as Campus;
-    handleCampusSelection(ctx, campus);
+
+  // Campus selection
+  bot.action(/^campus_(.+)$/, async (ctx) => {
+    const campusValue = ctx.match[1];
+
+    // Handle campus comparison
+    if (campusValue === 'compare') {
+      if (!ctx.from) return;
+      const user = await userRepo.getUser(ctx.from.id);
+      if (!user) return;
+      const lang = user.language as Language;
+      const { t } = await import('../data/translations');
+
+      await ctx.answerCbQuery();
+      await ctx.reply(
+        `🔍 ${t(lang, 'btn_campus_compare')}\n\n` +
+        `📖 Learn more about the differences between our campuses:\n` +
+        `${t(lang, 'campus_compare_url')}\n\n` +
+        `Both campuses offer excellent education. MU Campus (Mirzo-Ulugbek) offers sibling discounts, ` +
+        `while Yashnobod Campus offers special promotional discounts for 2025-2026.`
+      );
+    } else {
+      // Handle normal campus selection
+      const campus = campusValue as Campus;
+      handleCampusSelection(ctx, campus);
+    }
   });
+
+  // Program selection
   bot.action(/^program_(.+)$/, (ctx) => {
     const programType = ctx.match[1] as ProgramType;
     handleProgramSelection(ctx, programType);
   });
+
+  // Class selection (IB and Kindergarten programs)
   bot.action(/^class_(.+)$/, (ctx) => {
     const classLevel = ctx.match[1];
     handleClassSelection(ctx, classLevel);
   });
+
+  // Russian school class selection (button-based grades 1-11)
+  bot.action(/^rusclass_(\d+)$/, (ctx) => {
+    const grade = parseInt(ctx.match[1]);
+    handleRussianClassButtonSelection(ctx, grade);
+  });
+
+  // Number of children selection
   bot.action(/^children_(\d+)$/, (ctx) => {
     const numberOfChildren = parseInt(ctx.match[1]);
     handleChildrenSelection(ctx, numberOfChildren);
   });
+
+  // Academic year selection
   bot.action(/^year_(.+)$/, (ctx) => {
     const year = ctx.match[1];
     handleYearSelection(ctx, year);
   });
+
+  // Payment period selection
   bot.action(/^period_(.+)$/, (ctx) => {
     const period = ctx.match[1] as PaymentPeriod;
     handlePaymentPeriodSelection(ctx, period);
