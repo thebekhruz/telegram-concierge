@@ -16,6 +16,7 @@ export const translations: Translations = {
 
     // Main Menu
     main_menu: '📋 Main Menu\n\nHow can I help you today?',
+    btn_open_mini_app: '🎓 Apply Now (Mini App)',
     btn_price_calculator: '💰 Calculate Tuition',
     btn_connect_manager: '👤 Connect with Manager',
     btn_faq: '❓ FAQ',
@@ -152,6 +153,7 @@ export const translations: Translations = {
 
     // Main Menu
     main_menu: '📋 Главное меню\n\nКак я могу вам помочь?',
+    btn_open_mini_app: '🎓 Подать заявку (Мини приложение)',
     btn_price_calculator: '💰 Рассчитать стоимость',
     btn_connect_manager: '👤 Связаться с менеджером',
     btn_faq: '❓ Частые вопросы',
@@ -288,6 +290,7 @@ export const translations: Translations = {
 
     // Main Menu
     main_menu: '📋 Asosiy menyu\n\nSizga qanday yordam bera olaman?',
+    btn_open_mini_app: '🎓 Ariza topshirish (Mini ilova)',
     btn_price_calculator: '💰 Narxni hisoblash',
     btn_connect_manager: '👤 Menejer bilan bog\'lanish',
     btn_faq: '❓ Ko\'p beriladigan savollar',
@@ -424,6 +427,7 @@ export const translations: Translations = {
 
     // Main Menu
     main_menu: '📋 Ana Menü\n\nSize nasıl yardımcı olabilirim?',
+    btn_open_mini_app: '🎓 Başvur (Mini Uygulama)',
     btn_price_calculator: '💰 Ücret Hesapla',
     btn_connect_manager: '👤 Müdür ile İletişim',
     btn_faq: '❓ Sık Sorulan Sorular',

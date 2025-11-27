@@ -39,6 +39,6 @@ export class AdminStateRepository {
   }
 
   async clearAction(adminId: number): Promise<void> {
-    await this.repository.update({ adminId }, { currentAction: null, data: null });
+    await this.repository.update({ adminId }, { currentAction: undefined, data: undefined });
   }
 }

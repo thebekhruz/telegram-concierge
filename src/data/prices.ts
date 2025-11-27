@@ -1,4 +1,4 @@
-import { PriceData } from '../types';
+import { PriceData, Campus, ProgramType } from '../types';
 
 export const PRICES: PriceData = {
   MU: {

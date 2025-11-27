@@ -5,6 +5,8 @@ dotenv.config();
 export const config = {
   botToken: process.env.BOT_TOKEN || '',
   crmChannelId: process.env.CRM_CHANNEL_ID || '',
+  webAppUrl: process.env.WEB_APP_URL || 'http://localhost:3000',
+  webAppPort: parseInt(process.env.WEB_APP_PORT || '3000'),
   database: {
     host: process.env.DB_HOST || 'localhost',
     port: parseInt(process.env.DB_PORT || '5432'),

@@ -1,6 +1,7 @@
 import { Markup } from 'telegraf';
 import { Language, Campus } from '../types';
 import { t } from '../data/translations';
+import { config } from '../config';
 
 export function getLanguageKeyboard() {
   return Markup.inlineKeyboard([
@@ -17,6 +18,7 @@ export function getLanguageKeyboard() {
 
 export function getMainMenuKeyboard(lang: Language) {
   return Markup.inlineKeyboard([
+    [Markup.button.webApp(t(lang, 'btn_open_mini_app'), config.webAppUrl)],
     [Markup.button.callback(t(lang, 'btn_price_calculator'), 'calc_start')],
     [Markup.button.callback(t(lang, 'btn_connect_manager'), 'connect_manager')],
     [Markup.button.callback(t(lang, 'btn_faq'), 'faq')],

@@ -1,6 +1,7 @@
 import { initializeDatabase } from './database';
 import { createBot } from './bot';
 import { config, validateConfig } from './config';
+import { startWebServer } from './server';
 
 async function main() {
   try {
@@ -11,6 +12,9 @@ async function main() {
 
     // Initialize database
     await initializeDatabase();
+
+    // Start web server for mini app
+    await startWebServer(config.webAppPort);
 
     // Create and launch bot
     const bot = createBot();
@@ -25,6 +29,7 @@ async function main() {
     console.log('✅ Bot is running!');
     console.log(`📋 Environment: ${config.nodeEnv}`);
     console.log(`👥 Admin users: ${config.adminUserIds.join(', ') || 'None'}`);
+    console.log(`📱 Mini app: ${config.webAppUrl}`);
   } catch (error) {
     console.error('❌ Failed to start bot:', error);
     process.exit(1);

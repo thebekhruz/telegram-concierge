@@ -1,0 +1,502 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #2C5F8D;
+    --secondary-color: #D4AF37;
+    --accent-color: #1E4266;
+    --text-dark: #2C3E50;
+    --text-light: #7F8C8D;
+    --bg-light: #F8F9FA;
+    --white: #FFFFFF;
+    --success: #27AE60;
+    --border-radius: 12px;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+.app-container {
+    min-height: 100vh;
+    padding-bottom: 80px;
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(28, 66, 102, 0.7), rgba(44, 95, 141, 0.9));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.school-name {
+    color: var(--white);
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.tagline {
+    color: var(--secondary-color);
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Content Section */
+.content-section {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Welcome Card */
+.welcome-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    animation: fadeIn 0.5s ease-in;
+}
+
+.welcome-card h2 {
+    color: var(--primary-color);
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.welcome-card p {
+    color: var(--text-light);
+    font-size: 16px;
+}
+
+/* Step Container */
+.step-container {
+    animation: slideIn 0.3s ease-out;
+}
+
+.step-container h3 {
+    color: var(--primary-color);
+    font-size: 22px;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.step-description {
+    color: var(--text-light);
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* Campus Cards */
+.campus-cards {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.campus-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.campus-card:active {
+    transform: scale(0.98);
+}
+
+.campus-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.campus-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.campus-card h4 {
+    color: var(--primary-color);
+    font-size: 18px;
+    padding: 12px 16px 4px;
+}
+
+.campus-card p {
+    color: var(--text-light);
+    font-size: 14px;
+    padding: 0 16px 16px;
+}
+
+.campus-card.selected {
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(44, 95, 141, 0.1);
+}
+
+/* Program Cards */
+.program-cards {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.program-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.program-card:active {
+    transform: scale(0.98);
+}
+
+.program-card .icon {
+    font-size: 32px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-light);
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.program-card h4 {
+    color: var(--primary-color);
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.program-card p {
+    color: var(--text-light);
+    font-size: 13px;
+}
+
+.program-card.selected {
+    border: 2px solid var(--primary-color);
+    background: rgba(44, 95, 141, 0.05);
+}
+
+/* Button Group */
+.button-group {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.option-btn {
+    background: var(--white);
+    border: 2px solid #E0E0E0;
+    border-radius: var(--border-radius);
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.option-btn:active {
+    transform: scale(0.98);
+}
+
+.option-btn:hover {
+    border-color: var(--primary-color);
+    background: rgba(44, 95, 141, 0.05);
+}
+
+.option-btn.selected {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+/* Form Controls */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    color: var(--text-dark);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #E0E0E0;
+    border-radius: var(--border-radius);
+    font-size: 15px;
+    color: var(--text-dark);
+    background: var(--white);
+    transition: border-color 0.3s ease;
+    font-family: inherit;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Summary Card */
+.summary-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-item .label {
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+.summary-item .value {
+    color: var(--text-dark);
+    font-size: 14px;
+    font-weight: 500;
+    text-align: right;
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    border-radius: var(--border-radius);
+    padding: 24px;
+    text-align: center;
+    color: var(--white);
+    box-shadow: var(--shadow-lg);
+}
+
+.cta-section h4 {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.cta-section p {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 20px;
+}
+
+/* Buttons */
+.primary-btn {
+    width: 100%;
+    background: var(--secondary-color);
+    color: var(--text-dark);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+
+.primary-btn:active {
+    transform: scale(0.98);
+}
+
+.primary-btn:hover {
+    background: #C49D31;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.connect-btn {
+    background: var(--white);
+    color: var(--primary-color);
+}
+
+.connect-btn:hover {
+    background: var(--bg-light);
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    padding: 12px 20px;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 12px;
+    z-index: 100;
+}
+
+.nav-btn {
+    flex: 1;
+    padding: 14px;
+    border: 2px solid #E0E0E0;
+    border-radius: var(--border-radius);
+    background: var(--white);
+    color: var(--text-dark);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:active {
+    transform: scale(0.98);
+}
+
+.nav-btn.primary {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+.nav-btn.primary:hover {
+    background: var(--accent-color);
+}
+
+/* Loading State */
+.loading {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 16px;
+    border: 4px solid rgba(44, 95, 141, 0.1);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Success Message */
+.success-message {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.success-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+}
+
+.success-message h3 {
+    color: var(--success);
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.success-message p {
+    color: var(--text-light);
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+    .campus-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .button-group {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Telegram Theme Support */
+body.dark-theme {
+    --bg-light: #1A1A1A;
+    --white: #2C2C2C;
+    --text-dark: #FFFFFF;
+    --text-light: #AAAAAA;
+}

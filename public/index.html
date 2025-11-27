@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Oxbridge International School</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Hero Section with Campus Image -->
+        <div class="hero-section" id="hero">
+            <img src="/images/campus-hero.jpg" alt="Oxbridge Campus" class="hero-image" onerror="this.src='/images/placeholder.svg'">
+            <div class="hero-overlay">
+                <h1 class="school-name">Oxbridge International School</h1>
+                <p class="tagline">Excellence in Education</p>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content-section">
+            <!-- Welcome Message -->
+            <div class="welcome-card" id="welcomeCard">
+                <h2>Welcome!</h2>
+                <p>Let's find the perfect program for your child</p>
+            </div>
+
+            <!-- Step 1: Campus Selection -->
+            <div class="step-container" id="step1" style="display: none;">
+                <h3>🏫 Select Campus</h3>
+                <div class="campus-cards">
+                    <div class="campus-card" data-campus="MU" onclick="selectCampus('MU')">
+                        <img src="/images/campus-mu.jpg" alt="MU Campus" onerror="this.src='/images/placeholder.svg'">
+                        <h4>MU Campus</h4>
+                        <p>Mirzo-Ulugbek District</p>
+                    </div>
+                    <div class="campus-card" data-campus="YASH" onclick="selectCampus('YASH')">
+                        <img src="/images/campus-yash.jpg" alt="Yashnobod Campus" onerror="this.src='/images/placeholder.svg'">
+                        <h4>Yashnobod Campus</h4>
+                        <p>Yashnobod District</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Program Selection -->
+            <div class="step-container" id="step2" style="display: none;">
+                <h3>📚 Select Program</h3>
+                <div class="program-cards">
+                    <div class="program-card" data-program="IB" onclick="selectProgram('IB')">
+                        <div class="icon">🌍</div>
+                        <h4>International Baccalaureate</h4>
+                        <p>World-class IB curriculum</p>
+                    </div>
+                    <div class="program-card" data-program="RUS" onclick="selectProgram('RUS')">
+                        <div class="icon">📖</div>
+                        <h4>Russian School</h4>
+                        <p>Grades 1-11</p>
+                    </div>
+                    <div class="program-card" data-program="KG_RUS" onclick="selectProgram('KG_RUS')">
+                        <div class="icon">🎨</div>
+                        <h4>Russian Kindergarten</h4>
+                        <p>Early years education</p>
+                    </div>
+                    <div class="program-card" data-program="KG_BI" onclick="selectProgram('KG_BI')">
+                        <div class="icon">🌟</div>
+                        <h4>Bilingual Kindergarten</h4>
+                        <p>Multi-language foundation</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Number of Children -->
+            <div class="step-container" id="step3" style="display: none;">
+                <h3>👨‍👩‍👧‍👦 Number of Children</h3>
+                <p class="step-description">How many children will attend Oxbridge?</p>
+                <div class="button-group">
+                    <button class="option-btn" onclick="selectChildren(1)">1 Child</button>
+                    <button class="option-btn" onclick="selectChildren(2)">2 Children</button>
+                    <button class="option-btn" onclick="selectChildren(3)">3+ Children</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Additional Questions -->
+            <div class="step-container" id="step4" style="display: none;">
+                <h3>📋 Tell Us More</h3>
+                <p class="step-description">Help us understand your needs better</p>
+
+                <div class="form-group">
+                    <label>Child's Age</label>
+                    <select id="childAge" class="form-control">
+                        <option value="">Select age...</option>
+                        <option value="3-4">3-4 years</option>
+                        <option value="5-6">5-6 years</option>
+                        <option value="7-9">7-9 years</option>
+                        <option value="10-12">10-12 years</option>
+                        <option value="13-15">13-15 years</option>
+                        <option value="16-18">16-18 years</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Current Education Level</label>
+                    <select id="educationLevel" class="form-control">
+                        <option value="">Select level...</option>
+                        <option value="kindergarten">Kindergarten</option>
+                        <option value="primary">Primary School</option>
+                        <option value="secondary">Secondary School</option>
+                        <option value="high">High School</option>
+                        <option value="none">Not yet in school</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Preferred Language of Instruction</label>
+                    <select id="preferredLanguage" class="form-control">
+                        <option value="">Select language...</option>
+                        <option value="english">English</option>
+                        <option value="russian">Russian</option>
+                        <option value="bilingual">Bilingual (English + Russian)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>When would you like to start?</label>
+                    <select id="startDate" class="form-control">
+                        <option value="">Select...</option>
+                        <option value="2025-09">September 2025</option>
+                        <option value="2026-01">January 2026</option>
+                        <option value="2026-09">September 2026</option>
+                        <option value="later">Later</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Additional Comments (Optional)</label>
+                    <textarea id="additionalComments" class="form-control" rows="3" placeholder="Any specific questions or requirements..."></textarea>
+                </div>
+
+                <button class="primary-btn" onclick="showSummary()">Continue</button>
+            </div>
+
+            <!-- Step 5: Summary & Connect to Manager -->
+            <div class="step-container" id="step5" style="display: none;">
+                <h3>📝 Summary</h3>
+                <div class="summary-card">
+                    <div class="summary-item">
+                        <span class="label">Campus:</span>
+                        <span class="value" id="summaryCampus"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Program:</span>
+                        <span class="value" id="summaryProgram"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Number of Children:</span>
+                        <span class="value" id="summaryChildren"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Child's Age:</span>
+                        <span class="value" id="summaryAge"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Education Level:</span>
+                        <span class="value" id="summaryEducation"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Preferred Language:</span>
+                        <span class="value" id="summaryLanguage"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Start Date:</span>
+                        <span class="value" id="summaryStartDate"></span>
+                    </div>
+                </div>
+
+                <div class="cta-section">
+                    <h4>Ready to Connect?</h4>
+                    <p>Our admissions team will contact you to discuss next steps</p>
+                    <button class="primary-btn connect-btn" onclick="connectToManager()">
+                        👤 Connect to Manager
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading" id="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Connecting...</p>
+            </div>
+
+            <!-- Success State -->
+            <div class="success-message" id="successMessage" style="display: none;">
+                <div class="success-icon">✅</div>
+                <h3>Thank You!</h3>
+                <p>Your request has been sent to our admissions team.</p>
+                <p>A manager will contact you shortly!</p>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav" id="bottomNav">
+            <button class="nav-btn" onclick="goBack()" id="backBtn" style="display: none;">
+                ← Back
+            </button>
+            <button class="nav-btn primary" onclick="startJourney()" id="startBtn">
+                Get Started
+            </button>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
