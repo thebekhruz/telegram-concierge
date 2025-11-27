@@ -6,12 +6,22 @@ tg.expand();
 const state = {
     language: 'en',
     campusPreference: null,  // 'MU' | 'YASH' | 'BOTH'
-    children: []  // Array of { dob: string, age: number, options: [...] }
+    children: [],  // Array of { dob: string, age: number, options: [...] }
+    navigationHistory: ['welcomeScreen']  // Track navigation for back button
+};
+
+// Language display mapping
+const LANG_DISPLAY = {
+    'en': 'EN',
+    'uz': 'UZ',
+    'ru': 'RU',
+    'tr': 'TR'
 };
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     applyTelegramTheme();
+    updateHeader();
 });
 
 // Apply Telegram theme colors
@@ -33,20 +43,78 @@ function applyTelegramTheme() {
     }
 }
 
+// Header Management
+function updateHeader() {
+    const appHeader = document.getElementById('appHeader');
+    const currentLangDisplay = document.getElementById('currentLangDisplay');
+    const headerTitle = document.getElementById('headerTitle');
+
+    const currentScreen = state.navigationHistory[state.navigationHistory.length - 1];
+
+    // Hide header on welcome screen
+    if (currentScreen === 'welcomeScreen') {
+        appHeader.style.display = 'none';
+        return;
+    }
+
+    // Show header on all other screens
+    appHeader.style.display = 'flex';
+
+    // Update language display
+    currentLangDisplay.textContent = LANG_DISPLAY[state.language] || 'EN';
+
+    // Update title based on screen
+    const titles = {
+        'menuScreen': 'Admissions 2025–2026',
+        'campusScreen': 'Choose Campus',
+        'dobScreen': 'Enter Dates of Birth',
+        'resultsScreen': 'Calculation Results',
+        'thankYouScreen': 'Thank You'
+    };
+    headerTitle.textContent = titles[currentScreen] || 'Admissions';
+}
+
 // Navigation Functions
-function showScreen(screenId) {
+function showScreen(screenId, addToHistory = true) {
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.remove('active');
     });
     document.getElementById(screenId).classList.add('active');
+
+    if (addToHistory) {
+        state.navigationHistory.push(screenId);
+    }
+
+    updateHeader();
+    window.scrollTo(0, 0);
+}
+
+function goBack() {
+    if (state.navigationHistory.length > 1) {
+        state.navigationHistory.pop(); // Remove current screen
+        const previousScreen = state.navigationHistory[state.navigationHistory.length - 1];
+        showScreen(previousScreen, false);
+    }
+}
+
+function showLanguageSelection() {
+    // Clear history and go to welcome screen
+    state.navigationHistory = ['welcomeScreen'];
+    showScreen('welcomeScreen', false);
 }
 
 function selectLanguage(lang) {
     state.language = lang;
+    state.navigationHistory = ['welcomeScreen'];
     showScreen('menuScreen');
 }
 
 function goToMenu() {
+    // Clear navigation to menu
+    const welcomeIndex = state.navigationHistory.indexOf('welcomeScreen');
+    if (welcomeIndex !== -1) {
+        state.navigationHistory = state.navigationHistory.slice(0, welcomeIndex + 1);
+    }
     showScreen('menuScreen');
 }
 
@@ -62,12 +130,11 @@ function selectCampus(campus) {
 }
 
 function goToCampusSelection() {
-    showScreen('campusScreen');
+    goBack();
 }
 
 function goToDobEntry() {
-    renderDobEntries();
-    showScreen('dobScreen');
+    goBack();
 }
 
 // Toggle collapsible sections

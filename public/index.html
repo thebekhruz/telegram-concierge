@@ -8,21 +8,36 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
+    <!-- App Header (shown on all screens except welcome) -->
+    <div class="app-header" id="appHeader" style="display: none;">
+        <button class="header-back-btn" id="headerBackBtn" onclick="goBack()">
+            ←
+        </button>
+        <div class="header-title" id="headerTitle">Admissions</div>
+        <button class="header-lang-btn" onclick="showLanguageSelection()" id="headerLangBtn">
+            <span id="currentLangDisplay">EN</span>
+        </button>
+    </div>
+
     <div class="app-container">
         <!-- Welcome Screen -->
         <div class="screen active" id="welcomeScreen">
             <div class="welcome-content">
-                <img src="/images/oxbridge-logo.png" alt="Oxbridge" class="logo" onerror="this.style.display='none'">
-                <h1 class="welcome-title">Oxbridge International School</h1>
-                <p class="welcome-subtitle">Admissions Assistant</p>
-                <p class="welcome-text">Plan your child's education at our Mirzo-Ulugbek and Yashnobod campuses for 2025–2026.</p>
-                <p class="welcome-instruction">Choose your language to begin.</p>
+                <img src="/images/hero.jpg" alt="Oxbridge Campus" class="hero-image" onerror="this.style.display='none'">
 
-                <div class="language-buttons">
-                    <button class="lang-btn" onclick="selectLanguage('uz')">O'zbekcha</button>
-                    <button class="lang-btn" onclick="selectLanguage('ru')">Русский</button>
-                    <button class="lang-btn" onclick="selectLanguage('tr')">Türkçe</button>
-                    <button class="lang-btn" onclick="selectLanguage('en')">English</button>
+                <div class="welcome-inner">
+                    <img src="/images/oxbridge-logo.png" alt="Oxbridge" class="logo" onerror="this.style.display='none'">
+                    <h1 class="welcome-title">Oxbridge International School</h1>
+                    <p class="welcome-subtitle">Admissions Assistant</p>
+                    <p class="welcome-text">Plan your child's education at our Mirzo-Ulugbek and Yashnobod campuses for 2025–2026.</p>
+                    <p class="welcome-instruction">Choose your language to begin.</p>
+
+                    <div class="language-buttons">
+                        <button class="lang-btn" onclick="selectLanguage('uz')">O'zbekcha</button>
+                        <button class="lang-btn" onclick="selectLanguage('ru')">Русский</button>
+                        <button class="lang-btn" onclick="selectLanguage('tr')">Türkçe</button>
+                        <button class="lang-btn" onclick="selectLanguage('en')">English</button>
+                    </div>
                 </div>
             </div>
         </div>

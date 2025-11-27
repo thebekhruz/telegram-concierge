@@ -8,10 +8,12 @@
 
 :root {
     /* Oxbridge brand colors */
-    --primary: #1A4D7C;
-    --primary-light: #2E6BA8;
-    --accent: #C5A572;
-    --accent-light: #D4B685;
+    --primary: #374978;
+    --primary-light: #4A5D8F;
+    --primary-gradient-start: #374978;
+    --primary-gradient-end: #374878;
+    --accent: #F93135;
+    --accent-dark: #953135;
 
     /* Neutrals */
     --bg-main: #F5F5F0;
@@ -74,21 +76,87 @@ body {
     text-align: center;
 }
 
+/* App Header */
+.app-header {
+    position: sticky;
+    top: 0;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    padding: var(--spacing-md) var(--spacing-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.header-back-btn {
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 4px;
+    transition: opacity 0.2s ease;
+}
+
+.header-back-btn:hover {
+    opacity: 0.7;
+}
+
+.header-back-btn.hidden {
+    visibility: hidden;
+}
+
+.header-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    flex: 1;
+    text-align: center;
+}
+
+.header-lang-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.header-lang-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
 /* Welcome Screen */
 .welcome-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 100vh;
-    padding: var(--spacing-xl);
     text-align: center;
+}
+
+.hero-image {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    margin-bottom: var(--spacing-lg);
 }
 
 .logo {
     width: 120px;
     height: auto;
     margin-bottom: var(--spacing-lg);
+}
+
+.welcome-inner {
+    padding: var(--spacing-xl);
 }
 
 .welcome-title {
@@ -190,16 +258,20 @@ body {
 }
 
 .menu-card.primary {
-    background: var(--primary);
+    background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
     border-color: var(--primary);
 }
 
+.menu-card.primary:hover {
+    background: var(--primary-light);
+}
+
 .menu-card.primary .menu-card-title {
-    color: var(--bg-card);
+    color: #FFFFFF;
 }
 
 .menu-card.primary .menu-card-desc {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .menu-card-title {
@@ -311,7 +383,7 @@ body {
     content: "•";
     position: absolute;
     left: 0;
-    color: var(--accent);
+    color: var(--primary);
     font-weight: bold;
 }
 
@@ -479,12 +551,12 @@ body {
 .primary-btn {
     width: 100%;
     padding: var(--spacing-md) var(--spacing-lg);
-    background: var(--primary);
+    background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
     border: none;
     border-radius: var(--radius);
     font-size: 16px;
     font-weight: 600;
-    color: var(--bg-card);
+    color: #FFFFFF;
     cursor: pointer;
     transition: all 0.2s ease;
     margin-bottom: var(--spacing-md);
@@ -492,10 +564,34 @@ body {
 
 .primary-btn:hover {
     background: var(--primary-light);
-    box-shadow: 0 4px 12px rgba(26, 77, 124, 0.2);
+    box-shadow: 0 4px 12px rgba(55, 73, 120, 0.25);
 }
 
 .primary-btn:active {
+    transform: scale(0.98);
+}
+
+/* Accent Button */
+.accent-btn {
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--accent);
+    border: none;
+    border-radius: var(--radius);
+    font-size: 16px;
+    font-weight: 600;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: var(--spacing-md);
+}
+
+.accent-btn:hover {
+    background: var(--accent-dark);
+    box-shadow: 0 4px 12px rgba(249, 49, 53, 0.25);
+}
+
+.accent-btn:active {
     transform: scale(0.98);
 }
 
