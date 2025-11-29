@@ -227,7 +227,7 @@ body {
 
 .lang-btn:hover {
     border-color: var(--primary);
-    background: rgba(26, 77, 124, 0.02);
+    background: rgba(55, 73, 120, 0.02);
 }
 
 .lang-btn:active {
@@ -270,7 +270,7 @@ body {
 
 .menu-card:hover {
     border-color: var(--primary-light);
-    box-shadow: 0 4px 12px rgba(26, 77, 124, 0.08);
+    box-shadow: 0 4px 12px rgba(55, 73, 120, 0.08);
 }
 
 .menu-card.primary {
@@ -445,7 +445,7 @@ body {
 
 .campus-option-card:hover {
     border-color: var(--primary);
-    box-shadow: 0 4px 12px rgba(26, 77, 124, 0.08);
+    box-shadow: 0 4px 12px rgba(55, 73, 120, 0.08);
 }
 
 .campus-option-card:active {
@@ -560,7 +560,7 @@ body {
 .add-child-btn:hover {
     border-color: var(--primary);
     color: var(--primary);
-    background: rgba(26, 77, 124, 0.02);
+    background: rgba(55, 73, 120, 0.02);
 }
 
 /* Primary Button */
@@ -626,7 +626,7 @@ body {
 }
 
 .secondary-btn:hover {
-    background: rgba(26, 77, 124, 0.05);
+    background: rgba(55, 73, 120, 0.05);
 }
 
 .secondary-btn:active {
@@ -712,7 +712,7 @@ body {
 
 .option-card:hover {
     border-color: var(--primary-light);
-    box-shadow: 0 2px 8px rgba(26, 77, 124, 0.08);
+    box-shadow: 0 2px 8px rgba(55, 73, 120, 0.08);
 }
 
 .option-header {
