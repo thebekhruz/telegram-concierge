@@ -46,6 +46,7 @@ function applyTelegramTheme() {
 // Header Management
 function updateHeader() {
     const appHeader = document.getElementById('appHeader');
+    const headerBackBtn = document.getElementById('headerBackBtn');
     const currentLangDisplay = document.getElementById('currentLangDisplay');
     const headerTitle = document.getElementById('headerTitle');
 
@@ -59,6 +60,13 @@ function updateHeader() {
 
     // Show header on all other screens
     appHeader.style.display = 'flex';
+
+    // Show/hide back button based on navigation history
+    if (state.navigationHistory.length > 1) {
+        headerBackBtn.style.display = 'block';
+    } else {
+        headerBackBtn.style.display = 'none';
+    }
 
     // Update language display
     currentLangDisplay.textContent = LANG_DISPLAY[state.language] || 'EN';
@@ -94,6 +102,11 @@ function goBack() {
         state.navigationHistory.pop(); // Remove current screen
         const previousScreen = state.navigationHistory[state.navigationHistory.length - 1];
         showScreen(previousScreen, false);
+    } else {
+        // If at the first screen after welcome, go to menu
+        if (state.navigationHistory[state.navigationHistory.length - 1] !== 'welcomeScreen') {
+            goToMenu();
+        }
     }
 }
 
