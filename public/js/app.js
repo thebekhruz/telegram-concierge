@@ -301,15 +301,15 @@ function updateHeader() {
     // Update language display
     currentLangDisplay.textContent = LANG_DISPLAY[state.language] || 'EN';
 
-    // Update title based on screen
+    // Update title based on screen (using translations)
     const titles = {
-        'menuScreen': 'Admissions 2025–2026',
-        'campusScreen': 'Choose Campus',
-        'dobScreen': 'Enter Dates of Birth',
-        'resultsScreen': 'Calculation Results',
-        'thankYouScreen': 'Thank You'
+        'menuScreen': t('menu_title'),
+        'campusScreen': t('campus_screen_title'),
+        'dobScreen': t('dob_screen_title'),
+        'resultsScreen': t('results_screen_title'),
+        'thankYouScreen': t('thank_you_title')
     };
-    headerTitle.textContent = titles[currentScreen] || 'Admissions';
+    headerTitle.textContent = titles[currentScreen] || t('menu_title');
 }
 
 // Navigation Functions
@@ -353,9 +353,37 @@ function showLanguageSelection() {
 
 function selectLanguage(lang) {
     state.language = lang;
+    updateAllText(); // Update all text to new language
     state.navigationHistory = ['welcomeScreen'];
     updateTranslations();
     showScreen('menuScreen');
+}
+
+// Update all text on the page based on current language
+function updateAllText() {
+    // Helper function to safely update text
+    const updateText = (selector, key) => {
+        const element = document.querySelector(selector);
+        if (element) element.textContent = t(key);
+    };
+
+    const updatePlaceholder = (selector, key) => {
+        const element = document.querySelector(selector);
+        if (element) element.placeholder = t(key);
+    };
+
+    // Update header titles based on current screen
+    updateHeader();
+
+    // Update all elements with data-i18n attribute
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (el.tagName === 'INPUT' && el.type !== 'radio' && el.type !== 'checkbox') {
+            el.placeholder = t(key);
+        } else {
+            el.textContent = t(key);
+        }
+    });
 }
 
 function goToMenu() {
@@ -677,7 +705,7 @@ function calculateTuition() {
     const allFilled = state.children.every(child => child.dob);
 
     if (!allFilled) {
-        tg.showAlert('Please enter date of birth for all children');
+        tg.showAlert(t('val_enter_dob'));
         return;
     }
 
@@ -771,12 +799,12 @@ async function submitRequest() {
     const waitlist = document.getElementById('waitlistCheck').checked;
 
     if (!parentName) {
-        tg.showAlert('Please enter your full name');
+        tg.showAlert(t('val_enter_name'));
         return;
     }
 
     if (!parentPhone) {
-        tg.showAlert('Please enter your phone number');
+        tg.showAlert(t('val_enter_phone'));
         return;
     }
 
@@ -827,7 +855,7 @@ async function submitRequest() {
     } catch (error) {
         console.error('Error:', error);
         document.getElementById('loadingOverlay').style.display = 'none';
-        tg.showAlert('Something went wrong. Please try again or contact us directly.');
+        tg.showAlert(t('val_error'));
     }
 }
 
