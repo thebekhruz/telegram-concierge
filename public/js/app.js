@@ -10,178 +10,13 @@ const state = {
     navigationHistory: ['welcomeScreen']  // Track navigation for back button
 };
 
-// Translations
-const translations = {
-    en: {
-        // Welcome
-        welcomeTitle: 'Oxbridge International School',
-        welcomeSubtitle: 'Admissions Assistant',
-        welcomeText: 'Plan your child\'s education at our Mirzo-Ulugbek and Yashnobod campuses for 2025–2026.',
-        welcomeInstruction: 'Choose your language to begin.',
-        
-        // Menu
-        menuTitle: 'Admissions 2025–2026',
-        tuitionCalculator: 'Tuition Calculator',
-        tuitionCalculatorDesc: 'Calculate tuition for your children',
-        whatIncluded: 'What is included in tuition',
-        campusesLocation: 'Campuses & location',
-        whatIsIB: 'What is IB?',
-        
-        // Campus Selection
-        selectCampus: 'Select campus preference',
-        muCampus: 'Mirzo-Ulugbek Campus',
-        yashCampus: 'Yashnobod Campus',
-        bothCampuses: 'Show both campuses',
-        backToMenu: '← Back to menu',
-        
-        // DOB Screen
-        childrenApplying: 'Children applying for 2025–2026',
-        enterDob: 'Enter date of birth for each child',
-        addChild: '+ Add another child',
-        calculateTuition: 'Calculate tuition',
-        back: '← Back',
-        
-        // Results
-        availableOptions: 'Available options for 2025–2026',
-        siblingNote: 'For your family enrolling multiple children in 2025–2026, tuition will be calculated with family discounts where applicable. Our admissions team will prepare a personalised offer.',
-        requestCalculation: 'Request a detailed calculation and consultation',
-        parentName: 'Parent name',
-        phoneNumber: 'Phone number',
-        preferredContact: 'Preferred contact method',
-        telegram: 'Telegram',
-        phoneCall: 'Phone call',
-        waitlistCheck: 'Add younger child to waitlist for future years',
-        submitRequest: 'Submit request to Admissions',
-        modifyChildren: '← Modify children',
-        
-        // Thank You
-        thankYou: 'Thank you',
-        thankYouText1: 'Your request has been received by our Admissions team.',
-        thankYouText2: 'They will contact you soon to provide a detailed calculation and answer your questions.',
-        close: 'Close',
-        
-        // Header
-        admissions: 'Admissions'
-    },
-    ru: {
-        welcomeTitle: 'Oxbridge International School',
-        welcomeSubtitle: 'Помощник по поступлению',
-        welcomeText: 'Спланируйте образование вашего ребенка в наших кампусах Мирзо-Улугбек и Яшнабад на 2025–2026 год.',
-        welcomeInstruction: 'Выберите язык для начала.',
-        menuTitle: 'Поступление 2025–2026',
-        tuitionCalculator: 'Калькулятор стоимости',
-        tuitionCalculatorDesc: 'Рассчитайте стоимость обучения для ваших детей',
-        whatIncluded: 'Что входит в стоимость обучения',
-        campusesLocation: 'Кампусы и расположение',
-        whatIsIB: 'Что такое IB?',
-        selectCampus: 'Выберите предпочтение по кампусу',
-        muCampus: 'Кампус Мирзо-Улугбек',
-        yashCampus: 'Кампус Яшнабад',
-        bothCampuses: 'Показать оба кампуса',
-        backToMenu: '← Назад в меню',
-        childrenApplying: 'Дети, поступающие в 2025–2026 году',
-        enterDob: 'Введите дату рождения каждого ребенка',
-        addChild: '+ Добавить еще одного ребенка',
-        calculateTuition: 'Рассчитать стоимость',
-        back: '← Назад',
-        availableOptions: 'Доступные варианты на 2025–2026 год',
-        siblingNote: 'Для вашей семьи, зачисляющей нескольких детей в 2025–2026 году, стоимость будет рассчитана с учетом семейных скидок, где применимо. Наша команда по приему подготовит персональное предложение.',
-        requestCalculation: 'Запросить подробный расчет и консультацию',
-        parentName: 'Имя родителя',
-        phoneNumber: 'Номер телефона',
-        preferredContact: 'Предпочтительный способ связи',
-        telegram: 'Telegram',
-        phoneCall: 'Телефонный звонок',
-        waitlistCheck: 'Добавить младшего ребенка в список ожидания на будущие годы',
-        submitRequest: 'Отправить запрос в приемную комиссию',
-        modifyChildren: '← Изменить детей',
-        thankYou: 'Спасибо',
-        thankYouText1: 'Ваш запрос получен нашей приемной комиссией.',
-        thankYouText2: 'Они свяжутся с вами в ближайшее время, чтобы предоставить подробный расчет и ответить на ваши вопросы.',
-        close: 'Закрыть',
-        admissions: 'Поступление'
-    },
-    uz: {
-        welcomeTitle: 'Oxbridge International School',
-        welcomeSubtitle: 'Qabul yordamchisi',
-        welcomeText: '2025–2026 yil uchun Mirzo-Ulug\'bek va Yashnobod kampuslarimizda farzandingizning ta\'limini rejalashtiring.',
-        welcomeInstruction: 'Boshlash uchun tilni tanlang.',
-        menuTitle: 'Qabul 2025–2026',
-        tuitionCalculator: 'Ta\'lim to\'lovi kalkulyatori',
-        tuitionCalculatorDesc: 'Farzandlaringiz uchun ta\'lim to\'lovini hisoblang',
-        whatIncluded: 'Ta\'lim to\'loviga nima kiradi',
-        campusesLocation: 'Kampuslar va joylashuv',
-        whatIsIB: 'IB nima?',
-        selectCampus: 'Kampus afzalligini tanlang',
-        muCampus: 'Mirzo-Ulug\'bek kampus',
-        yashCampus: 'Yashnobod kampus',
-        bothCampuses: 'Ikkala kampusni ko\'rsatish',
-        backToMenu: '← Menyuga qaytish',
-        childrenApplying: '2025–2026 yilga ariza berayotgan bolalar',
-        enterDob: 'Har bir bolaning tug\'ilgan sanasini kiriting',
-        addChild: '+ Yana bir bola qo\'shish',
-        calculateTuition: 'Ta\'lim to\'lovini hisoblash',
-        back: '← Orqaga',
-        availableOptions: '2025–2026 yil uchun mavjud variantlar',
-        siblingNote: '2025–2026 yilda bir nechta bolani ro\'yxatdan o\'tkazayotgan oilangiz uchun, qo\'llaniladigan joylarda oilaviy chegirmalar bilan ta\'lim to\'lovi hisoblanadi. Bizning qabul bo\'limimiz shaxsiy taklif tayyorlaydi.',
-        requestCalculation: 'Batafsil hisob-kitob va maslahat so\'rash',
-        parentName: 'Ota-ona ismi',
-        phoneNumber: 'Telefon raqami',
-        preferredContact: 'Afzal ko\'rilgan aloqa usuli',
-        telegram: 'Telegram',
-        phoneCall: 'Telefon qo\'ng\'irog\'i',
-        waitlistCheck: 'Kichik bolani kelajak yillar uchun kutish ro\'yxatiga qo\'shish',
-        submitRequest: 'Qabul bo\'limiga so\'rov yuborish',
-        modifyChildren: '← Bolalarni o\'zgartirish',
-        thankYou: 'Rahmat',
-        thankYouText1: 'Sizning so\'rovingiz bizning qabul bo\'limimiz tomonidan qabul qilindi.',
-        thankYouText2: 'Ular tez orada batafsil hisob-kitobni taqdim etish va savollaringizga javob berish uchun siz bilan bog\'lanishadi.',
-        close: 'Yopish',
-        admissions: 'Qabul'
-    },
-    tr: {
-        welcomeTitle: 'Oxbridge International School',
-        welcomeSubtitle: 'Kayıt Asistanı',
-        welcomeText: '2025–2026 için Mirzo-Ulugbek ve Yashnobod kampüslerimizde çocuğunuzun eğitimini planlayın.',
-        welcomeInstruction: 'Başlamak için dilinizi seçin.',
-        menuTitle: 'Kayıt 2025–2026',
-        tuitionCalculator: 'Öğrenim Ücreti Hesaplayıcı',
-        tuitionCalculatorDesc: 'Çocuklarınız için öğrenim ücretini hesaplayın',
-        whatIncluded: 'Öğrenim ücretine neler dahil',
-        campusesLocation: 'Kampüsler ve konum',
-        whatIsIB: 'IB nedir?',
-        selectCampus: 'Kampüs tercihini seçin',
-        muCampus: 'Mirzo-Ulugbek Kampüsü',
-        yashCampus: 'Yashnobod Kampüsü',
-        bothCampuses: 'Her iki kampüsü göster',
-        backToMenu: '← Menüye dön',
-        childrenApplying: '2025–2026 için başvuran çocuklar',
-        enterDob: 'Her çocuk için doğum tarihini girin',
-        addChild: '+ Başka bir çocuk ekle',
-        calculateTuition: 'Öğrenim ücretini hesapla',
-        back: '← Geri',
-        availableOptions: '2025–2026 için mevcut seçenekler',
-        siblingNote: '2025–2026\'da birden fazla çocuğu kaydeden aileniz için, öğrenim ücreti uygulanabilir yerlerde aile indirimleriyle hesaplanacaktır. Kayıt ekibimiz kişiselleştirilmiş bir teklif hazırlayacaktır.',
-        requestCalculation: 'Detaylı hesaplama ve danışmanlık talep edin',
-        parentName: 'Ebeveyn adı',
-        phoneNumber: 'Telefon numarası',
-        preferredContact: 'Tercih edilen iletişim yöntemi',
-        telegram: 'Telegram',
-        phoneCall: 'Telefon görüşmesi',
-        waitlistCheck: 'Küçük çocuğu gelecek yıllar için bekleme listesine ekle',
-        submitRequest: 'Kayıt ofisine istek gönder',
-        modifyChildren: '← Çocukları değiştir',
-        thankYou: 'Teşekkürler',
-        thankYouText1: 'İsteğiniz Kayıt ekibimiz tarafından alındı.',
-        thankYouText2: 'Yakında detaylı bir hesaplama sağlamak ve sorularınızı yanıtlamak için sizinle iletişime geçecekler.',
-        close: 'Kapat',
-        admissions: 'Kayıt'
-    }
-};
-
-// Translation function
+// Translation function (uses translations from translations.js)
 function t(key) {
-    return translations[state.language]?.[key] || translations['en'][key] || key;
+    if (typeof translations === 'undefined') {
+        console.error('Translations not loaded!');
+        return key;
+    }
+    return translations[state.language]?.[key] || translations['en']?.[key] || key;
 }
 
 // Update all translations on the page
@@ -224,8 +59,21 @@ function updateTranslations() {
     
     // Manual updates for complex elements
     if (document.querySelector('#menuScreen .menu-card-title')) {
-        document.querySelector('#menuScreen .menu-card.primary .menu-card-title').textContent = t('tuitionCalculator');
-        document.querySelector('#menuScreen .menu-card.primary .menu-card-desc').textContent = t('tuitionCalculatorDesc');
+        // Update all collapsible section titles
+        const collapsibleTitles = document.querySelectorAll('#menuScreen .menu-card.collapsible .menu-card-title');
+        collapsibleTitles.forEach(title => {
+            const key = title.getAttribute('data-i18n');
+            if (key) title.textContent = t(key);
+        });
+        
+        // Update primary menu card
+        const primaryCard = document.querySelector('#menuScreen .menu-card.primary');
+        if (primaryCard) {
+            const title = primaryCard.querySelector('.menu-card-title');
+            const desc = primaryCard.querySelector('.menu-card-desc');
+            if (title) title.textContent = t('tuitionCalculator');
+            if (desc) desc.textContent = t('tuitionCalculatorDesc');
+        }
     }
     
     if (document.querySelector('#campusScreen .campus-option-title')) {
