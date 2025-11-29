@@ -149,10 +149,26 @@ body {
     margin-bottom: var(--spacing-lg);
 }
 
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: var(--spacing-lg);
+}
+
 .logo {
     width: 120px;
     height: auto;
-    margin-bottom: var(--spacing-lg);
+    margin: 0 auto;
+    display: block;
+}
+
+.logo-text {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 2px;
 }
 
 .welcome-inner {
