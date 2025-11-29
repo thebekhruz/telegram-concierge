@@ -26,14 +26,11 @@
                 <img src="/images/hero.jpg" alt="Oxbridge Campus" class="hero-image" onerror="this.style.display='none'">
 
                 <div class="welcome-inner">
-                    <div class="logo-container">
-                        <img src="/images/oxbridge-logo.png" alt="Oxbridge" class="logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="logo-text" style="display: none;">OXBRIDGE</div>
-                    </div>
-                    <h1 class="welcome-title">Oxbridge International School</h1>
-                    <p class="welcome-subtitle">Admissions Assistant</p>
-                    <p class="welcome-text">Plan your child's education at our Mirzo-Ulugbek and Yashnobod campuses for 2025–2026.</p>
-                    <p class="welcome-instruction">Choose your language to begin.</p>
+                    <img src="/images/oxbridge-logo.png" alt="Oxbridge" class="logo" onerror="this.style.display='none'">
+                    <h1 class="welcome-title" data-i18n="welcomeTitle">Oxbridge International School</h1>
+                    <p class="welcome-subtitle" data-i18n="welcomeSubtitle">Admissions Assistant</p>
+                    <p class="welcome-text" data-i18n="welcomeText">Plan your child's education at our Mirzo-Ulugbek and Yashnobod campuses for 2025–2026.</p>
+                    <p class="welcome-instruction" data-i18n="welcomeInstruction">Choose your language to begin.</p>
 
                     <div class="language-buttons">
                         <button class="lang-btn" onclick="selectLanguage('uz')">O'zbekcha</button>
@@ -48,12 +45,13 @@
         <!-- Main Menu Screen -->
         <div class="screen" id="menuScreen">
             <div class="screen-content">
-                <h2 class="screen-title">Admissions 2025–2026</h2>
+                <h2 class="screen-title" data-i18n="menuTitle">Admissions 2025–2026</h2>
+                <img src="/images/hero.png" alt="Oxbridge Campus" class="page-hero-image" onerror="this.style.display='none'">
 
                 <div class="menu-sections">
                     <button class="menu-card primary" onclick="startCalculator()">
-                        <div class="menu-card-title">Tuition Calculator</div>
-                        <div class="menu-card-desc">Calculate tuition for your children</div>
+                        <div class="menu-card-title" data-i18n="tuitionCalculator">Tuition Calculator</div>
+                        <div class="menu-card-desc" data-i18n="tuitionCalculatorDesc">Calculate tuition for your children</div>
                     </button>
 
                     <button class="menu-card collapsible" onclick="toggleSection('includedSection')">
@@ -138,17 +136,18 @@
         <!-- Calculator: Campus Selection -->
         <div class="screen" id="campusScreen">
             <div class="screen-content">
-                <h2 class="screen-title">Select campus preference</h2>
+                <h2 class="screen-title" data-i18n="selectCampus">Select campus preference</h2>
+                <img src="/images/hero.png" alt="Oxbridge Campus" class="page-hero-image" onerror="this.style.display='none'">
 
                 <div class="campus-options">
                     <button class="campus-option-card" onclick="selectCampus('MU')">
-                        <div class="campus-option-title">Mirzo-Ulugbek Campus</div>
+                        <div class="campus-option-title" data-i18n="muCampus">Mirzo-Ulugbek Campus</div>
                     </button>
                     <button class="campus-option-card" onclick="selectCampus('YASH')">
-                        <div class="campus-option-title">Yashnobod Campus</div>
+                        <div class="campus-option-title" data-i18n="yashCampus">Yashnobod Campus</div>
                     </button>
                     <button class="campus-option-card" onclick="selectCampus('BOTH')">
-                        <div class="campus-option-title">Show both campuses</div>
+                        <div class="campus-option-title" data-i18n="bothCampuses">Show both campuses</div>
                     </button>
                 </div>
 
@@ -159,8 +158,12 @@
         <!-- Calculator: Children DOB -->
         <div class="screen" id="dobScreen">
             <div class="screen-content">
-                <h2 class="screen-title">Children applying for 2025–2026</h2>
-                <p class="screen-subtitle">Enter date of birth for each child</p>
+                <h2 class="screen-title" data-i18n="childrenApplying">Children applying for 2025–2026</h2>
+                <p class="screen-subtitle" data-i18n="enterDob">Enter date of birth for each child</p>
+                
+                <div id="campusImageContainer" class="campus-image-container">
+                    <img id="campusImage" src="" alt="Campus" class="page-hero-image" style="display: none;" onerror="this.style.display='none'">
+                </div>
 
                 <div id="childrenDobList" class="dob-list"></div>
 
@@ -175,32 +178,32 @@
         <!-- Results Screen -->
         <div class="screen" id="resultsScreen">
             <div class="screen-content">
-                <h2 class="screen-title">Available options for 2025–2026</h2>
+                <h2 class="screen-title" data-i18n="availableOptions">Available options for 2025–2026</h2>
 
                 <div id="resultsContainer"></div>
 
                 <!-- Sibling note -->
                 <div class="sibling-note" id="siblingNote" style="display: none;">
-                    <p>For your family enrolling multiple children in 2025–2026, tuition will be calculated with family discounts where applicable. Our admissions team will prepare a personalised offer.</p>
+                    <p data-i18n="siblingNote">For your family enrolling multiple children in 2025–2026, tuition will be calculated with family discounts where applicable. Our admissions team will prepare a personalised offer.</p>
                 </div>
 
                 <!-- Submit Form -->
                 <div class="submit-section">
-                    <h3 class="submit-title">Request a detailed calculation and consultation</h3>
+                    <h3 class="submit-title" data-i18n="requestCalculation">Request a detailed calculation and consultation</h3>
 
                     <div class="submit-form">
                         <div class="form-field">
-                            <label>Parent name</label>
+                            <label data-i18n="parentName">Parent name</label>
                             <input type="text" id="parentName" class="input-field" placeholder="Enter your full name">
                         </div>
 
                         <div class="form-field">
-                            <label>Phone number</label>
+                            <label data-i18n="phoneNumber">Phone number</label>
                             <input type="tel" id="parentPhone" class="input-field" placeholder="+998 XX XXX XX XX">
                         </div>
 
                         <div class="form-field">
-                            <label>Preferred contact method</label>
+                            <label data-i18n="preferredContact">Preferred contact method</label>
                             <div class="radio-options">
                                 <label class="radio-label">
                                     <input type="radio" name="contactMethod" value="telegram" checked>
@@ -216,7 +219,7 @@
                         <div class="form-field">
                             <label class="checkbox-container">
                                 <input type="checkbox" id="waitlistCheck">
-                                <span>Add younger child to waitlist for future years</span>
+                                <span data-i18n="waitlistCheck">Add younger child to waitlist for future years</span>
                             </label>
                         </div>
 
@@ -232,9 +235,9 @@
         <div class="screen" id="thankYouScreen">
             <div class="screen-content centered">
                 <div class="thank-you-icon">✓</div>
-                <h2 class="thank-you-title">Thank you</h2>
-                <p class="thank-you-text">Your request has been received by our Admissions team.</p>
-                <p class="thank-you-text">They will contact you soon to provide a detailed calculation and answer your questions.</p>
+                <h2 class="thank-you-title" data-i18n="thankYou">Thank you</h2>
+                <p class="thank-you-text" data-i18n="thankYouText1">Your request has been received by our Admissions team.</p>
+                <p class="thank-you-text" data-i18n="thankYouText2">They will contact you soon to provide a detailed calculation and answer your questions.</p>
 
                 <button class="secondary-btn" onclick="tg.close()">Close</button>
             </div>
