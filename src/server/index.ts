@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import { config } from '../config';
 import { UserRepository } from '../database/repositories/UserRepository';
@@ -130,7 +130,13 @@ app.get('/api/health', (req: Request, res: Response) => {
 });
 
 // Serve index.html for all other routes (SPA fallback)
-app.get('*', (req: Request, res: Response) => {
+// Use app.use() instead of app.get() for Express 5.x compatibility
+app.use((req: Request, res: Response, next: NextFunction) => {
+  // Skip if it's an API route or static file request
+  if (req.path.startsWith('/api/') || 
+      /\.(jpg|jpeg|png|svg|gif|webp|css|js|ico|woff|woff2|ttf|eot)$/i.test(req.path)) {
+    return next();
+  }
   res.sendFile(path.join(__dirname, '../../public/index.html'));
 });
 
