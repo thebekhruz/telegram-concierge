@@ -5,7 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "build": "tsc",
+    "build": "npm run build:css && tsc",
+    "build:css": "tailwindcss -i ./public/css/tailwind.css -o ./public/css/output.css --minify",
+    "watch:css": "tailwindcss -i ./public/css/tailwind.css -o ./public/css/output.css --watch",
     "start": "node dist/index.js",
     "db:migrate": "ts-node src/database/migrate.ts",
     "db:seed": "ts-node src/database/seed.ts",
@@ -25,6 +27,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express": "^5.1.0",
+    "motion": "^12.23.25",
     "pg": "^8.11.3",
     "telegraf": "^4.16.3",
     "typeorm": "^0.3.20"
@@ -35,8 +38,11 @@
     "@types/pg": "^8.11.0",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
+    "autoprefixer": "^10.4.22",
     "eslint": "^8.56.0",
+    "postcss": "^8.5.6",
     "prettier": "^3.2.5",
+    "tailwindcss": "^4.1.17",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.3"
