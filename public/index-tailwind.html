@@ -27,45 +27,19 @@
             }
         }
     </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="/js/translations.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/motion@12.0.0/dist/motion.js"></script>
     <style>
-        /* Apple-like smooth animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .screen { display: none; }
+        .screen.active { display: block; }
 
-        @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .animate-fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-
-        .animate-scale-in {
-            animation: scaleIn 0.3s ease-out forwards;
-        }
-
-        .screen {
-            display: none;
-        }
-
-        .screen.active {
-            display: block;
-        }
-
-        /* Glass morphism */
         .glass {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
         }
 
-        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -83,7 +57,7 @@
 <body class="bg-gray-50 font-sans antialiased">
 
     <!-- App Header (sticky) -->
-    <header id="appHeader" class="hidden fixed top-0 left-0 right-0 glass border-b border-gray-200 px-5 py-3 z-50">
+    <header id="appHeader" class="hidden fixed top-0 left-0 right-0 glass border-b border-gray-200 px-5 py-3 z-50 transition-all duration-300">
         <div class="flex items-center justify-between max-w-2xl mx-auto">
             <button id="headerBackBtn" onclick="goBack()" class="text-primary-600 hover:text-primary text-2xl font-light transition-colors duration-200">
                 ←
@@ -98,51 +72,38 @@
     <!-- Welcome Screen -->
     <div class="screen active" id="welcomeScreen">
         <div class="min-h-screen flex flex-col">
-            <!-- Hero Image -->
-            <div class="w-full h-72 overflow-hidden">
-                <img src="/images/hero.jpg" alt="Oxbridge Campus" class="w-full h-full object-cover" onerror="this.style.display='none'">
-            </div>
-
-            <!-- Content -->
-            <div class="flex-1 px-6 py-10 text-center animate-fade-in">
-                <!-- Logo -->
-                <div class="mb-8">
-                    <img src="/images/oxbridge-logo.png" alt="Oxbridge" class="w-32 h-32 mx-auto object-contain" onerror="this.style.display='none'">
+            <div class="flex-1 flex flex-col justify-center px-6 py-12 max-w-md mx-auto w-full">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl font-bold text-primary mb-3 transition-all duration-300" data-i18n="welcome_title">
+                        Oxbridge International School
+                    </h1>
+                    <p class="text-lg text-gray-600 mb-6 transition-all duration-300" data-i18n="welcome_subtitle">
+                        Admissions Assistant
+                    </p>
+                    <p class="text-base text-gray-500 transition-all duration-300" data-i18n="welcome_text">
+                        Plan your child's education at our Mirzo-Ulugbek and Yashnobod campuses for 2025–2026.
+                    </p>
                 </div>
 
-                <!-- Title -->
-                <h1 class="text-3xl font-bold text-gray-900 mb-3 tracking-tight" data-i18n="welcomeTitle">
-                    Oxbridge International School
-                </h1>
+                <div class="space-y-3">
+                    <p class="text-sm text-gray-500 text-center mb-4 transition-all duration-300" data-i18n="welcome_instruction">
+                        Choose your language to begin.
+                    </p>
 
-                <!-- Subtitle -->
-                <p class="text-lg text-gray-600 font-medium mb-6" data-i18n="welcomeSubtitle">
-                    Admissions Assistant
-                </p>
-
-                <!-- Description -->
-                <p class="text-base text-gray-500 max-w-md mx-auto mb-4 leading-relaxed" data-i18n="welcomeText">
-                    Plan your child's education at our Mirzo-Ulugbek and Yashnobod campuses for 2025–2026.
-                </p>
-
-                <!-- Instruction -->
-                <p class="text-sm text-gray-400 mb-10" data-i18n="welcomeInstruction">
-                    Choose your language to begin.
-                </p>
-
-                <!-- Language Buttons -->
-                <div class="space-y-3 max-w-sm mx-auto">
                     <button onclick="selectLanguage('uz')" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
                         O'zbekcha
                     </button>
+
+                    <button onclick="selectLanguage('en')" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                        English
+                    </button>
+
                     <button onclick="selectLanguage('ru')" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
                         Русский
                     </button>
+
                     <button onclick="selectLanguage('tr')" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
                         Türkçe
-                    </button>
-                    <button onclick="selectLanguage('en')" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
-                        English
                     </button>
                 </div>
             </div>
@@ -151,179 +112,77 @@
 
     <!-- Main Menu Screen -->
     <div class="screen" id="menuScreen">
-        <div class="min-h-screen pt-20 pb-10 px-5">
-            <div class="max-w-2xl mx-auto space-y-4 animate-fade-in">
-
-                <!-- Hero Image -->
-                <div class="w-full h-48 overflow-hidden rounded-3xl mb-6">
-                    <img src="/images/campus-hero.jpg" alt="Campus" class="w-full h-full object-cover" onerror="this.style.display='none'">
+        <div class="pt-20 pb-8 px-6 max-w-2xl mx-auto">
+            <div class="space-y-6">
+                <!-- Calculator Card -->
+                <div class="bg-gradient-to-br from-primary to-primary-light text-white rounded-3xl shadow-lg p-8 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" onclick="startCalculator()">
+                    <h2 class="text-2xl font-bold mb-2 transition-all duration-300" data-i18n="calculator_title">
+                        Tuition Calculator
+                    </h2>
+                    <p class="text-white/90 transition-all duration-300" data-i18n="calculator_desc">
+                        Calculate tuition for your children
+                    </p>
                 </div>
 
-                <!-- Title -->
-                <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="menuTitle">
-                    Admissions 2025–2026
-                </h2>
-
-                <!-- Primary CTA - Calculator -->
-                <button onclick="startCalculator()" class="w-full p-6 bg-gradient-to-br from-primary to-primary-light text-white rounded-3xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 text-left">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h3 class="text-xl font-bold mb-1" data-i18n="tuitionCalculator">Tuition Calculator</h3>
-                            <p class="text-sm text-white/80" data-i18n="tuitionCalculatorDesc">Calculate tuition for your children</p>
-                        </div>
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </div>
-                </button>
-
-                <!-- Collapsible Sections -->
-                <div class="space-y-3">
-                    <!-- What's Included -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                        <button onclick="toggleSection('includedSection')" class="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors duration-200">
-                            <span class="font-semibold text-gray-900" data-i18n="whatIncluded">What is included in tuition</span>
-                            <span class="expand-icon text-2xl font-light text-primary">+</span>
-                        </button>
-                        <div id="includedSection" class="collapsible-content max-h-0 overflow-hidden transition-all duration-300">
-                            <div class="px-6 pb-6 space-y-4">
-                                <div class="p-4 bg-gray-50 rounded-xl">
-                                    <h4 class="font-semibold text-gray-900 mb-2">Academic programme</h4>
-                                    <p class="text-sm text-gray-600">Full-day learning programme with qualified international and local teachers</p>
-                                </div>
-                                <div class="p-4 bg-gray-50 rounded-xl">
-                                    <h4 class="font-semibold text-gray-900 mb-2">Campus facilities</h4>
-                                    <p class="text-sm text-gray-600">Access to modern classrooms, laboratories, libraries, and sports facilities</p>
-                                </div>
-                                <div class="p-4 bg-gray-50 rounded-xl">
-                                    <h4 class="font-semibold text-gray-900 mb-2">Sports & activities</h4>
-                                    <p class="text-sm text-gray-600">PE lessons, sports clubs, and extracurricular activities</p>
-                                </div>
-                                <div class="p-4 bg-gray-50 rounded-xl">
-                                    <h4 class="font-semibold text-gray-900 mb-2">Meals</h4>
-                                    <p class="text-sm text-gray-600">Daily meals including breakfast, lunch, and snacks</p>
-                                </div>
-                                <div class="p-4 bg-gray-50 rounded-xl">
-                                    <h4 class="font-semibold text-gray-900 mb-2">Pastoral care</h4>
-                                    <p class="text-sm text-gray-600">Individual support and wellbeing programmes for every student</p>
-                                </div>
+                <!-- FAQ Section -->
+                <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200">
+                    <button @click="open = !open" class="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors duration-200">
+                        <span class="font-semibold text-gray-900">Frequently Asked Questions</span>
+                        <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary transition-transform duration-200"></span>
+                    </button>
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 max-h-96" x-transition:leave-end="opacity-0 max-h-0" class="overflow-hidden">
+                        <div class="px-6 pb-4 space-y-3">
+                            <div class="py-3 border-b border-gray-100">
+                                <p class="text-sm font-medium text-gray-900 mb-1">Question 1 Placeholder</p>
+                                <p class="text-sm text-gray-600">Answer will be added here.</p>
+                            </div>
+                            <div class="py-3 border-b border-gray-100">
+                                <p class="text-sm font-medium text-gray-900 mb-1">Question 2 Placeholder</p>
+                                <p class="text-sm text-gray-600">Answer will be added here.</p>
+                            </div>
+                            <div class="py-3 border-b border-gray-100">
+                                <p class="text-sm font-medium text-gray-900 mb-1">Question 3 Placeholder</p>
+                                <p class="text-sm text-gray-600">Answer will be added here.</p>
+                            </div>
+                            <div class="py-3 border-b border-gray-100">
+                                <p class="text-sm font-medium text-gray-900 mb-1">Question 4 Placeholder</p>
+                                <p class="text-sm text-gray-600">Answer will be added here.</p>
+                            </div>
+                            <div class="py-3">
+                                <p class="text-sm font-medium text-gray-900 mb-1">Question 5 Placeholder</p>
+                                <p class="text-sm text-gray-600">Answer will be added here.</p>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Campuses & Location -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                        <button onclick="toggleSection('campusSection')" class="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors duration-200">
-                            <span class="font-semibold text-gray-900" data-i18n="campusesLocation">Campuses & location</span>
-                            <span class="expand-icon text-2xl font-light text-primary">+</span>
-                        </button>
-                        <div id="campusSection" class="collapsible-content max-h-0 overflow-hidden transition-all duration-300">
-                            <div class="px-6 pb-6 space-y-6">
-                                <!-- MU Campus -->
-                                <div>
-                                    <img src="/images/campus-mu.jpg" alt="MU Campus" class="w-full h-40 object-cover rounded-xl mb-3" onerror="this.style.display='none'">
-                                    <h4 class="font-bold text-gray-900 mb-2">Mirzo-Ulugbek Campus</h4>
-                                    <ul class="space-y-2">
-                                        <li class="flex items-start">
-                                            <span class="text-primary mr-2">•</span>
-                                            <span class="text-sm text-gray-600">Convenient for families in central Tashkent</span>
-                                        </li>
-                                        <li class="flex items-start">
-                                            <span class="text-primary mr-2">•</span>
-                                            <span class="text-sm text-gray-600">Established campus with sports halls, labs, and theatre</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <!-- Yash Campus -->
-                                <div>
-                                    <img src="/images/campus-yash.jpg" alt="Yash Campus" class="w-full h-40 object-cover rounded-xl mb-3" onerror="this.style.display='none'">
-                                    <h4 class="font-bold text-gray-900 mb-2">Yashnobod Campus</h4>
-                                    <ul class="space-y-2">
-                                        <li class="flex items-start">
-                                            <span class="text-primary mr-2">•</span>
-                                            <span class="text-sm text-gray-600">Modern campus in developing district</span>
-                                        </li>
-                                        <li class="flex items-start">
-                                            <span class="text-primary mr-2">•</span>
-                                            <span class="text-sm text-gray-600">State-of-the-art facilities and outdoor spaces</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                <!-- What's Included -->
+                <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200">
+                    <button @click="open = !open" class="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors duration-200">
+                        <span class="font-semibold text-gray-900 transition-all duration-300" data-i18n="section_included_title">What is included in tuition</span>
+                        <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary transition-transform duration-200"></span>
+                    </button>
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 max-h-96" x-transition:leave-end="opacity-0 max-h-0" class="overflow-hidden">
+                        <div class="px-6 pb-4 space-y-3">
+                            <div class="py-3">
+                                <p class="text-sm font-medium text-gray-900 mb-1 transition-all duration-300" data-i18n="included_academic_title">Academic programme</p>
+                                <p class="text-sm text-gray-600 transition-all duration-300" data-i18n="included_academic_desc">Full-day learning programme with qualified teachers</p>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- What is IB -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                        <button onclick="toggleSection('ibSection')" class="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors duration-200">
-                            <span class="font-semibold text-gray-900" data-i18n="whatIsIB">What is IB?</span>
-                            <span class="expand-icon text-2xl font-light text-primary">+</span>
-                        </button>
-                        <div id="ibSection" class="collapsible-content max-h-0 overflow-hidden transition-all duration-300">
-                            <div class="px-6 pb-6 space-y-4">
-                                <p class="text-sm text-gray-600 leading-relaxed">
-                                    The International Baccalaureate (IB) is a world-renowned education programme focusing on critical thinking, intercultural understanding, and respect.
-                                </p>
-                                <div class="p-4 bg-gray-50 rounded-xl">
-                                    <h4 class="font-semibold text-gray-900 mb-2">Our IB Programmes</h4>
-                                    <ul class="space-y-2">
-                                        <li class="flex items-start">
-                                            <span class="text-primary mr-2">•</span>
-                                            <span class="text-sm text-gray-600">PYP (Primary Years Programme): Ages 5-11</span>
-                                        </li>
-                                        <li class="flex items-start">
-                                            <span class="text-primary mr-2">•</span>
-                                            <span class="text-sm text-gray-600">MYP (Middle Years Programme): Ages 11-16</span>
-                                        </li>
-                                        <li class="flex items-start">
-                                            <span class="text-primary mr-2">•</span>
-                                            <span class="text-sm text-gray-600">DP (Diploma Programme): Ages 16-19</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <div class="py-3">
+                                <p class="text-sm font-medium text-gray-900 mb-1 transition-all duration-300" data-i18n="included_facilities_title">Campus facilities</p>
+                                <p class="text-sm text-gray-600 transition-all duration-300" data-i18n="included_facilities_desc">Modern classrooms, laboratories, libraries</p>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- FAQs -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                        <button onclick="toggleSection('faqSection')" class="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors duration-200">
-                            <span class="font-semibold text-gray-900">Frequently Asked Questions</span>
-                            <span class="expand-icon text-2xl font-light text-primary">+</span>
-                        </button>
-                        <div id="faqSection" class="collapsible-content max-h-0 overflow-hidden transition-all duration-300">
-                            <div class="px-6 pb-6 space-y-4">
-                                <!-- FAQ 1 -->
-                                <div class="p-4 bg-gray-50 rounded-xl">
-                                    <h4 class="font-semibold text-gray-900 mb-2">How do I apply?</h4>
-                                    <p class="text-sm text-gray-600">Use the Tuition Calculator above to get started. Our admissions team will contact you to guide you through the application process.</p>
-                                </div>
-
-                                <!-- FAQ 2 -->
-                                <div class="p-4 bg-gray-50 rounded-xl">
-                                    <h4 class="font-semibold text-gray-900 mb-2">When does the academic year start?</h4>
-                                    <p class="text-sm text-gray-600">The 2025-2026 academic year begins on September 1, 2025.</p>
-                                </div>
-
-                                <!-- FAQ 3 -->
-                                <div class="p-4 bg-gray-50 rounded-xl">
-                                    <h4 class="font-semibold text-gray-900 mb-2">Do you offer financial aid?</h4>
-                                    <p class="text-sm text-gray-600">Yes, we offer merit-based scholarships and family discounts. Contact our admissions team for more information.</p>
-                                </div>
-
-                                <!-- FAQ 4 - Placeholder -->
-                                <div class="p-4 bg-gray-50 rounded-xl">
-                                    <h4 class="font-semibold text-gray-900 mb-2">What languages are taught?</h4>
-                                    <p class="text-sm text-gray-600">We offer instruction in English, Russian, and Uzbek depending on the programme. Our IB programme is taught in English.</p>
-                                </div>
-
-                                <!-- FAQ 5 - Placeholder -->
-                                <div class="p-4 bg-gray-50 rounded-xl">
-                                    <h4 class="font-semibold text-gray-900 mb-2">Can I visit the campus?</h4>
-                                    <p class="text-sm text-gray-600">Yes! Contact us to schedule a campus tour. We welcome prospective families to visit both our Mirzo-Ulugbek and Yashnobod campuses.</p>
-                                </div>
-
-                                <!-- Add more FAQs here as needed -->
+                            <div class="py-3">
+                                <p class="text-sm font-medium text-gray-900 mb-1 transition-all duration-300" data-i18n="included_sports_title">Sports & activities</p>
+                                <p class="text-sm text-gray-600 transition-all duration-300" data-i18n="included_sports_desc">PE lessons, sports clubs</p>
+                            </div>
+                            <div class="py-3">
+                                <p class="text-sm font-medium text-gray-900 mb-1 transition-all duration-300" data-i18n="included_meals_title">Meals</p>
+                                <p class="text-sm text-gray-600 transition-all duration-300" data-i18n="included_meals_desc">Daily meals including breakfast and lunch</p>
+                            </div>
+                            <div class="py-3">
+                                <p class="text-sm font-medium text-gray-900 mb-1 transition-all duration-300" data-i18n="included_pastoral_title">Pastoral care</p>
+                                <p class="text-sm text-gray-600 transition-all duration-300" data-i18n="included_pastoral_desc">Individual support for every student</p>
                             </div>
                         </div>
                     </div>
@@ -334,25 +193,39 @@
 
     <!-- Campus Selection Screen -->
     <div class="screen" id="campusScreen">
-        <div class="min-h-screen pt-20 pb-10 px-5">
-            <div class="max-w-2xl mx-auto animate-fade-in">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="selectCampus">Select campus preference</h2>
+        <div class="pt-20 pb-8 px-6 max-w-2xl mx-auto">
+            <div class="space-y-4">
+                <div onclick="selectCampus('MU')" class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 transition-all duration-300" data-i18n="campus_mu">Mirzo-Ulugbek</h3>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-start">
+                            <span class="text-accent mr-2">•</span>
+                            <span class="transition-all duration-300" data-i18n="campus_mu_feature_1">Convenient for families in central Tashkent</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-accent mr-2">•</span>
+                            <span class="transition-all duration-300" data-i18n="campus_mu_feature_2">Established campus with sports halls, labs, and theatre</span>
+                        </li>
+                    </ul>
+                </div>
 
-                <div class="space-y-4">
-                    <button onclick="selectCampus('MU')" class="w-full p-6 bg-white rounded-3xl shadow-sm border border-gray-200 hover:shadow-lg hover:scale-[1.02] hover:border-primary active:scale-[0.98] transition-all duration-200">
-                        <h3 class="text-xl font-bold text-gray-900 mb-1">Mirzo-Ulugbek Campus</h3>
-                        <p class="text-sm text-gray-500">Central Tashkent location</p>
-                    </button>
+                <div onclick="selectCampus('YASH')" class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 transition-all duration-300" data-i18n="campus_yash">Yashnobod</h3>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-start">
+                            <span class="text-accent mr-2">•</span>
+                            <span class="transition-all duration-300" data-i18n="campus_yash_feature_1">Modern campus in developing district</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-accent mr-2">•</span>
+                            <span class="transition-all duration-300" data-i18n="campus_yash_feature_2">State-of-the-art facilities and outdoor spaces</span>
+                        </li>
+                    </ul>
+                </div>
 
-                    <button onclick="selectCampus('YASH')" class="w-full p-6 bg-white rounded-3xl shadow-sm border border-gray-200 hover:shadow-lg hover:scale-[1.02] hover:border-primary active:scale-[0.98] transition-all duration-200">
-                        <h3 class="text-xl font-bold text-gray-900 mb-1">Yashnobod Campus</h3>
-                        <p class="text-sm text-gray-500">Modern facilities and spaces</p>
-                    </button>
-
-                    <button onclick="selectCampus('BOTH')" class="w-full p-6 bg-gradient-to-br from-gray-900 to-gray-700 text-white rounded-3xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
-                        <h3 class="text-xl font-bold mb-1">Show both campuses</h3>
-                        <p class="text-sm text-white/70">Compare options from both locations</p>
-                    </button>
+                <div onclick="selectCampus('BOTH')" class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 transition-all duration-300" data-i18n="campus_both">Show both campuses</h3>
+                    <p class="text-sm text-gray-600">View options from both locations</p>
                 </div>
             </div>
         </div>
@@ -360,86 +233,78 @@
 
     <!-- DOB Entry Screen -->
     <div class="screen" id="dobScreen">
-        <div class="min-h-screen pt-20 pb-10 px-5">
-            <div class="max-w-2xl mx-auto animate-fade-in">
-                <!-- Campus Image -->
-                <div class="w-full h-48 overflow-hidden rounded-3xl mb-6">
-                    <img id="campusImage" src="" alt="Campus" class="w-full h-full object-cover">
-                </div>
+        <div class="pt-20 pb-8 px-6 max-w-2xl mx-auto">
+            <div id="childrenDobList" class="space-y-4 mb-6"></div>
 
-                <h2 class="text-2xl font-bold text-gray-900 mb-3" data-i18n="childrenApplying">Children applying for 2025–2026</h2>
-                <p class="text-gray-500 mb-6" data-i18n="enterDob">Enter date of birth for each child</p>
+            <button onclick="addChildDob()" class="w-full px-6 py-3 bg-white text-primary font-semibold rounded-2xl shadow-sm border-2 border-primary/20 hover:border-primary hover:shadow-md transition-all duration-200 mb-4">
+                <span class="transition-all duration-300" data-i18n="add_child">+ Add another child</span>
+            </button>
 
-                <!-- Children List -->
-                <div id="childrenDobList" class="space-y-4 mb-6"></div>
-
-                <!-- Add Child Button -->
-                <button onclick="addChildDob()" class="w-full px-6 py-4 bg-white text-gray-700 font-semibold rounded-2xl border-2 border-dashed border-gray-300 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all duration-200">
-                    <span data-i18n="addChild">+ Add another child</span>
-                </button>
-
-                <!-- Calculate Button -->
-                <button onclick="calculateTuition()" class="w-full mt-6 px-6 py-4 bg-gradient-to-r from-primary to-primary-light text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
-                    <span data-i18n="calculateTuition">Calculate tuition</span>
-                </button>
-            </div>
+            <button onclick="calculateTuition()" class="w-full px-6 py-4 bg-gradient-to-r from-primary to-primary-light text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                <span class="transition-all duration-300" data-i18n="calculate_btn">Calculate tuition</span>
+            </button>
         </div>
     </div>
 
     <!-- Results Screen -->
     <div class="screen" id="resultsScreen">
-        <div class="min-h-screen pt-20 pb-10 px-5">
-            <div class="max-w-2xl mx-auto animate-fade-in">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="availableOptions">Available options for 2025–2026</h2>
+        <div class="pt-20 pb-8 px-6 max-w-2xl mx-auto">
+            <div id="siblingNote" class="hidden bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-6 transition-all duration-300">
+                <p class="text-sm text-blue-900 transition-all duration-300" data-i18n="sibling_note">
+                    You have multiple children. Our Admissions team will apply family discounts when preparing your personalized offer.
+                </p>
+            </div>
 
-                <!-- Sibling Note -->
-                <div id="siblingNote" class="hidden mb-6 p-4 bg-blue-50 border border-blue-100 rounded-2xl">
-                    <p class="text-sm text-blue-900" data-i18n="siblingNote">
-                        For your family enrolling multiple children, tuition will be calculated with family discounts. Our admissions team will prepare a personalized offer.
-                    </p>
-                </div>
+            <div id="resultsContainer" class="space-y-6 mb-8"></div>
 
-                <!-- Results Container -->
-                <div id="resultsContainer" class="space-y-6 mb-8"></div>
+            <div class="bg-gray-100 rounded-2xl p-6 mb-6">
+                <p class="text-xs text-gray-600 mb-2 transition-all duration-300" data-i18n="price_disclaimer_1">
+                    Prices shown are approximate and based on 2025–2026 tuition rates.
+                </p>
+                <p class="text-xs text-gray-600 transition-all duration-300" data-i18n="price_disclaimer_2">
+                    Our Admissions team will prepare a personalized calculation for your family.
+                </p>
+            </div>
 
-                <!-- Submit Form -->
-                <div class="bg-white rounded-3xl shadow-lg border border-gray-100 p-6 mb-6">
-                    <h3 class="text-lg font-bold text-gray-900 mb-4" data-i18n="requestCalculation">Request a detailed calculation</h3>
+            <!-- Submit Form -->
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
+                <h3 class="text-lg font-bold text-gray-900 mb-4 transition-all duration-300" data-i18n="submit_title">
+                    Request a call from Admissions
+                </h3>
 
-                    <form id="submitForm" class="space-y-4">
-                        <div>
-                            <label for="parentName" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="parentName">Parent name</label>
-                            <input type="text" id="parentName" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="Your full name">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 transition-all duration-300" data-i18n="parent_name_label">Your full name</label>
+                        <input type="text" id="parentName" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" data-i18n="parent_name_placeholder" placeholder="Enter your name">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2 transition-all duration-300" data-i18n="parent_phone_label">Phone number</label>
+                        <input type="tel" id="parentPhone" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" data-i18n="parent_phone_placeholder" placeholder="+998 XX XXX XX XX">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3 transition-all duration-300" data-i18n="contact_method_label">Preferred contact method</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="radio" name="contactMethod" value="telegram" checked class="w-4 h-4 text-primary focus:ring-primary">
+                                <span class="ml-2 text-sm text-gray-700 transition-all duration-300" data-i18n="contact_telegram">Telegram</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="contactMethod" value="call" class="w-4 h-4 text-primary focus:ring-primary">
+                                <span class="ml-2 text-sm text-gray-700 transition-all duration-300" data-i18n="contact_call">Phone call</span>
+                            </label>
                         </div>
+                    </div>
 
-                        <div>
-                            <label for="parentPhone" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="phoneNumber">Phone number</label>
-                            <input type="tel" id="parentPhone" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="+998 XX XXX XX XX">
-                        </div>
+                    <label class="flex items-start">
+                        <input type="checkbox" id="waitlistCheck" class="w-4 h-4 mt-1 text-primary focus:ring-primary">
+                        <span class="ml-2 text-sm text-gray-700 transition-all duration-300" data-i18n="waitlist_label">Add to waitlist for future enrollment</span>
+                    </label>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-3" data-i18n="preferredContact">Preferred contact method</label>
-                            <div class="flex gap-4">
-                                <label class="flex-1 flex items-center justify-center p-3 bg-gray-50 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-primary transition-all">
-                                    <input type="radio" name="contactMethod" value="telegram" checked class="mr-2">
-                                    <span class="font-medium" data-i18n="telegram">Telegram</span>
-                                </label>
-                                <label class="flex-1 flex items-center justify-center p-3 bg-gray-50 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-primary transition-all">
-                                    <input type="radio" name="contactMethod" value="call" class="mr-2">
-                                    <span class="font-medium" data-i18n="phoneCall">Phone call</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <label class="flex items-start p-4 bg-gray-50 rounded-xl cursor-pointer">
-                            <input type="checkbox" id="waitlistCheck" class="mt-1 mr-3">
-                            <span class="text-sm text-gray-700" data-i18n="waitlistCheck">Add younger child to waitlist for future years</span>
-                        </label>
-
-                        <button type="button" onclick="submitRequest()" class="w-full px-6 py-4 bg-gradient-to-r from-accent to-accent-dark text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
-                            <span data-i18n="submitRequest">Submit request to Admissions</span>
-                        </button>
-                    </form>
+                    <button onclick="submitRequest()" class="w-full px-6 py-4 bg-accent text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                        <span class="transition-all duration-300" data-i18n="submit_btn">Submit request</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -447,36 +312,43 @@
 
     <!-- Thank You Screen -->
     <div class="screen" id="thankYouScreen">
-        <div class="min-h-screen flex items-center justify-center px-5">
-            <div class="text-center animate-scale-in max-w-md">
-                <!-- Success Icon -->
-                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                </div>
-
-                <h2 class="text-3xl font-bold text-gray-900 mb-4" data-i18n="thankYou">Thank you!</h2>
-
-                <p class="text-gray-600 mb-3 leading-relaxed" data-i18n="thankYouText1">
-                    Your request has been received by our Admissions team.
+        <div class="pt-20 pb-8 px-6 max-w-2xl mx-auto">
+            <div class="min-h-[60vh] flex flex-col justify-center text-center">
+                <div class="text-6xl mb-6">✓</div>
+                <h2 class="text-3xl font-bold text-primary mb-4 transition-all duration-300" data-i18n="thank_you_title">
+                    Thank you!
+                </h2>
+                <p class="text-gray-600 mb-3 transition-all duration-300" data-i18n="thank_you_msg_1">
+                    Your request has been received. Our Admissions team will contact you shortly.
                 </p>
-
-                <p class="text-gray-500 mb-8 leading-relaxed" data-i18n="thankYouText2">
-                    They will contact you soon to provide a detailed calculation and answer your questions.
+                <p class="text-gray-600 transition-all duration-300" data-i18n="thank_you_msg_2">
+                    We look forward to welcoming your family to Oxbridge International School.
                 </p>
-
-                <button onclick="tg.close()" class="px-8 py-3 bg-white text-gray-700 font-semibold rounded-xl border-2 border-gray-200 hover:bg-gray-50 transition-all duration-200">
-                    <span data-i18n="close">Close</span>
-                </button>
             </div>
         </div>
     </div>
 
     <!-- Loading Overlay -->
-    <div id="loadingOverlay" class="hidden fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
-        <div class="bg-white rounded-3xl p-8 shadow-2xl">
-            <div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+    <div id="loadingOverlay" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-8 shadow-2xl">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+            <p class="text-gray-900 mt-4 font-medium">Submitting...</p>
+        </div>
+    </div>
+
+    <!-- Success/Error Dialog -->
+    <div x-data="{ showDialog: false, dialogType: 'success', dialogMessage: '' }" @show-dialog.window="showDialog = true; dialogType = $event.detail.type; dialogMessage = $event.detail.message" class="relative z-50">
+        <div x-show="showDialog" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+            <div @click.away="showDialog = false" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="bg-white rounded-2xl p-6 shadow-2xl max-w-sm w-full">
+                <div class="text-center">
+                    <div x-show="dialogType === 'success'" class="text-5xl mb-4">✓</div>
+                    <div x-show="dialogType === 'error'" class="text-5xl mb-4">⚠</div>
+                    <p x-text="dialogMessage" class="text-gray-900 mb-4"></p>
+                    <button @click="showDialog = false" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors duration-200">
+                        Close
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 

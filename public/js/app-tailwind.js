@@ -1,19 +1,22 @@
-// Telegram Web App
-let tg = window.Telegram ? window.Telegram.WebApp : { expand: () => {}, BackButton: { onClick: () => {}, show: () => {} }, initDataUnsafe: {}, showAlert: (msg) => alert(msg), close: () => {} };
+// ============================================================================
+// TELEGRAM WEB APP INITIALIZATION
+// ============================================================================
+
+const tg = window.Telegram?.WebApp || {
+    expand: () => {},
+    BackButton: { onClick: () => {}, show: () => {}, hide: () => {} },
+    initDataUnsafe: {},
+    showAlert: (msg) => alert(msg),
+    close: () => {},
+    colorScheme: 'light'
+};
+
 tg.expand();
 
-// Motion One - load dynamically, fallback to simple animations
-let animate, stagger, spring;
-if (typeof Motion !== 'undefined') {
-    ({ animate, stagger, spring } = Motion);
-} else {
-    // Fallback: simple fade without Motion One
-    animate = (el, props, options) => Promise.resolve();
-    stagger = (delay) => delay;
-    spring = (config) => 'ease-out';
-}
+// ============================================================================
+// APPLICATION STATE
+// ============================================================================
 
-// Application state
 const state = {
     language: 'en',
     campusPreference: null,
@@ -21,7 +24,6 @@ const state = {
     navigationHistory: ['welcomeScreen']
 };
 
-// Language display mapping
 const LANG_DISPLAY = {
     'en': 'EN',
     'uz': 'UZ',
@@ -29,139 +31,79 @@ const LANG_DISPLAY = {
     'tr': 'TR'
 };
 
-// Initialize
+// ============================================================================
+// INITIALIZATION
+// ============================================================================
+
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('App initializing...');
     applyTelegramTheme();
     updateHeader();
-    initializeAnimations();
-    console.log('App initialized successfully');
 });
 
-// Initialize smooth animations
-function initializeAnimations() {
-    // Animate elements on page load
-    const cards = document.querySelectorAll('.card, .menu-card, button');
-    if (cards.length > 0) {
-        animate(
-            cards,
-            { opacity: [0, 1], y: [20, 0] },
-            { duration: 0.5, delay: stagger(0.1), easing: spring() }
-        );
-    }
-}
-
-// Apply Telegram theme
 function applyTelegramTheme() {
     if (tg.colorScheme === 'dark') {
         document.body.classList.add('dark-theme');
     }
 }
 
-// Header Management
+// ============================================================================
+// HEADER MANAGEMENT
+// ============================================================================
+
 function updateHeader() {
     const appHeader = document.getElementById('appHeader');
     const headerBackBtn = document.getElementById('headerBackBtn');
     const currentLangDisplay = document.getElementById('currentLangDisplay');
     const headerTitle = document.getElementById('headerTitle');
-
     const currentScreen = state.navigationHistory[state.navigationHistory.length - 1];
 
-    // Hide header on welcome screen
     if (currentScreen === 'welcomeScreen') {
         appHeader.classList.add('hidden');
         return;
     }
 
-    // Show header with animation
     appHeader.classList.remove('hidden');
-    animate(appHeader, { y: [-20, 0], opacity: [0, 1] }, { duration: 0.3, easing: spring() });
 
     // Show/hide back button
-    if (state.navigationHistory.length > 1) {
-        headerBackBtn.style.display = 'block';
-    } else {
-        headerBackBtn.style.display = 'none';
-    }
+    headerBackBtn.style.display = state.navigationHistory.length > 1 ? 'block' : 'none';
 
     // Update language display
     currentLangDisplay.textContent = LANG_DISPLAY[state.language] || 'EN';
 
-    // Update title based on screen
-    const getTitleForScreen = () => {
-        if (typeof t === 'function') {
-            return {
-                'menuScreen': t('menuTitle') || 'Admissions 2025–2026',
-                'campusScreen': t('selectCampus') || 'Select Campus',
-                'dobScreen': t('childrenApplying') || 'Children Applying',
-                'resultsScreen': t('availableOptions') || 'Available Options',
-                'thankYouScreen': t('thankYou') || 'Thank You'
-            };
-        }
-        return {
-            'menuScreen': 'Admissions 2025–2026',
-            'campusScreen': 'Select Campus',
-            'dobScreen': 'Children Applying',
-            'resultsScreen': 'Available Options',
-            'thankYouScreen': 'Thank You'
-        };
+    // Update title
+    const titles = {
+        'menuScreen': t('menu_title') || 'Admissions 2025–2026',
+        'campusScreen': t('campus_screen_title') || 'Select Campus',
+        'dobScreen': t('dob_screen_title') || 'Children Applying',
+        'resultsScreen': t('results_screen_title') || 'Available Options',
+        'thankYouScreen': t('thank_you_title') || 'Thank You'
     };
 
-    const titles = getTitleForScreen();
     headerTitle.textContent = titles[currentScreen] || 'Admissions';
 }
 
-// Navigation with smooth transitions
+// ============================================================================
+// NAVIGATION
+// ============================================================================
+
 function showScreen(screenId, addToHistory = true) {
     const allScreens = document.querySelectorAll('.screen');
     const targetScreen = document.getElementById(screenId);
 
-    // Fade out current screen
-    const currentScreen = document.querySelector('.screen.active');
-    if (currentScreen) {
-        animate(
-            currentScreen,
-            { opacity: [1, 0], y: [0, -10] },
-            { duration: 0.2, easing: 'ease-out' }
-        ).finished.then(() => {
-            currentScreen.classList.remove('active');
-        });
+    allScreens.forEach(screen => screen.classList.remove('active'));
+    targetScreen.classList.add('active');
+
+    if (addToHistory) {
+        state.navigationHistory.push(screenId);
     }
 
-    // Show new screen after a brief delay
-    setTimeout(() => {
-        allScreens.forEach(screen => screen.classList.remove('active'));
-        targetScreen.classList.add('active');
+    // Update campus image if on DOB screen
+    if (screenId === 'dobScreen' && state.campusPreference) {
+        updateCampusImage();
+    }
 
-        // Animate in new screen
-        animate(
-            targetScreen,
-            { opacity: [0, 1], y: [20, 0] },
-            { duration: 0.4, easing: spring({ stiffness: 200, damping: 20 }) }
-        );
-
-        // Animate child elements
-        const elements = targetScreen.querySelectorAll('.animate-fade-in, button, .card');
-        if (elements.length > 0) {
-            animate(
-                elements,
-                { opacity: [0, 1], y: [10, 0] },
-                { duration: 0.5, delay: stagger(0.05), easing: spring() }
-            );
-        }
-
-        if (addToHistory) {
-            state.navigationHistory.push(screenId);
-        }
-
-        // Update campus image if on DOB screen
-        if (screenId === 'dobScreen' && state.campusPreference) {
-            updateCampusImage();
-        }
-
-        updateHeader();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 200);
+    updateHeader();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function goBack() {
@@ -177,40 +119,35 @@ function showLanguageSelection() {
     showScreen('welcomeScreen', false);
 }
 
+// ============================================================================
+// LANGUAGE MANAGEMENT
+// ============================================================================
+
 function selectLanguage(lang) {
     state.language = lang;
-    if (typeof updateAllText === 'function') {
-        updateAllText();
-    }
+    updateAllText();
     state.navigationHistory = ['welcomeScreen'];
     showScreen('menuScreen');
 }
 
-// Update all text on the page based on current language
 function updateAllText() {
-    // Update all elements with data-i18n attribute
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (typeof t === 'function') {
-            if (el.tagName === 'INPUT' && el.type !== 'radio' && el.type !== 'checkbox') {
-                el.placeholder = t(key);
-            } else {
-                el.textContent = t(key);
-            }
+        const translation = t(key);
+
+        if (el.tagName === 'INPUT' && el.type !== 'radio' && el.type !== 'checkbox') {
+            el.placeholder = translation;
+        } else {
+            el.textContent = translation;
         }
     });
 
-    // Update header title
     updateHeader();
 }
 
-function goToMenu() {
-    const welcomeIndex = state.navigationHistory.indexOf('welcomeScreen');
-    if (welcomeIndex !== -1) {
-        state.navigationHistory = state.navigationHistory.slice(0, welcomeIndex + 1);
-    }
-    showScreen('menuScreen');
-}
+// ============================================================================
+// CALCULATOR FLOW
+// ============================================================================
 
 function startCalculator() {
     showScreen('campusScreen');
@@ -219,7 +156,6 @@ function startCalculator() {
 function selectCampus(campus) {
     state.campusPreference = campus;
     state.children = [];
-    updateCampusImage();
     renderDobEntries();
     showScreen('dobScreen');
 }
@@ -228,57 +164,27 @@ function updateCampusImage() {
     const campusImage = document.getElementById('campusImage');
     if (!campusImage) return;
 
-    let imageSrc = '';
-    switch (state.campusPreference) {
-        case 'MU':
-            imageSrc = '/images/campus-mu.jpg';
-            break;
-        case 'YASH':
-            imageSrc = '/images/campus-yash.jpg';
-            break;
-        case 'BOTH':
-            imageSrc = '/images/both-campuses.jpg';
-            break;
-        default:
-            campusImage.style.display = 'none';
-            return;
-    }
-
-    campusImage.src = imageSrc;
-    campusImage.style.display = 'block';
-    campusImage.onerror = function() {
-        this.style.display = 'none';
+    const imageSources = {
+        'MU': '/images/campus-mu.jpg',
+        'YASH': '/images/campus-yash.jpg',
+        'BOTH': '/images/both-campuses.jpg'
     };
 
-    // Animate image load
-    animate(campusImage, { opacity: [0, 1], scale: [1.1, 1] }, { duration: 0.6, easing: 'ease-out' });
-}
+    const imageSrc = imageSources[state.campusPreference];
 
-// Toggle collapsible sections with smooth animation
-function toggleSection(sectionId) {
-    const section = document.getElementById(sectionId);
-    const button = section.previousElementSibling;
-    const icon = button.querySelector('.expand-icon');
-
-    if (section.classList.contains('active')) {
-        // Collapse
-        animate(section, { maxHeight: [section.scrollHeight + 'px', '0px'], opacity: [1, 0] }, { duration: 0.3 }).finished.then(() => {
-            section.classList.remove('active');
-            section.style.maxHeight = '0';
-        });
-        icon.textContent = '+';
-        animate(icon, { rotate: [45, 0] }, { duration: 0.3 });
+    if (imageSrc) {
+        campusImage.src = imageSrc;
+        campusImage.style.display = 'block';
+        campusImage.onerror = () => campusImage.style.display = 'none';
     } else {
-        // Expand
-        section.classList.add('active');
-        section.style.maxHeight = section.scrollHeight + 'px';
-        animate(section, { maxHeight: ['0px', section.scrollHeight + 'px'], opacity: [0, 1] }, { duration: 0.3 });
-        icon.textContent = '−';
-        animate(icon, { rotate: [0, 45] }, { duration: 0.3 });
+        campusImage.style.display = 'none';
     }
 }
 
-// DOB Entry Management
+// ============================================================================
+// DOB ENTRY MANAGEMENT
+// ============================================================================
+
 function renderDobEntries() {
     const container = document.getElementById('childrenDobList');
 
@@ -287,10 +193,10 @@ function renderDobEntries() {
     }
 
     container.innerHTML = state.children.map((child, index) => `
-        <div class="dob-entry bg-white rounded-2xl shadow-sm border border-gray-100 p-5 animate-scale-in">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 transition-all duration-200">
             <div class="flex items-center justify-between mb-3">
-                <span class="font-semibold text-gray-900">Child ${index + 1}</span>
-                ${index > 0 ? `<button onclick="removeChildDob(${index})" class="px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200">Remove</button>` : ''}
+                <span class="font-semibold text-gray-900">${t('child_number')} ${index + 1}</span>
+                ${index > 0 ? `<button onclick="removeChildDob(${index})" class="px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200">${t('remove_child')}</button>` : ''}
             </div>
             <input
                 type="date"
@@ -302,10 +208,6 @@ function renderDobEntries() {
             >
         </div>
     `).join('');
-
-    // Animate entries
-    const entries = container.querySelectorAll('.dob-entry');
-    animate(entries, { opacity: [0, 1], scale: [0.95, 1] }, { duration: 0.3, delay: stagger(0.1) });
 }
 
 function addChildDob() {
@@ -314,18 +216,18 @@ function addChildDob() {
 }
 
 function removeChildDob(index) {
-    const entries = document.querySelectorAll('.dob-entry');
-    animate(entries[index], { opacity: [1, 0], scale: [1, 0.95] }, { duration: 0.2 }).finished.then(() => {
-        state.children.splice(index, 1);
-        renderDobEntries();
-    });
+    state.children.splice(index, 1);
+    renderDobEntries();
 }
 
 function updateChildDob(index, dob) {
     state.children[index].dob = dob;
 }
 
-// Age Calculation (as of September 1, 2025)
+// ============================================================================
+// AGE CALCULATION & OPTIONS
+// ============================================================================
+
 function calculateAge(dob) {
     if (!dob) return null;
 
@@ -342,114 +244,113 @@ function calculateAge(dob) {
     return age;
 }
 
-// Determine available options based on age
 function determineOptions(age, campusPreference) {
     const options = [];
 
     if (age === null || age < 0) return options;
-
-    if (age < 3) {
-        return [{ tooYoung: true }];
-    }
+    if (age < 3) return [{ tooYoung: true }];
 
     const campuses = campusPreference === 'BOTH' ? ['MU', 'YASH'] : [campusPreference];
 
     campuses.forEach(campus => {
-        // IB Programme options
+        // IB Kindergarten (ages 3-4)
         if (age >= 3 && age <= 4) {
             options.push({
                 campus,
-                programme: 'IB Kindergarten',
+                programme: t('prog_ib_kg'),
                 programmeCode: 'IB',
                 grade: 'KG',
                 gradeCode: 'KG',
                 price: getPrice(campus, 'IB', 'KG'),
-                period: getPeriod(campus, 'IB', 'KG')
+                period: 'quarter'
             });
         }
 
+        // IB Primary Years (ages 5-10)
         if (age >= 5 && age <= 10) {
             const pypLevel = age - 4;
             if (pypLevel >= 1 && pypLevel <= 5) {
                 options.push({
                     campus,
-                    programme: `IB Primary Years`,
+                    programme: t('prog_ib_pyp'),
                     programmeCode: 'IB',
                     grade: `PYP ${pypLevel}`,
                     gradeCode: `PYP${pypLevel}`,
                     price: getPrice(campus, 'IB', `PYP${pypLevel}`),
-                    period: getPeriod(campus, 'IB', `PYP${pypLevel}`)
+                    period: 'quarter'
                 });
             }
         }
 
+        // IB Middle Years (ages 11-15)
         if (age >= 11 && age <= 15) {
             const mypLevel = age - 10;
             if (mypLevel >= 1 && mypLevel <= 5) {
                 options.push({
                     campus,
-                    programme: `IB Middle Years`,
+                    programme: t('prog_ib_myp'),
                     programmeCode: 'IB',
                     grade: `MYP ${mypLevel}`,
                     gradeCode: `MYP${mypLevel}`,
                     price: getPrice(campus, 'IB', `MYP${mypLevel}`),
-                    period: getPeriod(campus, 'IB', `MYP${mypLevel}`)
+                    period: 'quarter'
                 });
             }
         }
 
+        // IB Diploma (ages 16-17)
         if (age >= 16 && age <= 17) {
             const dpLevel = age - 15;
             options.push({
                 campus,
-                programme: `IB Diploma Programme`,
+                programme: t('prog_ib_dp'),
                 programmeCode: 'IB',
                 grade: `DP ${dpLevel}`,
                 gradeCode: `DP${dpLevel}`,
                 price: getPrice(campus, 'IB', `DP${dpLevel}`),
-                period: getPeriod(campus, 'IB', `DP${dpLevel}`)
+                period: 'quarter'
             });
         }
 
-        // Russian School Programme
+        // Russian School Programme (ages 7-17)
         if (age >= 7 && age <= 17) {
             const russianGrade = age - 6;
             if (russianGrade >= 1 && russianGrade <= 11) {
                 options.push({
                     campus,
-                    programme: 'Russian School',
+                    programme: t('prog_rus'),
                     programmeCode: 'RUS',
-                    grade: `Grade ${russianGrade}`,
-                    gradeCode: `Grade${russianGrade}`,
+                    grade: `${t('grade')} ${russianGrade}`,
+                    gradeCode: russianGrade,
                     price: getPrice(campus, 'RUS', russianGrade),
-                    period: getPeriod(campus, 'RUS', russianGrade)
+                    period: 'month'
                 });
             }
         }
 
-        // Russian Kindergarten
+        // Russian Kindergarten (ages 3-6)
         if (age >= 3 && age <= 6) {
             options.push({
                 campus,
-                programme: 'Russian Kindergarten',
+                programme: t('prog_kg_rus'),
                 programmeCode: 'KG_RUS',
                 grade: 'Kindergarten',
                 gradeCode: 'KG',
                 price: getPrice(campus, 'KG_RUS', 'KG'),
-                period: getPeriod(campus, 'KG_RUS', 'KG')
+                period: 'month'
             });
         }
 
-        // Bilingual Kindergarten
+        // Bilingual Kindergarten (ages 3-6)
         if (age >= 3 && age <= 6) {
             options.push({
                 campus,
-                programme: 'Bilingual Kindergarten',
+                programme: t('prog_kg_bi'),
                 programmeCode: 'KG_BI',
                 grade: 'Kindergarten',
                 gradeCode: 'KG',
                 price: getPrice(campus, 'KG_BI', 'KG'),
-                period: getPeriod(campus, 'KG_BI', 'KG')
+                period: 'month'
             });
         }
     });
@@ -457,7 +358,10 @@ function determineOptions(age, campusPreference) {
     return options;
 }
 
-// Price lookup
+// ============================================================================
+// PRICING DATA
+// ============================================================================
+
 function getPrice(campus, programmeCode, gradeCode) {
     const prices = {
         MU: {
@@ -492,18 +396,7 @@ function getPrice(campus, programmeCode, gradeCode) {
         }
     };
 
-    if (programmeCode === 'RUS') {
-        return prices[campus]?.[programmeCode]?.[gradeCode] || 0;
-    }
-
     return prices[campus]?.[programmeCode]?.[gradeCode] || 0;
-}
-
-function getPeriod(campus, programmeCode, gradeCode) {
-    if (programmeCode === 'IB' || programmeCode === 'KG_RUS' || programmeCode === 'KG_BI') {
-        return programmeCode === 'RUS' ? 'month' : 'quarter';
-    }
-    return 'month';
 }
 
 function formatPrice(price) {
@@ -513,12 +406,15 @@ function formatPrice(price) {
     }).format(price).replace(/,/g, ' ');
 }
 
-// Calculate Tuition
+// ============================================================================
+// TUITION CALCULATION
+// ============================================================================
+
 function calculateTuition() {
     const allFilled = state.children.every(child => child.dob);
 
     if (!allFilled) {
-        tg.showAlert('Please enter date of birth for all children');
+        tg.showAlert(t('val_enter_dob') || 'Please enter date of birth for all children');
         return;
     }
 
@@ -531,14 +427,17 @@ function calculateTuition() {
     showScreen('resultsScreen');
 }
 
-// Display Results with animations
+// ============================================================================
+// RESULTS DISPLAY
+// ============================================================================
+
 function displayResults() {
     const container = document.getElementById('resultsContainer');
     const siblingNote = document.getElementById('siblingNote');
 
+    // Show sibling discount note
     if (state.children.length > 1) {
         siblingNote.classList.remove('hidden');
-        animate(siblingNote, { opacity: [0, 1], y: [10, 0] }, { duration: 0.4 });
     } else {
         siblingNote.classList.add('hidden');
     }
@@ -546,17 +445,19 @@ function displayResults() {
     container.innerHTML = state.children.map((child, index) => {
         const childNumber = index + 1;
 
+        // Too young case
         if (child.options.length === 1 && child.options[0].tooYoung) {
             return `
-                <div class="bg-amber-50 border border-amber-200 rounded-3xl p-6 animate-scale-in">
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">Child ${childNumber}</h3>
-                    <p class="text-sm text-amber-900 mb-2">Age: ${child.age} (as of Sept 1, 2025)</p>
-                    <p class="text-sm text-gray-700">This child will be under 3 years old at the start of the 2025–2026 academic year.</p>
-                    <p class="text-sm text-gray-700 mt-2">We invite you to add them to our waitlist for future enrollment.</p>
+                <div class="bg-amber-50 border border-amber-200 rounded-3xl p-6 transition-all duration-200">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">${t('child_number')} ${childNumber}</h3>
+                    <p class="text-sm text-amber-900 mb-2">${t('age_as_of')}: ${child.age} ${t('as_of_date')}</p>
+                    <p class="text-sm text-gray-700">${t('too_young_msg_1')}</p>
+                    <p class="text-sm text-gray-700 mt-2">${t('too_young_msg_2')}</p>
                 </div>
             `;
         }
 
+        // Available options
         const optionsHtml = child.options.map(option => `
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 hover:shadow-lg hover:scale-[1.02] transition-all duration-200">
                 <div class="mb-3">
@@ -565,18 +466,18 @@ function displayResults() {
                 </div>
                 <p class="text-sm text-gray-600 mb-3">${option.grade}</p>
                 <div class="text-left">
-                    <div class="text-xs text-gray-400 uppercase tracking-wide">from</div>
+                    <div class="text-xs text-gray-400 uppercase tracking-wide">${t('price_from')}</div>
                     <div class="text-2xl font-bold text-primary">${formatPrice(option.price)}</div>
-                    <div class="text-sm text-gray-500">sum per ${option.period} <span class="text-xs">(approx.)</span></div>
+                    <div class="text-sm text-gray-500">sum per ${option.period} <span class="text-xs">${t('price_approx')}</span></div>
                 </div>
             </div>
         `).join('');
 
         return `
-            <div class="bg-gray-50 rounded-3xl p-6 animate-fade-in">
+            <div class="bg-gray-50 rounded-3xl p-6 transition-all duration-200">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-lg font-bold text-gray-900">Child ${childNumber}</h3>
-                    <span class="text-sm text-gray-500">Age: ${child.age}</span>
+                    <h3 class="text-lg font-bold text-gray-900">${t('child_number')} ${childNumber}</h3>
+                    <span class="text-sm text-gray-500">${t('age_as_of')}: ${child.age}</span>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     ${optionsHtml}
@@ -584,13 +485,12 @@ function displayResults() {
             </div>
         `;
     }).join('');
-
-    // Animate result cards
-    const cards = container.querySelectorAll('.animate-fade-in, .animate-scale-in');
-    animate(cards, { opacity: [0, 1], y: [20, 0] }, { duration: 0.5, delay: stagger(0.1) });
 }
 
-// Submit Request
+// ============================================================================
+// FORM SUBMISSION
+// ============================================================================
+
 async function submitRequest() {
     const parentName = document.getElementById('parentName').value.trim();
     const parentPhone = document.getElementById('parentPhone').value.trim();
@@ -598,12 +498,12 @@ async function submitRequest() {
     const waitlist = document.getElementById('waitlistCheck').checked;
 
     if (!parentName) {
-        tg.showAlert('Please enter your full name');
+        tg.showAlert(t('val_enter_name') || 'Please enter your full name');
         return;
     }
 
     if (!parentPhone) {
-        tg.showAlert('Please enter your phone number');
+        tg.showAlert(t('val_enter_phone') || 'Please enter your phone number');
         return;
     }
 
@@ -645,28 +545,27 @@ async function submitRequest() {
     } catch (error) {
         console.error('Error:', error);
         document.getElementById('loadingOverlay').classList.add('hidden');
-        tg.showAlert('Something went wrong. Please try again or contact us directly.');
+        tg.showAlert(t('val_error') || 'Something went wrong. Please try again or contact us directly.');
     }
 }
 
-// Telegram back button
-tg.BackButton.onClick(() => {
-    tg.close();
-});
+// ============================================================================
+// TELEGRAM BACK BUTTON
+// ============================================================================
 
-tg.BackButton.show();
+tg.BackButton.onClick(() => goBack());
 
-// Make functions globally accessible for onclick handlers
+// ============================================================================
+// GLOBAL FUNCTION EXPORTS (for onclick handlers)
+// ============================================================================
+
 window.selectLanguage = selectLanguage;
 window.showLanguageSelection = showLanguageSelection;
 window.goBack = goBack;
 window.startCalculator = startCalculator;
 window.selectCampus = selectCampus;
-window.toggleSection = toggleSection;
 window.addChildDob = addChildDob;
 window.removeChildDob = removeChildDob;
 window.updateChildDob = updateChildDob;
 window.calculateTuition = calculateTuition;
 window.submitRequest = submitRequest;
-
-console.log('All functions attached to window object for onclick handlers');
