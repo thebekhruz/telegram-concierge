@@ -1,8 +1,17 @@
 // Telegram Web App
-// Motion One is loaded globally via CDN
-const { animate, stagger, spring } = Motion;
-let tg = window.Telegram.WebApp;
+let tg = window.Telegram ? window.Telegram.WebApp : { expand: () => {}, BackButton: { onClick: () => {}, show: () => {} }, initDataUnsafe: {}, showAlert: (msg) => alert(msg), close: () => {} };
 tg.expand();
+
+// Motion One - load dynamically, fallback to simple animations
+let animate, stagger, spring;
+if (typeof Motion !== 'undefined') {
+    ({ animate, stagger, spring } = Motion);
+} else {
+    // Fallback: simple fade without Motion One
+    animate = (el, props, options) => Promise.resolve();
+    stagger = (delay) => delay;
+    spring = (config) => 'ease-out';
+}
 
 // Application state
 const state = {
@@ -22,9 +31,11 @@ const LANG_DISPLAY = {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('App initializing...');
     applyTelegramTheme();
     updateHeader();
     initializeAnimations();
+    console.log('App initialized successfully');
 });
 
 // Initialize smooth animations
@@ -644,3 +655,18 @@ tg.BackButton.onClick(() => {
 });
 
 tg.BackButton.show();
+
+// Make functions globally accessible for onclick handlers
+window.selectLanguage = selectLanguage;
+window.showLanguageSelection = showLanguageSelection;
+window.goBack = goBack;
+window.startCalculator = startCalculator;
+window.selectCampus = selectCampus;
+window.toggleSection = toggleSection;
+window.addChildDob = addChildDob;
+window.removeChildDob = removeChildDob;
+window.updateChildDob = updateChildDob;
+window.calculateTuition = calculateTuition;
+window.submitRequest = submitRequest;
+
+console.log('All functions attached to window object for onclick handlers');
