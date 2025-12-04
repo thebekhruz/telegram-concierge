@@ -1,0 +1,123 @@
+{
+  "welcome": {
+    "title": "Oxbridge International School",
+    "subtitle": "Kabul Asistanı",
+    "description": "2025–2026 akademik yılı için Mirzo-Ulugbek ve Yashnobod kampüslerimizde çocuğunuzun eğitimini planlayın.",
+    "instruction": "Başlamak için dilinizi seçin."
+  },
+  "header": {
+    "admissions": "Kabul",
+    "chooseCampus": "Kampüs seçin",
+    "enterDatesOfBirth": "Doğum tarihlerini girin",
+    "calculationResults": "Hesaplama sonuçları",
+    "thankYou": "Teşekkürler"
+  },
+  "menu": {
+    "title": "Kabul 2025–2026",
+    "tuitionCalculator": "Öğrenim Ücreti Hesaplayıcı",
+    "tuitionCalculatorDesc": "Çocuklarınız için öğrenim ücretini hesaplayın",
+    "whatIncluded": "Öğrenim ücretine neler dahil",
+    "campusesLocation": "Kampüsler ve konum",
+    "whatIsIB": "IB nedir?"
+  },
+  "campus": {
+    "selectPreference": "Kampüs tercihini seçin",
+    "muCampus": "Mirzo-Ulugbek Kampüsü",
+    "yashCampus": "Yashnobod Kampüsü",
+    "showBoth": "Her iki kampüsü göster",
+    "backToMenu": "← Menüye dön"
+  },
+  "dob": {
+    "title": "2025–2026 için başvuran çocuklar",
+    "subtitle": "Her çocuk için doğum tarihini girin",
+    "addChild": "+ Başka bir çocuk ekle",
+    "calculate": "Öğrenim ücretini hesapla",
+    "back": "← Geri",
+    "child": "Çocuk",
+    "remove": "Kaldır",
+    "selectDate": "Doğum tarihini seçin",
+    "enterAll": "Lütfen tüm çocuklar için doğum tarihini girin"
+  },
+  "results": {
+    "title": "2025–2026 için mevcut seçenekler",
+    "ageAsOf": "Yaş: {age} (1 Eylül 2025 itibarıyla)",
+    "tooYoung": "Bu çocuk 2025–2026 akademik yılının başında 3 yaşından küçük olacak.",
+    "waitlistInvite": "Gelecekteki kayıt için onları bekleme listemize eklemenizi davet ediyoruz.",
+    "from": "itibaren",
+    "sumPer": "sum {period} başına",
+    "approx": "(yaklaşık)",
+    "siblingNote": "2025–2026'da birden fazla çocuğu kaydeden aileniz için, öğrenim ücreti uygulanabilir yerlerde aile indirimleriyle hesaplanacaktır. Kabul ekibimiz kişiselleştirilmiş bir teklif hazırlayacaktır.",
+    "disclaimer": "Gösterilen fiyatlar yaklaşıktır ve 2025–2026 öğrenim ücreti oranlarına dayanmaktadır. Nihai teklifiniz aile indirimlerini, ödeme planlarını ve uygulanabilir promosyonları hesaba katacaktır.",
+    "disclaimerNote": "Not",
+    "disclaimer2": "Kabul ekibimiz aileniz için kişiselleştirilmiş bir hesaplama hazırlayacaktır.",
+    "modifyChildren": "← Çocukları değiştir",
+    "grade": "Sınıf",
+    "kindergarten": "Anaokulu"
+  },
+  "submit": {
+    "title": "Detaylı hesaplama ve danışmanlık talep edin",
+    "parentName": "Ebeveyn adı",
+    "parentNamePlaceholder": "Tam adınızı girin",
+    "phoneNumber": "Telefon numarası",
+    "phonePlaceholder": "+998 XX XXX XX XX",
+    "contactMethod": "Tercih edilen iletişim yöntemi",
+    "telegram": "Telegram",
+    "phoneCall": "Telefon görüşmesi",
+    "waitlist": "Küçük çocuğu gelecek yıllar için bekleme listesine ekle",
+    "submit": "Kabul ekibine istek gönder",
+    "enterName": "Lütfen tam adınızı girin",
+    "enterPhone": "Lütfen telefon numaranızı girin",
+    "error": "Bir şeyler yanlış gitti. Lütfen tekrar deneyin veya doğrudan bizimle iletişime geçin."
+  },
+  "thankYou": {
+    "title": "Teşekkürler",
+    "message1": "İsteğiniz Kabul ekibimiz tarafından alındı.",
+    "message2": "Yakında detaylı bir hesaplama sağlamak ve sorularınızı yanıtlamak için sizinle iletişime geçecekler.",
+    "close": "Kapat"
+  },
+  "included": {
+    "academicProgramme": "Akademik program",
+    "academicProgrammeDesc": "Nitelikli uluslararası ve yerel öğretmenlerle tam günlük öğrenim programı",
+    "campusFacilities": "Kampüs olanakları",
+    "campusFacilitiesDesc": "Modern sınıflar, laboratuvarlar, kütüphaneler ve spor tesislerine erişim",
+    "sportsActivities": "Spor ve etkinlikler",
+    "sportsActivitiesDesc": "Beden eğitimi dersleri, spor kulüpleri ve ders dışı etkinlikler",
+    "meals": "Yemekler",
+    "mealsDesc": "Kahvaltı, öğle yemeği ve atıştırmalıklar dahil günlük yemekler",
+    "pastoralCare": "Pastoral bakım",
+    "pastoralCareDesc": "Her öğrenci için bireysel destek ve refah programları"
+  },
+  "campusInfo": {
+    "muTitle": "Mirzo-Ulugbek Kampüsü",
+    "muFeature1": "Merkezi Taşkent'teki aileler için uygun",
+    "muFeature2": "Spor salonları, laboratuvarlar ve tiyatro ile kurulmuş kampüs",
+    "muFeature3": "Rus ve IB akışları mevcut",
+    "yashTitle": "Yashnobod Kampüsü",
+    "yashFeature1": "Modern olanaklara sahip yeni büyük kampüs",
+    "yashFeature2": "Geniş açık alanlara sahip ferah bölge",
+    "yashFeature3": "Rus ve IB programları, uzun vadeli gelişim"
+  },
+  "ib": {
+    "description": "Uluslararası Bakalorya, dünya çapında okullar tarafından kullanılan uluslararası olarak tanınan bir programdır.",
+    "globalRecognition": "Küresel tanınma",
+    "globalRecognitionDesc": "Dünya çapındaki üniversiteler tarafından kabul edilir",
+    "criticalThinking": "Eleştirel düşünme",
+    "criticalThinkingDesc": "Sorgulamaya dayalı öğrenme ve analitik becerilere odaklanma",
+    "universityPrep": "Üniversite hazırlığı",
+    "universityPrepDesc": "Uluslararası yüksek öğretim için mükemmel temel"
+  },
+  "programmes": {
+    "ibKindergarten": "IB Anaokulu",
+    "ibPrimaryYears": "IB İlkokul Yılları",
+    "ibMiddleYears": "IB Ortaokul Yılları",
+    "ibDiplomaProgramme": "IB Diploma Programı",
+    "russianSchool": "Rus Okulu",
+    "russianKindergarten": "Rus Anaokulu",
+    "bilingualKindergarten": "İki Dilli Anaokulu"
+  },
+  "periods": {
+    "month": "ay",
+    "quarter": "çeyrek"
+  }
+}
+

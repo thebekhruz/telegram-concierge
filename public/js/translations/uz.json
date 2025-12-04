@@ -1,0 +1,123 @@
+{
+  "welcome": {
+    "title": "Oxbridge International School",
+    "subtitle": "Qabul yordamchisi",
+    "description": "2025–2026 o'quv yili uchun Mirzo-Ulug'bek va Yashnobod kampuslarida farzandingizning ta'limini rejalashtiring.",
+    "instruction": "Boshlash uchun tilni tanlang."
+  },
+  "header": {
+    "admissions": "Qabul",
+    "chooseCampus": "Kampusni tanlash",
+    "enterDatesOfBirth": "Tug'ilgan sanalarni kiriting",
+    "calculationResults": "Hisoblash natijalari",
+    "thankYou": "Rahmat"
+  },
+  "menu": {
+    "title": "Qabul 2025–2026",
+    "tuitionCalculator": "O'qish narxini hisoblash",
+    "tuitionCalculatorDesc": "Farzandlaringiz uchun o'qish narxini hisoblang",
+    "whatIncluded": "O'qish narxiga nima kiradi",
+    "campusesLocation": "Kampuslar va joylashuv",
+    "whatIsIB": "IB nima?"
+  },
+  "campus": {
+    "selectPreference": "Kampus afzalligini tanlang",
+    "muCampus": "Mirzo-Ulug'bek Kampus",
+    "yashCampus": "Yashnobod Kampus",
+    "showBoth": "Ikkala kampusni ko'rsatish",
+    "backToMenu": "← Menyuga qaytish"
+  },
+  "dob": {
+    "title": "2025–2026 yil uchun ariza beruvchi bolalar",
+    "subtitle": "Har bir bola uchun tug'ilgan sanani kiriting",
+    "addChild": "+ Yana bir bola qo'shish",
+    "calculate": "O'qish narxini hisoblash",
+    "back": "← Orqaga",
+    "child": "Bola",
+    "remove": "O'chirish",
+    "selectDate": "Tug'ilgan sanani tanlang",
+    "enterAll": "Iltimos, barcha bolalar uchun tug'ilgan sanani kiriting"
+  },
+  "results": {
+    "title": "2025–2026 yil uchun mavjud variantlar",
+    "ageAsOf": "Yosh: {age} (2025 yil 1 sentyabr holatiga)",
+    "tooYoung": "Bu bola 2025–2026 o'quv yilining boshlanishida 3 yoshdan kichik bo'ladi.",
+    "waitlistInvite": "Kelajakda ro'yxatga olish uchun ularni kutish ro'yxatiga qo'shishni taklif qilamiz.",
+    "from": "dan",
+    "sumPer": "so'm {period} uchun",
+    "approx": "(taxminan)",
+    "siblingNote": "2025–2026 yilda bir nechta bolani ro'yxatga olgan oilangiz uchun, o'qish narxi qo'llaniladigan oilaviy chegirmalar bilan hisoblanadi. Bizning qabul bo'limimiz shaxsiy taklif tayyorlaydi.",
+    "disclaimer": "Ko'rsatilgan narxlar taxminiy va 2025–2026 o'qish tariflariga asoslangan. Yakuniy taklifingiz oilaviy chegirmalar, to'lov rejalari va qo'llaniladigan aksiyalarni hisobga oladi.",
+    "disclaimerNote": "Eslatma",
+    "disclaimer2": "Bizning Qabul bo'limimiz oilangiz uchun shaxsiy hisob-kitob tayyorlaydi.",
+    "modifyChildren": "← Bolalarni o'zgartirish",
+    "grade": "Sinf",
+    "kindergarten": "Bog'cha"
+  },
+  "submit": {
+    "title": "Batafsil hisob-kitob va maslahat so'rang",
+    "parentName": "Ota-ona ismi",
+    "parentNamePlaceholder": "To'liq ismingizni kiriting",
+    "phoneNumber": "Telefon raqami",
+    "phonePlaceholder": "+998 XX XXX XX XX",
+    "contactMethod": "Afzal ko'rilgan aloqa usuli",
+    "telegram": "Telegram",
+    "phoneCall": "Telefon qo'ng'irog'i",
+    "waitlist": "Kichik bolani kelajak yillar uchun kutish ro'yxatiga qo'shish",
+    "submit": "Qabul bo'limiga so'rov yuborish",
+    "enterName": "Iltimos, to'liq ismingizni kiriting",
+    "enterPhone": "Iltimos, telefon raqamingizni kiriting",
+    "error": "Xatolik yuz berdi. Iltimos, qayta urinib ko'ring yoki to'g'ridan-to'g'ri biz bilan bog'laning."
+  },
+  "thankYou": {
+    "title": "Rahmat",
+    "message1": "So'rovingiz bizning Qabul bo'limimiz tomonidan qabul qilindi.",
+    "message2": "Ular tez orada batafsil hisob-kitob taqdim etish va savollaringizga javob berish uchun siz bilan bog'lanishadi.",
+    "close": "Yopish"
+  },
+  "included": {
+    "academicProgramme": "O'quv dasturi",
+    "academicProgrammeDesc": "Malakali xalqaro va mahalliy o'qituvchilar bilan to'liq kunlik o'quv dasturi",
+    "campusFacilities": "Kampus imkoniyatlari",
+    "campusFacilitiesDesc": "Zamonaviy sinf xonalari, laboratoriyalar, kutubxonalar va sport inshootlaridan foydalanish",
+    "sportsActivities": "Sport va faoliyatlar",
+    "sportsActivitiesDesc": "Jismoniy tarbiya darslari, sport klublari va qo'shimcha mashg'ulotlar",
+    "meals": "Ovqatlanish",
+    "mealsDesc": "Kunlik ovqatlar, jumladan nonushta, tushlik va atıştırmalıqlar",
+    "pastoralCare": "Tarbiyaviy yordam",
+    "pastoralCareDesc": "Har bir o'quvchi uchun individual yordam va farovonlik dasturlari"
+  },
+  "campusInfo": {
+    "muTitle": "Mirzo-Ulug'bek Kampus",
+    "muFeature1": "Markaziy Toshkentdagi oilalar uchun qulay",
+    "muFeature2": "Sport zallari, laboratoriyalar va teatr bilan jihozlangan kampus",
+    "muFeature3": "Rus va IB oqimlari mavjud",
+    "yashTitle": "Yashnobod Kampus",
+    "yashFeature1": "Zamonaviy imkoniyatlarga ega yangi katta kampus",
+    "yashFeature2": "Keng tashqi maydonlarga ega keng hudud",
+    "yashFeature3": "Rus va IB dasturlari, uzoq muddatli rivojlanish"
+  },
+  "ib": {
+    "description": "Xalqaro Bakalavr - bu butun dunyo bo'ylab maktablar tomonidan qo'llaniladigan xalqaro tan olingan dastur.",
+    "globalRecognition": "Global tan olinish",
+    "globalRecognitionDesc": "Butun dunyo bo'ylab universitetlar tomonidan qabul qilinadi",
+    "criticalThinking": "Tanqidiy fikrlash",
+    "criticalThinkingDesc": "So'rovga asoslangan o'rganish va tahliliy ko'nikmalarga e'tibor",
+    "universityPrep": "Universitetga tayyorgarlik",
+    "universityPrepDesc": "Xalqaro oliy ta'lim uchun ajoyib asos"
+  },
+  "programmes": {
+    "ibKindergarten": "IB Bog'chasi",
+    "ibPrimaryYears": "IB Boshlang'ich yillar",
+    "ibMiddleYears": "IB O'rta yillar",
+    "ibDiplomaProgramme": "IB Diplom dasturi",
+    "russianSchool": "Rus maktabi",
+    "russianKindergarten": "Rus bog'chasi",
+    "bilingualKindergarten": "Ikki tilli bog'cha"
+  },
+  "periods": {
+    "month": "oy",
+    "quarter": "chorak"
+  }
+}
+

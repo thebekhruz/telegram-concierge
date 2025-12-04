@@ -1,0 +1,123 @@
+{
+  "welcome": {
+    "title": "Oxbridge International School",
+    "subtitle": "Admissions Assistant",
+    "description": "Plan your child's education at our Mirzo-Ulugbek and Yashnobod campuses for 2025–2026.",
+    "instruction": "Choose your language to begin."
+  },
+  "header": {
+    "admissions": "Admissions",
+    "chooseCampus": "Choose Campus",
+    "enterDatesOfBirth": "Enter Dates of Birth",
+    "calculationResults": "Calculation Results",
+    "thankYou": "Thank You"
+  },
+  "menu": {
+    "title": "Admissions 2025–2026",
+    "tuitionCalculator": "Tuition Calculator",
+    "tuitionCalculatorDesc": "Calculate tuition for your children",
+    "whatIncluded": "What is included in tuition",
+    "campusesLocation": "Campuses & location",
+    "whatIsIB": "What is IB?"
+  },
+  "campus": {
+    "selectPreference": "Select campus preference",
+    "muCampus": "Mirzo-Ulugbek Campus",
+    "yashCampus": "Yashnobod Campus",
+    "showBoth": "Show both campuses",
+    "backToMenu": "← Back to menu"
+  },
+  "dob": {
+    "title": "Children applying for 2025–2026",
+    "subtitle": "Enter date of birth for each child",
+    "addChild": "+ Add another child",
+    "calculate": "Calculate tuition",
+    "back": "← Back",
+    "child": "Child",
+    "remove": "Remove",
+    "selectDate": "Select date of birth",
+    "enterAll": "Please enter date of birth for all children"
+  },
+  "results": {
+    "title": "Available options for 2025–2026",
+    "ageAsOf": "Age: {age} (as of Sept 1, 2025)",
+    "tooYoung": "This child will be under 3 years old at the start of the 2025–2026 academic year.",
+    "waitlistInvite": "We invite you to add them to our waitlist for future enrollment.",
+    "from": "from",
+    "sumPer": "sum per {period}",
+    "approx": "(approx.)",
+    "siblingNote": "For your family enrolling multiple children in 2025–2026, tuition will be calculated with family discounts where applicable. Our admissions team will prepare a personalised offer.",
+    "disclaimer": "Prices shown are approximate and based on 2025–2026 tuition rates. Your final offer will account for family discounts, payment plans, and any applicable promotions.",
+    "disclaimerNote": "Note",
+    "disclaimer2": "Our Admissions team will prepare a personalized calculation for your family.",
+    "modifyChildren": "← Modify children",
+    "grade": "Grade",
+    "kindergarten": "Kindergarten"
+  },
+  "submit": {
+    "title": "Request a detailed calculation and consultation",
+    "parentName": "Parent name",
+    "parentNamePlaceholder": "Enter your full name",
+    "phoneNumber": "Phone number",
+    "phonePlaceholder": "+998 XX XXX XX XX",
+    "contactMethod": "Preferred contact method",
+    "telegram": "Telegram",
+    "phoneCall": "Phone call",
+    "waitlist": "Add younger child to waitlist for future years",
+    "submit": "Submit request to Admissions",
+    "enterName": "Please enter your full name",
+    "enterPhone": "Please enter your phone number",
+    "error": "Something went wrong. Please try again or contact us directly."
+  },
+  "thankYou": {
+    "title": "Thank you",
+    "message1": "Your request has been received by our Admissions team.",
+    "message2": "They will contact you soon to provide a detailed calculation and answer your questions.",
+    "close": "Close"
+  },
+  "included": {
+    "academicProgramme": "Academic programme",
+    "academicProgrammeDesc": "Full-day learning programme with qualified international and local teachers",
+    "campusFacilities": "Campus facilities",
+    "campusFacilitiesDesc": "Access to modern classrooms, laboratories, libraries, and sports facilities",
+    "sportsActivities": "Sports & activities",
+    "sportsActivitiesDesc": "PE lessons, sports clubs, and extracurricular activities",
+    "meals": "Meals",
+    "mealsDesc": "Daily meals including breakfast, lunch, and snacks",
+    "pastoralCare": "Pastoral care",
+    "pastoralCareDesc": "Individual support and wellbeing programmes for every student"
+  },
+  "campusInfo": {
+    "muTitle": "Mirzo-Ulugbek Campus",
+    "muFeature1": "Convenient for families in central Tashkent",
+    "muFeature2": "Established campus with sports halls, labs, and theatre",
+    "muFeature3": "Russian & IB streams available",
+    "yashTitle": "Yashnobod Campus",
+    "yashFeature1": "New large campus with modern facilities",
+    "yashFeature2": "Spacious territory with extensive outdoor areas",
+    "yashFeature3": "Russian & IB programmes, long-term development"
+  },
+  "ib": {
+    "description": "The International Baccalaureate is an internationally recognised programme used by schools worldwide.",
+    "globalRecognition": "Global recognition",
+    "globalRecognitionDesc": "Accepted by universities across the world",
+    "criticalThinking": "Critical thinking",
+    "criticalThinkingDesc": "Focus on inquiry-based learning and analytical skills",
+    "universityPrep": "University preparation",
+    "universityPrepDesc": "Excellent foundation for international higher education"
+  },
+  "programmes": {
+    "ibKindergarten": "IB Kindergarten",
+    "ibPrimaryYears": "IB Primary Years",
+    "ibMiddleYears": "IB Middle Years",
+    "ibDiplomaProgramme": "IB Diploma Programme",
+    "russianSchool": "Russian School",
+    "russianKindergarten": "Russian Kindergarten",
+    "bilingualKindergarten": "Bilingual Kindergarten"
+  },
+  "periods": {
+    "month": "month",
+    "quarter": "quarter"
+  }
+}
+

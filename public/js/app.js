@@ -19,9 +19,12 @@ const LANG_DISPLAY = {
 };
 
 // Initialize
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     applyTelegramTheme();
+    // Load default English translations for welcome screen
+    await window.translations.load('en');
     updateHeader();
+    updateWelcomeScreen();
 });
 
 // Apply Telegram theme colors
@@ -72,14 +75,15 @@ function updateHeader() {
     currentLangDisplay.textContent = LANG_DISPLAY[state.language] || 'EN';
 
     // Update title based on screen
-    const titles = {
-        'menuScreen': 'Admissions 2025–2026',
-        'campusScreen': 'Choose Campus',
-        'dobScreen': 'Enter Dates of Birth',
-        'resultsScreen': 'Calculation Results',
-        'thankYouScreen': 'Thank You'
+    const titleKeys = {
+        'menuScreen': 'header.admissions',
+        'campusScreen': 'header.chooseCampus',
+        'dobScreen': 'header.enterDatesOfBirth',
+        'resultsScreen': 'header.calculationResults',
+        'thankYouScreen': 'header.thankYou'
     };
-    headerTitle.textContent = titles[currentScreen] || 'Admissions';
+    const titleKey = titleKeys[currentScreen] || 'header.admissions';
+    headerTitle.textContent = window.translations.t(titleKey);
 }
 
 // Navigation Functions
@@ -94,6 +98,10 @@ function showScreen(screenId, addToHistory = true) {
     }
 
     updateHeader();
+    // Update translations when screen changes
+    if (window.translations && window.translations.update) {
+        window.translations.update();
+    }
     window.scrollTo(0, 0);
 }
 
@@ -116,9 +124,14 @@ function showLanguageSelection() {
     showScreen('welcomeScreen', false);
 }
 
-function selectLanguage(lang) {
+async function selectLanguage(lang) {
     state.language = lang;
+    // Load translations for selected language
+    await window.translations.load(lang);
     state.navigationHistory = ['welcomeScreen'];
+    // Update all translations in the UI
+    window.translations.update();
+    updateWelcomeScreen();
     showScreen('menuScreen');
 }
 
@@ -182,11 +195,12 @@ function renderDobEntries() {
         state.children.push({ dob: '', age: null, options: [] });
     }
 
+    const t = window.translations.t;
     container.innerHTML = state.children.map((child, index) => `
         <div class="dob-entry">
             <div class="dob-entry-header">
-                <span class="dob-entry-title">Child ${index + 1}</span>
-                ${index > 0 ? `<button class="remove-btn" onclick="removeChildDob(${index})">Remove</button>` : ''}
+                <span class="dob-entry-title">${t('dob.child')} ${index + 1}</span>
+                ${index > 0 ? `<button class="remove-btn" onclick="removeChildDob(${index})">${t('dob.remove') || 'Remove'}</button>` : ''}
             </div>
             <input
                 type="date"
@@ -195,7 +209,7 @@ function renderDobEntries() {
                 value="${child.dob}"
                 onchange="updateChildDob(${index}, this.value)"
                 max="2022-09-01"
-                placeholder="Select date of birth"
+                placeholder="${t('dob.selectDate') || 'Select date of birth'}"
             >
         </div>
     `).join('');
@@ -246,11 +260,12 @@ function determineOptions(age, campusPreference) {
     const campuses = campusPreference === 'BOTH' ? ['MU', 'YASH'] : [campusPreference];
 
     campuses.forEach(campus => {
+        const t = window.translations.t;
         // IB Programme options
         if (age >= 3 && age <= 4) {
             options.push({
                 campus,
-                programme: 'IB Kindergarten',
+                programme: t('programmes.ibKindergarten'),
                 programmeCode: 'IB',
                 grade: 'KG',
                 gradeCode: 'KG',
@@ -264,7 +279,7 @@ function determineOptions(age, campusPreference) {
             if (pypLevel >= 1 && pypLevel <= 5) {
                 options.push({
                     campus,
-                    programme: `IB Primary Years`,
+                    programme: t('programmes.ibPrimaryYears'),
                     programmeCode: 'IB',
                     grade: `PYP ${pypLevel}`,
                     gradeCode: `PYP${pypLevel}`,
@@ -279,7 +294,7 @@ function determineOptions(age, campusPreference) {
             if (mypLevel >= 1 && mypLevel <= 5) {
                 options.push({
                     campus,
-                    programme: `IB Middle Years`,
+                    programme: t('programmes.ibMiddleYears'),
                     programmeCode: 'IB',
                     grade: `MYP ${mypLevel}`,
                     gradeCode: `MYP${mypLevel}`,
@@ -293,7 +308,7 @@ function determineOptions(age, campusPreference) {
             const dpLevel = age - 15;  // 16yo → DP1, 17yo → DP2
             options.push({
                 campus,
-                programme: `IB Diploma Programme`,
+                programme: t('programmes.ibDiplomaProgramme'),
                 programmeCode: 'IB',
                 grade: `DP ${dpLevel}`,
                 gradeCode: `DP${dpLevel}`,
@@ -308,9 +323,9 @@ function determineOptions(age, campusPreference) {
             if (russianGrade >= 1 && russianGrade <= 11) {
                 options.push({
                     campus,
-                    programme: 'Russian School',
+                    programme: t('programmes.russianSchool'),
                     programmeCode: 'RUS',
-                    grade: `Grade ${russianGrade}`,
+                    grade: `${t('results.grade') || 'Grade'} ${russianGrade}`,
                     gradeCode: `Grade${russianGrade}`,
                     price: getPrice(campus, 'RUS', russianGrade),
                     period: getPeriod(campus, 'RUS', russianGrade)
@@ -322,9 +337,9 @@ function determineOptions(age, campusPreference) {
         if (age >= 3 && age <= 6) {
             options.push({
                 campus,
-                programme: 'Russian Kindergarten',
+                programme: t('programmes.russianKindergarten'),
                 programmeCode: 'KG_RUS',
-                grade: 'Kindergarten',
+                grade: t('results.kindergarten') || 'Kindergarten',
                 gradeCode: 'KG',
                 price: getPrice(campus, 'KG_RUS', 'KG'),
                 period: getPeriod(campus, 'KG_RUS', 'KG')
@@ -335,9 +350,9 @@ function determineOptions(age, campusPreference) {
         if (age >= 3 && age <= 6) {
             options.push({
                 campus,
-                programme: 'Bilingual Kindergarten',
+                programme: t('programmes.bilingualKindergarten'),
                 programmeCode: 'KG_BI',
-                grade: 'Kindergarten',
+                grade: t('results.kindergarten') || 'Kindergarten',
                 gradeCode: 'KG',
                 price: getPrice(campus, 'KG_BI', 'KG'),
                 period: getPeriod(campus, 'KG_BI', 'KG')
@@ -399,6 +414,12 @@ function getPeriod(campus, programmeCode, gradeCode) {
     return 'month';
 }
 
+// Get translated period name
+function getTranslatedPeriod(period) {
+    const t = window.translations.t;
+    return t(`periods.${period}`) || period;
+}
+
 // Format price for display
 function formatPrice(price) {
     return new Intl.NumberFormat('en-US', {
@@ -413,7 +434,8 @@ function calculateTuition() {
     const allFilled = state.children.every(child => child.dob);
 
     if (!allFilled) {
-        tg.showAlert('Please enter date of birth for all children');
+        const t = window.translations.t;
+        tg.showAlert(t('dob.enterAll') || 'Please enter date of birth for all children');
         return;
     }
 
@@ -431,6 +453,7 @@ function calculateTuition() {
 function displayResults() {
     const container = document.getElementById('resultsContainer');
     const siblingNote = document.getElementById('siblingNote');
+    const t = window.translations.t;
 
     // Show sibling note if multiple children
     if (state.children.length > 1) {
@@ -447,39 +470,45 @@ function displayResults() {
             return `
                 <div class="child-result-card">
                     <div class="child-result-header">
-                        <span class="child-result-title">Child ${childNumber}</span>
-                        <span class="child-result-age">Age: ${child.age} (as of Sept 1, 2025)</span>
+                        <span class="child-result-title">${t('dob.child')} ${childNumber}</span>
+                        <span class="child-result-age">${t('results.ageAsOf', { age: child.age })}</span>
                     </div>
                     <div class="waitlist-message">
-                        <p>This child will be under 3 years old at the start of the 2025–2026 academic year.</p>
-                        <p>We invite you to add them to our waitlist for future enrollment.</p>
+                        <p>${t('results.tooYoung')}</p>
+                        <p>${t('results.waitlistInvite')}</p>
                     </div>
                 </div>
             `;
         }
 
         // Display options in grid
-        const optionsHtml = child.options.map(option => `
-            <div class="option-card">
-                <div class="option-header">
-                    <div class="option-programme">${option.programme}</div>
-                    <div class="option-campus">${option.campus === 'MU' ? 'Mirzo-Ulugbek' : 'Yashnobod'}</div>
+        const optionsHtml = child.options.map(option => {
+            const campusName = option.campus === 'MU' 
+                ? t('campus.muCampus').replace(' Campus', '').replace(' Kampus', '').replace(' Kampüsü', '')
+                : t('campus.yashCampus').replace(' Campus', '').replace(' Kampus', '').replace(' Kampüsü', '');
+            const period = getTranslatedPeriod(option.period);
+            return `
+                <div class="option-card">
+                    <div class="option-header">
+                        <div class="option-programme">${option.programme}</div>
+                        <div class="option-campus">${campusName}</div>
+                    </div>
+                    <div class="option-grade">${option.grade}</div>
+                    <div class="option-price">
+                        <span class="price-label">${t('results.from')}</span>
+                        <span class="price-value">${formatPrice(option.price)}</span>
+                        <span class="price-period">${t('results.sumPer', { period })}</span>
+                        <span class="price-note">${t('results.approx')}</span>
+                    </div>
                 </div>
-                <div class="option-grade">${option.grade}</div>
-                <div class="option-price">
-                    <span class="price-label">from</span>
-                    <span class="price-value">${formatPrice(option.price)}</span>
-                    <span class="price-period">sum per ${option.period}</span>
-                    <span class="price-note">(approx.)</span>
-                </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
 
         return `
             <div class="child-result-card">
                 <div class="child-result-header">
-                    <span class="child-result-title">Child ${childNumber}</span>
-                    <span class="child-result-age">Age: ${child.age} (as of Sept 1, 2025)</span>
+                    <span class="child-result-title">${t('dob.child')} ${childNumber}</span>
+                    <span class="child-result-age">${t('results.ageAsOf', { age: child.age })}</span>
                 </div>
                 <div class="options-grid">
                     ${optionsHtml}
@@ -492,8 +521,8 @@ function displayResults() {
     const disclaimer = document.createElement('div');
     disclaimer.className = 'price-disclaimer';
     disclaimer.innerHTML = `
-        <p><strong>Note:</strong> Prices shown are approximate and based on 2025–2026 tuition rates. Your final offer will account for family discounts, payment plans, and any applicable promotions.</p>
-        <p>Our Admissions team will prepare a personalized calculation for your family.</p>
+        <p><strong>${t('results.disclaimerNote') || 'Note:'}</strong> ${t('results.disclaimer')}</p>
+        <p>${t('results.disclaimer2')}</p>
     `;
     container.appendChild(disclaimer);
 }
@@ -506,13 +535,14 @@ async function submitRequest() {
     const contactMethod = document.querySelector('input[name="contactMethod"]:checked')?.value;
     const waitlist = document.getElementById('waitlistCheck').checked;
 
+    const t = window.translations.t;
     if (!parentName) {
-        tg.showAlert('Please enter your full name');
+        tg.showAlert(t('submit.enterName') || 'Please enter your full name');
         return;
     }
 
     if (!parentPhone) {
-        tg.showAlert('Please enter your phone number');
+        tg.showAlert(t('submit.enterPhone') || 'Please enter your phone number');
         return;
     }
 
@@ -563,7 +593,8 @@ async function submitRequest() {
     } catch (error) {
         console.error('Error:', error);
         document.getElementById('loadingOverlay').style.display = 'none';
-        tg.showAlert('Something went wrong. Please try again or contact us directly.');
+        const t = window.translations.t;
+        tg.showAlert(t('submit.error') || 'Something went wrong. Please try again or contact us directly.');
     }
 }
 
@@ -574,3 +605,17 @@ tg.BackButton.onClick(() => {
 
 // Show back button
 tg.BackButton.show();
+
+// Update welcome screen with translations
+function updateWelcomeScreen() {
+    const t = window.translations.t;
+    const welcomeTitle = document.querySelector('.welcome-title');
+    const welcomeSubtitle = document.querySelector('.welcome-subtitle');
+    const welcomeText = document.querySelector('.welcome-text');
+    const welcomeInstruction = document.querySelector('.welcome-instruction');
+    
+    if (welcomeTitle) welcomeTitle.textContent = t('welcome.title');
+    if (welcomeSubtitle) welcomeSubtitle.textContent = t('welcome.subtitle');
+    if (welcomeText) welcomeText.textContent = t('welcome.description');
+    if (welcomeInstruction) welcomeInstruction.textContent = t('welcome.instruction');
+}
