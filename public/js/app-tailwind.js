@@ -1,7 +1,6 @@
-// Import Motion One for smooth animations
-import { animate, stagger, spring } from "https://cdn.skypack.dev/motion@12.0.0";
-
 // Telegram Web App
+// Motion One is loaded globally via CDN
+const { animate, stagger, spring } = Motion;
 let tg = window.Telegram.WebApp;
 tg.expand();
 
@@ -78,14 +77,27 @@ function updateHeader() {
     currentLangDisplay.textContent = LANG_DISPLAY[state.language] || 'EN';
 
     // Update title based on screen
-    const titles = {
-        'menuScreen': t('menuTitle'),
-        'campusScreen': t('selectCampus'),
-        'dobScreen': t('childrenApplying'),
-        'resultsScreen': t('availableOptions'),
-        'thankYouScreen': t('thankYou')
+    const getTitleForScreen = () => {
+        if (typeof t === 'function') {
+            return {
+                'menuScreen': t('menuTitle') || 'Admissions 2025–2026',
+                'campusScreen': t('selectCampus') || 'Select Campus',
+                'dobScreen': t('childrenApplying') || 'Children Applying',
+                'resultsScreen': t('availableOptions') || 'Available Options',
+                'thankYouScreen': t('thankYou') || 'Thank You'
+            };
+        }
+        return {
+            'menuScreen': 'Admissions 2025–2026',
+            'campusScreen': 'Select Campus',
+            'dobScreen': 'Children Applying',
+            'resultsScreen': 'Available Options',
+            'thankYouScreen': 'Thank You'
+        };
     };
-    headerTitle.textContent = titles[currentScreen] || t('admissions');
+
+    const titles = getTitleForScreen();
+    headerTitle.textContent = titles[currentScreen] || 'Admissions';
 }
 
 // Navigation with smooth transitions
@@ -156,9 +168,29 @@ function showLanguageSelection() {
 
 function selectLanguage(lang) {
     state.language = lang;
-    updateTranslations();
+    if (typeof updateAllText === 'function') {
+        updateAllText();
+    }
     state.navigationHistory = ['welcomeScreen'];
     showScreen('menuScreen');
+}
+
+// Update all text on the page based on current language
+function updateAllText() {
+    // Update all elements with data-i18n attribute
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (typeof t === 'function') {
+            if (el.tagName === 'INPUT' && el.type !== 'radio' && el.type !== 'checkbox') {
+                el.placeholder = t(key);
+            } else {
+                el.textContent = t(key);
+            }
+        }
+    });
+
+    // Update header title
+    updateHeader();
 }
 
 function goToMenu() {
