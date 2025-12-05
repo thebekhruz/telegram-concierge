@@ -130,6 +130,89 @@
                                 <div class="ib-desc" data-i18n="ib.universityPrepDesc">Excellent foundation for international higher education</div>
                             </div>
                         </div>
+                        <!-- IB FAQ -->
+                        <div class="faq-item" style="margin-top: var(--spacing-lg);">
+                            <button class="faq-question" onclick="toggleFaqItem(this)">
+                                <span data-i18n="faq.ibProgram.question">Я ничего не знаю про IB. Это только для тех, кто едет за границу?</span>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer">
+                                <div data-i18n-html="faq.ibProgram.answer"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Section -->
+                    <button class="menu-card collapsible" onclick="toggleSection('faqSection')">
+                        <div class="menu-card-title" data-i18n="faq.title">Часто задаваемые вопросы</div>
+                        <span class="expand-icon">+</span>
+                    </button>
+                    <div class="collapsible-content" id="faqSection">
+                        <div class="faq-list">
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaqItem(this)">
+                                    <span data-i18n="faq.philosophy.question">Чем Oxbridge отличается от других школ в Ташкенте?</span>
+                                    <span class="faq-icon">+</span>
+                                </button>
+                                <div class="faq-answer">
+                                    <div data-i18n-html="faq.philosophy.answer"></div>
+                                </div>
+                            </div>
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaqItem(this)">
+                                    <span data-i18n="faq.academicSupport.question">А если у ребёнка проблемы с учёбой? Он не отстанет?</span>
+                                    <span class="faq-icon">+</span>
+                                </button>
+                                <div class="faq-answer">
+                                    <div data-i18n-html="faq.academicSupport.answer"></div>
+                                </div>
+                            </div>
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaqItem(this)">
+                                    <span data-i18n="faq.quality.question">У вас 1100+ учеников. Как вы следите за качеством?</span>
+                                    <span class="faq-icon">+</span>
+                                </button>
+                                <div class="faq-answer">
+                                    <div data-i18n-html="faq.quality.answer"></div>
+                                </div>
+                            </div>
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaqItem(this)">
+                                    <span data-i18n="faq.competition.question">Мой ребёнок привык к рейтингам и конкуренции. Без оценок на виду он не расслабится?</span>
+                                    <span class="faq-icon">+</span>
+                                </button>
+                                <div class="faq-answer">
+                                    <div data-i18n-html="faq.competition.answer"></div>
+                                </div>
+                            </div>
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaqItem(this)">
+                                    <span data-i18n="faq.safety.question">Меня беспокоит безопасность. Как вы защищаете моего ребёнка?</span>
+                                    <span class="faq-icon">+</span>
+                                </button>
+                                <div class="faq-answer">
+                                    <div data-i18n-html="faq.safety.answer"></div>
+                                </div>
+                            </div>
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaqItem(this)">
+                                    <span data-i18n="faq.parentInvolvement.question">Насколько активно должны участвовать родители?</span>
+                                    <span class="faq-icon">+</span>
+                                </button>
+                                <div class="faq-answer">
+                                    <div data-i18n-html="faq.parentInvolvement.answer"></div>
+                                </div>
+                            </div>
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaqItem(this)">
+                                    <span data-i18n="faq.notRightFit.question">Что, если мы начнём и поймём, что это не наше?</span>
+                                    <span class="faq-icon">+</span>
+                                </button>
+                                <div class="faq-answer">
+                                    <div data-i18n-html="faq.notRightFit.answer"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -152,6 +235,17 @@
                     </button>
                 </div>
 
+                <!-- Stream Choice FAQ -->
+                <div class="faq-card" style="margin-top: var(--spacing-xl); margin-bottom: var(--spacing-lg);">
+                    <button class="faq-question" onclick="toggleFaqItem(this)">
+                        <span data-i18n="faq.streamChoice.question">Русский поток или IB поток? Что выбрать для моего ребёнка?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div data-i18n-html="faq.streamChoice.answer"></div>
+                    </div>
+                </div>
+
                 <button class="back-link" onclick="goToMenu()" data-i18n="campus.backToMenu">← Back to menu</button>
             </div>
         </div>
@@ -161,6 +255,17 @@
             <div class="screen-content">
                 <h2 class="screen-title" data-i18n="dob.title">Children applying for 2025–2026</h2>
                 <p class="screen-subtitle" data-i18n="dob.subtitle">Enter date of birth for each child</p>
+
+                <!-- Early Education FAQ -->
+                <div class="faq-card" style="margin-bottom: var(--spacing-lg);">
+                    <button class="faq-question" onclick="toggleFaqItem(this)">
+                        <span data-i18n="faq.earlyEducation.question">Ребёнку всего 2 года. Зачем так рано думать о школе?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div data-i18n-html="faq.earlyEducation.answer"></div>
+                    </div>
+                </div>
 
                 <div id="childrenDobList" class="dob-list"></div>
 
@@ -179,9 +284,41 @@
 
                 <div id="resultsContainer"></div>
 
+                <!-- Value & Outcomes FAQs -->
+                <div class="faq-card" style="margin-top: var(--spacing-xl); margin-bottom: var(--spacing-lg);">
+                    <button class="faq-question" onclick="toggleFaqItem(this)">
+                        <span data-i18n="faq.value.question">Это дорого. Как понять, что оно того стоит?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div data-i18n-html="faq.value.answer"></div>
+                    </div>
+                </div>
+
+                <div class="faq-card" style="margin-bottom: var(--spacing-lg);">
+                    <button class="faq-question" onclick="toggleFaqItem(this)">
+                        <span data-i18n="faq.outcomes.question">Куда поступают ваши выпускники?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div data-i18n-html="faq.outcomes.answer"></div>
+                    </div>
+                </div>
+
                 <!-- Sibling note -->
                 <div class="sibling-note" id="siblingNote" style="display: none;">
                     <p data-i18n="results.siblingNote">For your family enrolling multiple children in 2025–2026, tuition will be calculated with family discounts where applicable. Our admissions team will prepare a personalised offer.</p>
+                </div>
+
+                <!-- Next Steps FAQ -->
+                <div class="faq-card" style="margin-bottom: var(--spacing-xl);">
+                    <button class="faq-question" onclick="toggleFaqItem(this)">
+                        <span data-i18n="faq.nextSteps.question">Как сделать следующий шаг?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div data-i18n-html="faq.nextSteps.answer"></div>
+                    </div>
                 </div>
 
                 <!-- Submit Form -->

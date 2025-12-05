@@ -322,6 +322,27 @@ function toggleSection(sectionId) {
     }
 }
 
+/**
+ * Toggle FAQ item open/closed
+ * Closes other FAQ items in the same container when opening a new one
+ * @param {HTMLElement} button - The FAQ question button element
+ */
+function toggleFaqItem(button) {
+    const faqItem = button.closest('.faq-item, .faq-card');
+    const isActive = faqItem.classList.contains('active');
+    
+    // Close all FAQ items in the same container
+    const container = faqItem.parentElement;
+    container.querySelectorAll('.faq-item, .faq-card').forEach(item => {
+        item.classList.remove('active');
+    });
+    
+    // Open clicked item if it wasn't active
+    if (!isActive) {
+        faqItem.classList.add('active');
+    }
+}
+
 // ============================================================================
 // CAMPUS SELECTION SCREEN
 // ============================================================================
