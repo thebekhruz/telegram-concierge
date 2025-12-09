@@ -15,6 +15,244 @@
 const tg = window.Telegram.WebApp;
 tg.expand();
 
+// Application state
+const state = {
+    language: 'en',
+    campusPreference: null,  // 'MU' | 'YASH' | 'BOTH'
+    children: [],  // Array of { dob: string, age: number, options: [...] }
+    navigationHistory: ['welcomeScreen']  // Track navigation for back button
+};
+
+// Translations
+const translations = {
+    en: {
+        // Welcome
+        welcomeTitle: 'Oxbridge International School',
+        welcomeSubtitle: 'Admissions Assistant',
+        welcomeText: 'Plan your child\'s education at our Mirzo-Ulugbek and Yashnobod campuses for 2025–2026.',
+        welcomeInstruction: 'Choose your language to begin.',
+        
+        // Menu
+        menuTitle: 'Admissions 2025–2026',
+        tuitionCalculator: 'Tuition Calculator',
+        tuitionCalculatorDesc: 'Calculate tuition for your children',
+        whatIncluded: 'What is included in tuition',
+        campusesLocation: 'Campuses & location',
+        whatIsIB: 'What is IB?',
+        
+        // Campus Selection
+        selectCampus: 'Select campus preference',
+        muCampus: 'Mirzo-Ulugbek Campus',
+        yashCampus: 'Yashnobod Campus',
+        bothCampuses: 'Show both campuses',
+        backToMenu: '← Back to menu',
+        
+        // DOB Screen
+        childrenApplying: 'Children applying for 2025–2026',
+        enterDob: 'Enter date of birth for each child',
+        addChild: '+ Add another child',
+        calculateTuition: 'Calculate tuition',
+        back: '← Back',
+        
+        // Results
+        availableOptions: 'Available options for 2025–2026',
+        siblingNote: 'For your family enrolling multiple children in 2025–2026, tuition will be calculated with family discounts where applicable. Our admissions team will prepare a personalised offer.',
+        requestCalculation: 'Request a detailed calculation and consultation',
+        parentName: 'Parent name',
+        phoneNumber: 'Phone number',
+        preferredContact: 'Preferred contact method',
+        telegram: 'Telegram',
+        phoneCall: 'Phone call',
+        waitlistCheck: 'Add younger child to waitlist for future years',
+        submitRequest: 'Submit request to Admissions',
+        modifyChildren: '← Modify children',
+        
+        // Thank You
+        thankYou: 'Thank you',
+        thankYouText1: 'Your request has been received by our Admissions team.',
+        thankYouText2: 'They will contact you soon to provide a detailed calculation and answer your questions.',
+        close: 'Close',
+        
+        // Header
+        admissions: 'Admissions'
+    },
+    ru: {
+        welcomeTitle: 'Oxbridge International School',
+        welcomeSubtitle: 'Помощник по поступлению',
+        welcomeText: 'Спланируйте образование вашего ребенка в наших кампусах Мирзо-Улугбек и Яшнабад на 2025–2026 год.',
+        welcomeInstruction: 'Выберите язык для начала.',
+        menuTitle: 'Поступление 2025–2026',
+        tuitionCalculator: 'Калькулятор стоимости',
+        tuitionCalculatorDesc: 'Рассчитайте стоимость обучения для ваших детей',
+        whatIncluded: 'Что входит в стоимость обучения',
+        campusesLocation: 'Кампусы и расположение',
+        whatIsIB: 'Что такое IB?',
+        selectCampus: 'Выберите предпочтение по кампусу',
+        muCampus: 'Кампус Мирзо-Улугбек',
+        yashCampus: 'Кампус Яшнабад',
+        bothCampuses: 'Показать оба кампуса',
+        backToMenu: '← Назад в меню',
+        childrenApplying: 'Дети, поступающие в 2025–2026 году',
+        enterDob: 'Введите дату рождения каждого ребенка',
+        addChild: '+ Добавить еще одного ребенка',
+        calculateTuition: 'Рассчитать стоимость',
+        back: '← Назад',
+        availableOptions: 'Доступные варианты на 2025–2026 год',
+        siblingNote: 'Для вашей семьи, зачисляющей нескольких детей в 2025–2026 году, стоимость будет рассчитана с учетом семейных скидок, где применимо. Наша команда по приему подготовит персональное предложение.',
+        requestCalculation: 'Запросить подробный расчет и консультацию',
+        parentName: 'Имя родителя',
+        phoneNumber: 'Номер телефона',
+        preferredContact: 'Предпочтительный способ связи',
+        telegram: 'Telegram',
+        phoneCall: 'Телефонный звонок',
+        waitlistCheck: 'Добавить младшего ребенка в список ожидания на будущие годы',
+        submitRequest: 'Отправить запрос в приемную комиссию',
+        modifyChildren: '← Изменить детей',
+        thankYou: 'Спасибо',
+        thankYouText1: 'Ваш запрос получен нашей приемной комиссией.',
+        thankYouText2: 'Они свяжутся с вами в ближайшее время, чтобы предоставить подробный расчет и ответить на ваши вопросы.',
+        close: 'Закрыть',
+        admissions: 'Поступление'
+    },
+    uz: {
+        welcomeTitle: 'Oxbridge International School',
+        welcomeSubtitle: 'Qabul yordamchisi',
+        welcomeText: '2025–2026 yil uchun Mirzo-Ulug\'bek va Yashnobod kampuslarimizda farzandingizning ta\'limini rejalashtiring.',
+        welcomeInstruction: 'Boshlash uchun tilni tanlang.',
+        menuTitle: 'Qabul 2025–2026',
+        tuitionCalculator: 'Ta\'lim to\'lovi kalkulyatori',
+        tuitionCalculatorDesc: 'Farzandlaringiz uchun ta\'lim to\'lovini hisoblang',
+        whatIncluded: 'Ta\'lim to\'loviga nima kiradi',
+        campusesLocation: 'Kampuslar va joylashuv',
+        whatIsIB: 'IB nima?',
+        selectCampus: 'Kampus afzalligini tanlang',
+        muCampus: 'Mirzo-Ulug\'bek kampus',
+        yashCampus: 'Yashnobod kampus',
+        bothCampuses: 'Ikkala kampusni ko\'rsatish',
+        backToMenu: '← Menyuga qaytish',
+        childrenApplying: '2025–2026 yilga ariza berayotgan bolalar',
+        enterDob: 'Har bir bolaning tug\'ilgan sanasini kiriting',
+        addChild: '+ Yana bir bola qo\'shish',
+        calculateTuition: 'Ta\'lim to\'lovini hisoblash',
+        back: '← Orqaga',
+        availableOptions: '2025–2026 yil uchun mavjud variantlar',
+        siblingNote: '2025–2026 yilda bir nechta bolani ro\'yxatdan o\'tkazayotgan oilangiz uchun, qo\'llaniladigan joylarda oilaviy chegirmalar bilan ta\'lim to\'lovi hisoblanadi. Bizning qabul bo\'limimiz shaxsiy taklif tayyorlaydi.',
+        requestCalculation: 'Batafsil hisob-kitob va maslahat so\'rash',
+        parentName: 'Ota-ona ismi',
+        phoneNumber: 'Telefon raqami',
+        preferredContact: 'Afzal ko\'rilgan aloqa usuli',
+        telegram: 'Telegram',
+        phoneCall: 'Telefon qo\'ng\'irog\'i',
+        waitlistCheck: 'Kichik bolani kelajak yillar uchun kutish ro\'yxatiga qo\'shish',
+        submitRequest: 'Qabul bo\'limiga so\'rov yuborish',
+        modifyChildren: '← Bolalarni o\'zgartirish',
+        thankYou: 'Rahmat',
+        thankYouText1: 'Sizning so\'rovingiz bizning qabul bo\'limimiz tomonidan qabul qilindi.',
+        thankYouText2: 'Ular tez orada batafsil hisob-kitobni taqdim etish va savollaringizga javob berish uchun siz bilan bog\'lanishadi.',
+        close: 'Yopish',
+        admissions: 'Qabul'
+    },
+    tr: {
+        welcomeTitle: 'Oxbridge International School',
+        welcomeSubtitle: 'Kayıt Asistanı',
+        welcomeText: '2025–2026 için Mirzo-Ulugbek ve Yashnobod kampüslerimizde çocuğunuzun eğitimini planlayın.',
+        welcomeInstruction: 'Başlamak için dilinizi seçin.',
+        menuTitle: 'Kayıt 2025–2026',
+        tuitionCalculator: 'Öğrenim Ücreti Hesaplayıcı',
+        tuitionCalculatorDesc: 'Çocuklarınız için öğrenim ücretini hesaplayın',
+        whatIncluded: 'Öğrenim ücretine neler dahil',
+        campusesLocation: 'Kampüsler ve konum',
+        whatIsIB: 'IB nedir?',
+        selectCampus: 'Kampüs tercihini seçin',
+        muCampus: 'Mirzo-Ulugbek Kampüsü',
+        yashCampus: 'Yashnobod Kampüsü',
+        bothCampuses: 'Her iki kampüsü göster',
+        backToMenu: '← Menüye dön',
+        childrenApplying: '2025–2026 için başvuran çocuklar',
+        enterDob: 'Her çocuk için doğum tarihini girin',
+        addChild: '+ Başka bir çocuk ekle',
+        calculateTuition: 'Öğrenim ücretini hesapla',
+        back: '← Geri',
+        availableOptions: '2025–2026 için mevcut seçenekler',
+        siblingNote: '2025–2026\'da birden fazla çocuğu kaydeden aileniz için, öğrenim ücreti uygulanabilir yerlerde aile indirimleriyle hesaplanacaktır. Kayıt ekibimiz kişiselleştirilmiş bir teklif hazırlayacaktır.',
+        requestCalculation: 'Detaylı hesaplama ve danışmanlık talep edin',
+        parentName: 'Ebeveyn adı',
+        phoneNumber: 'Telefon numarası',
+        preferredContact: 'Tercih edilen iletişim yöntemi',
+        telegram: 'Telegram',
+        phoneCall: 'Telefon görüşmesi',
+        waitlistCheck: 'Küçük çocuğu gelecek yıllar için bekleme listesine ekle',
+        submitRequest: 'Kayıt ofisine istek gönder',
+        modifyChildren: '← Çocukları değiştir',
+        thankYou: 'Teşekkürler',
+        thankYouText1: 'İsteğiniz Kayıt ekibimiz tarafından alındı.',
+        thankYouText2: 'Yakında detaylı bir hesaplama sağlamak ve sorularınızı yanıtlamak için sizinle iletişime geçecekler.',
+        close: 'Kapat',
+        admissions: 'Kayıt'
+    }
+};
+
+// Translation function
+function t(key) {
+    return translations[state.language]?.[key] || translations['en'][key] || key;
+}
+
+// Update all translations on the page
+function updateTranslations() {
+    // Update elements with data-i18n attribute
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        el.textContent = t(key);
+    });
+    
+    // Update placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        el.placeholder = t(key);
+    });
+    
+    // Update specific elements by ID
+    const updates = {
+        'welcomeTitle': '.welcome-title',
+        'welcomeSubtitle': '.welcome-subtitle',
+        'welcomeText': '.welcome-text',
+        'welcomeInstruction': '.welcome-instruction',
+        'menuTitle': '#menuScreen .screen-title',
+        'tuitionCalculator': '.menu-card-title',
+        'selectCampus': '#campusScreen .screen-title',
+        'childrenApplying': '#dobScreen .screen-title',
+        'enterDob': '#dobScreen .screen-subtitle',
+        'calculateTuition': '#dobScreen .primary-btn',
+        'availableOptions': '#resultsScreen .screen-title',
+        'requestCalculation': '.submit-title',
+        'parentName': 'label[for="parentName"], label:has(+ #parentName)',
+        'phoneNumber': 'label[for="parentPhone"], label:has(+ #parentPhone)',
+        'preferredContact': 'label:has(+ .radio-options)',
+        'submitRequest': '#resultsScreen .primary-btn',
+        'thankYou': '.thank-you-title',
+        'thankYouText1': '.thank-you-text:first-of-type',
+        'thankYouText2': '.thank-you-text:last-of-type',
+        'close': '.secondary-btn'
+    };
+    
+    // Manual updates for complex elements
+    if (document.querySelector('#menuScreen .menu-card-title')) {
+        document.querySelector('#menuScreen .menu-card.primary .menu-card-title').textContent = t('tuitionCalculator');
+        document.querySelector('#menuScreen .menu-card.primary .menu-card-desc').textContent = t('tuitionCalculatorDesc');
+    }
+    
+    if (document.querySelector('#campusScreen .campus-option-title')) {
+        const campusOptions = document.querySelectorAll('#campusScreen .campus-option-title');
+        if (campusOptions[0]) campusOptions[0].textContent = t('muCampus');
+        if (campusOptions[1]) campusOptions[1].textContent = t('yashCampus');
+        if (campusOptions[2]) campusOptions[2].textContent = t('bothCampuses');
+    }
+    
+    // Update header title
+    updateHeader();
+}
+
+// Language display mapping
 /** Language code to display name mapping */
 const LANG_DISPLAY = {
     'en': 'EN',
@@ -97,6 +335,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Load default English translations for welcome screen
     await window.translations.load('en');
     updateHeader();
+    updateTranslations(); // Initial call to update translations
     updateWelcomeScreen();
 });
 
@@ -161,6 +400,15 @@ function updateHeader() {
     // Update language display
     currentLangDisplay.textContent = LANG_DISPLAY[state.language] || 'EN';
 
+    // Update title based on screen (using translations)
+    const titles = {
+        'menuScreen': t('menu_title'),
+        'campusScreen': t('campus_screen_title'),
+        'dobScreen': t('dob_screen_title'),
+        'resultsScreen': t('results_screen_title'),
+        'thankYouScreen': t('thank_you_title')
+    };
+    headerTitle.textContent = titles[currentScreen] || t('menu_title');
     // Update title based on screen
     const titleKeys = {
         [SCREENS.MENU]: 'header.admissions',
@@ -196,6 +444,11 @@ function showScreen(screenId, addToHistory = true) {
         state.navigationHistory.push(screenId);
     }
 
+    // Update campus image when showing dobScreen
+    if (screenId === 'dobScreen' && state.campusPreference) {
+        updateCampusImage();
+    }
+
     updateHeader();
     
     // Update translations when screen changes
@@ -221,6 +474,47 @@ function goBack() {
             goToMenu();
         }
     }
+}
+
+function showLanguageSelection() {
+    // Clear history and go to welcome screen
+    state.navigationHistory = ['welcomeScreen'];
+    showScreen('welcomeScreen', false);
+}
+
+function selectLanguage(lang) {
+    state.language = lang;
+    updateAllText(); // Update all text to new language
+    state.navigationHistory = ['welcomeScreen'];
+    updateTranslations();
+    showScreen('menuScreen');
+}
+
+// Update all text on the page based on current language
+function updateAllText() {
+    // Helper function to safely update text
+    const updateText = (selector, key) => {
+        const element = document.querySelector(selector);
+        if (element) element.textContent = t(key);
+    };
+
+    const updatePlaceholder = (selector, key) => {
+        const element = document.querySelector(selector);
+        if (element) element.placeholder = t(key);
+    };
+
+    // Update header titles based on current screen
+    updateHeader();
+
+    // Update all elements with data-i18n attribute
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (el.tagName === 'INPUT' && el.type !== 'radio' && el.type !== 'checkbox') {
+            el.placeholder = t(key);
+        } else {
+            el.textContent = t(key);
+        }
+    });
 }
 
 /**
@@ -256,6 +550,43 @@ function updateWelcomeScreen() {
     if (welcomeInstruction) welcomeInstruction.textContent = t('welcome.instruction');
 }
 
+function selectCampus(campus) {
+    state.campusPreference = campus;
+    state.children = [];
+    updateCampusImage();
+    renderDobEntries();
+    showScreen('dobScreen');
+}
+
+function updateCampusImage() {
+    const campusImage = document.getElementById('campusImage');
+    if (!campusImage) return;
+
+    let imageSrc = '';
+    switch (state.campusPreference) {
+        case 'MU':
+            imageSrc = '/images/campus-mu.jpg';
+            break;
+        case 'YASH':
+            imageSrc = '/images/campus-yash.jpg';
+            break;
+        case 'BOTH':
+            imageSrc = '/images/both-campuses.jpg';
+            break;
+        default:
+            campusImage.style.display = 'none';
+            return;
+    }
+
+    campusImage.src = imageSrc;
+    campusImage.style.display = 'block';
+    campusImage.onerror = function() {
+        this.style.display = 'none';
+    };
+}
+
+function goToCampusSelection() {
+    goBack();
 /**
  * Show language selection screen
  * Resets navigation history and returns to welcome screen
@@ -444,6 +775,7 @@ function calculateTuition() {
     const allFilled = state.children.every(child => child.dob);
 
     if (!allFilled) {
+        tg.showAlert(t('val_enter_dob'));
         const t = window.translations.t;
         tg.showAlert(t('dob.enterAll') || 'Please enter date of birth for all children');
         return;
@@ -562,11 +894,13 @@ async function submitRequest() {
     
     // Validate required fields
     if (!parentName) {
+        tg.showAlert(t('val_enter_name'));
         tg.showAlert(t('submit.enterName') || 'Please enter your full name');
         return;
     }
 
     if (!parentPhone) {
+        tg.showAlert(t('val_enter_phone'));
         tg.showAlert(t('submit.enterPhone') || 'Please enter your phone number');
         return;
     }
@@ -618,199 +952,7 @@ async function submitRequest() {
     } catch (error) {
         console.error('Error submitting request:', error);
         document.getElementById('loadingOverlay').style.display = 'none';
-        tg.showAlert(t('submit.error') || 'Something went wrong. Please try again or contact us directly.');
-    }
-}
-
-// ============================================================================
-// UTILITY FUNCTIONS - AGE CALCULATION
-// ============================================================================
-
-/**
- * Calculate age as of the cutoff date (September 1, 2025)
- * @param {string} dob - Date of birth in YYYY-MM-DD format
- * @returns {number|null} Age in years, or null if invalid input
- */
-function calculateAge(dob) {
-    if (!dob) return null;
-
-    const birthDate = new Date(dob);
-    const cutoffDate = new Date(CUTOFF_DATE);
-
-    let age = cutoffDate.getFullYear() - birthDate.getFullYear();
-    const monthDiff = cutoffDate.getMonth() - birthDate.getMonth();
-
-    // Adjust age if birthday hasn't occurred yet this year
-    if (monthDiff < 0 || (monthDiff === 0 && cutoffDate.getDate() < birthDate.getDate())) {
-        age--;
-    }
-
-    return age;
-}
-
-// ============================================================================
-// UTILITY FUNCTIONS - PROGRAMME OPTIONS
-// ============================================================================
-
-/**
- * Determine available programme options based on child's age and campus preference
- * @param {number|null} age - Child's age as of cutoff date
- * @param {string} campusPreference - Campus preference (MU, YASH, or BOTH)
- * @returns {Array<OptionData>} Array of available programme options
- */
-function determineOptions(age, campusPreference) {
-    const options = [];
-
-    // Validate age
-    if (age === null || age < 0) return options;
-
-    // Too young (under 3)
-    if (age < 3) {
-        return [{ tooYoung: true }];
-    }
-
-    // Get campuses to process
-    const campuses = campusPreference === CAMPUS.BOTH ? [CAMPUS.MU, CAMPUS.YASH] : [campusPreference];
-    const t = window.translations.t;
-
-    campuses.forEach(campus => {
-        // IB Programme options
-        addIBOptions(options, age, campus, t);
-        
-        // Russian School Programme
-        addRussianSchoolOptions(options, age, campus, t);
-        
-        // Kindergarten options (Russian and Bilingual)
-        addKindergartenOptions(options, age, campus, t);
-    });
-
-    return options;
-}
-
-/**
- * Add IB programme options based on age
- * @param {Array<OptionData>} options - Options array to append to
- * @param {number} age - Child's age
- * @param {string} campus - Campus code
- * @param {Function} t - Translation function
- */
-function addIBOptions(options, age, campus, t) {
-    // IB Kindergarten (ages 3-4)
-    if (age >= 3 && age <= 4) {
-        options.push({
-            campus,
-            programme: t('programmes.ibKindergarten'),
-            programmeCode: 'IB',
-            grade: 'KG',
-            gradeCode: 'KG',
-            price: getPrice(campus, 'IB', 'KG'),
-            period: getPeriod(campus, 'IB', 'KG')
-        });
-    }
-
-    // IB Primary Years Programme (PYP) - ages 5-10
-    if (age >= 5 && age <= 10) {
-        const pypLevel = age - 4; // 5yo → PYP1, 6yo → PYP2, etc.
-        if (pypLevel >= 1 && pypLevel <= 5) {
-            options.push({
-                campus,
-                programme: t('programmes.ibPrimaryYears'),
-                programmeCode: 'IB',
-                grade: `PYP ${pypLevel}`,
-                gradeCode: `PYP${pypLevel}`,
-                price: getPrice(campus, 'IB', `PYP${pypLevel}`),
-                period: getPeriod(campus, 'IB', `PYP${pypLevel}`)
-            });
-        }
-    }
-
-    // IB Middle Years Programme (MYP) - ages 11-15
-    if (age >= 11 && age <= 15) {
-        const mypLevel = age - 10; // 11yo → MYP1, etc.
-        if (mypLevel >= 1 && mypLevel <= 5) {
-            options.push({
-                campus,
-                programme: t('programmes.ibMiddleYears'),
-                programmeCode: 'IB',
-                grade: `MYP ${mypLevel}`,
-                gradeCode: `MYP${mypLevel}`,
-                price: getPrice(campus, 'IB', `MYP${mypLevel}`),
-                period: getPeriod(campus, 'IB', `MYP${mypLevel}`)
-            });
-        }
-    }
-
-    // IB Diploma Programme (DP) - ages 16-17
-    if (age >= 16 && age <= 17) {
-        const dpLevel = age - 15; // 16yo → DP1, 17yo → DP2
-        options.push({
-            campus,
-            programme: t('programmes.ibDiplomaProgramme'),
-            programmeCode: 'IB',
-            grade: `DP ${dpLevel}`,
-            gradeCode: `DP${dpLevel}`,
-            price: getPrice(campus, 'IB', `DP${dpLevel}`),
-            period: getPeriod(campus, 'IB', `DP${dpLevel}`)
-        });
-    }
-}
-
-/**
- * Add Russian School programme options based on age
- * @param {Array<OptionData>} options - Options array to append to
- * @param {number} age - Child's age
- * @param {string} campus - Campus code
- * @param {Function} t - Translation function
- */
-function addRussianSchoolOptions(options, age, campus, t) {
-    // Russian School (grades 1-11) - ages 7-17
-    if (age >= 7 && age <= 17) {
-        const russianGrade = age - 6; // 7yo → Grade 1, etc.
-        if (russianGrade >= 1 && russianGrade <= 11) {
-            options.push({
-                campus,
-                programme: t('programmes.russianSchool'),
-                programmeCode: 'RUS',
-                grade: `${t('results.grade') || 'Grade'} ${russianGrade}`,
-                gradeCode: `Grade${russianGrade}`,
-                price: getPrice(campus, 'RUS', russianGrade),
-                period: getPeriod(campus, 'RUS', russianGrade)
-            });
-        }
-    }
-}
-
-/**
- * Add Kindergarten programme options (Russian and Bilingual) based on age
- * @param {Array<OptionData>} options - Options array to append to
- * @param {number} age - Child's age
- * @param {string} campus - Campus code
- * @param {Function} t - Translation function
- */
-function addKindergartenOptions(options, age, campus, t) {
-    // Kindergarten options (ages 3-6)
-    if (age >= 3 && age <= 6) {
-        // Russian Kindergarten
-        options.push({
-            campus,
-            programme: t('programmes.russianKindergarten'),
-            programmeCode: 'KG_RUS',
-            grade: t('results.kindergarten') || 'Kindergarten',
-            gradeCode: 'KG',
-            price: getPrice(campus, 'KG_RUS', 'KG'),
-            period: getPeriod(campus, 'KG_RUS', 'KG')
-        });
-
-        // Bilingual Kindergarten
-        options.push({
-            campus,
-            programme: t('programmes.bilingualKindergarten'),
-            programmeCode: 'KG_BI',
-            grade: t('results.kindergarten') || 'Kindergarten',
-            gradeCode: 'KG',
-            price: getPrice(campus, 'KG_BI', 'KG'),
-            period: getPeriod(campus, 'KG_BI', 'KG')
-        });
+        tg.showAlert(t('val_error'));
     }
 }
 

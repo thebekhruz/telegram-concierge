@@ -6,6 +6,7 @@
     <title>Oxbridge International School - Admissions</title>
     <link rel="stylesheet" href="/css/style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="/js/translations.js"></script>
 </head>
 <body>
     <!-- App Header (shown on all screens except welcome) -->
@@ -48,6 +49,13 @@
         <!-- Main Menu Screen -->
         <div class="screen" id="menuScreen">
             <div class="screen-content">
+                <h2 class="screen-title" data-i18n="menuTitle">Admissions 2025–2026</h2>
+                <img src="/images/hero.png" alt="Oxbridge Campus" class="page-hero-image" onerror="this.style.display='none'">
+
+                <div class="menu-sections">
+                    <button class="menu-card primary" onclick="startCalculator()">
+                        <div class="menu-card-title" data-i18n="tuitionCalculator">Tuition Calculator</div>
+                        <div class="menu-card-desc" data-i18n="tuitionCalculatorDesc">Calculate tuition for your children</div>
                 <h2 class="screen-title" data-i18n="menu.title">Admissions 2025–2026</h2>
 
                 <div class="menu-sections">
@@ -221,6 +229,18 @@
         <!-- Calculator: Campus Selection -->
         <div class="screen" id="campusScreen">
             <div class="screen-content">
+                <h2 class="screen-title" data-i18n="selectCampus">Select campus preference</h2>
+                <img src="/images/hero.png" alt="Oxbridge Campus" class="page-hero-image" onerror="this.style.display='none'">
+
+                <div class="campus-options">
+                    <button class="campus-option-card" onclick="selectCampus('MU')">
+                        <div class="campus-option-title" data-i18n="muCampus">Mirzo-Ulugbek Campus</div>
+                    </button>
+                    <button class="campus-option-card" onclick="selectCampus('YASH')">
+                        <div class="campus-option-title" data-i18n="yashCampus">Yashnobod Campus</div>
+                    </button>
+                    <button class="campus-option-card" onclick="selectCampus('BOTH')">
+                        <div class="campus-option-title" data-i18n="bothCampuses">Show both campuses</div>
                 <h2 class="screen-title" data-i18n="campus.selectPreference">Select campus preference</h2>
 
                 <div class="campus-options">
@@ -253,6 +273,11 @@
         <!-- Calculator: Children DOB -->
         <div class="screen" id="dobScreen">
             <div class="screen-content">
+                <h2 class="screen-title" data-i18n="childrenApplying">Children applying for 2025–2026</h2>
+                <p class="screen-subtitle" data-i18n="enterDob">Enter date of birth for each child</p>
+                
+                <div id="campusImageContainer" class="campus-image-container">
+                    <img id="campusImage" src="" alt="Campus" class="page-hero-image" style="display: none;" onerror="this.style.display='none'">
                 <h2 class="screen-title" data-i18n="dob.title">Children applying for 2025–2026</h2>
                 <p class="screen-subtitle" data-i18n="dob.subtitle">Enter date of birth for each child</p>
 
@@ -280,6 +305,7 @@
         <!-- Results Screen -->
         <div class="screen" id="resultsScreen">
             <div class="screen-content">
+                <h2 class="screen-title" data-i18n="availableOptions">Available options for 2025–2026</h2>
                 <h2 class="screen-title" data-i18n="results.title">Available options for 2025–2026</h2>
 
                 <div id="resultsContainer"></div>
@@ -307,6 +333,7 @@
 
                 <!-- Sibling note -->
                 <div class="sibling-note" id="siblingNote" style="display: none;">
+                    <p data-i18n="siblingNote">For your family enrolling multiple children in 2025–2026, tuition will be calculated with family discounts where applicable. Our admissions team will prepare a personalised offer.</p>
                     <p data-i18n="results.siblingNote">For your family enrolling multiple children in 2025–2026, tuition will be calculated with family discounts where applicable. Our admissions team will prepare a personalised offer.</p>
                 </div>
 
@@ -323,6 +350,21 @@
 
                 <!-- Submit Form -->
                 <div class="submit-section">
+                    <h3 class="submit-title" data-i18n="requestCalculation">Request a detailed calculation and consultation</h3>
+
+                    <div class="submit-form">
+                        <div class="form-field">
+                            <label data-i18n="parentName">Parent name</label>
+                            <input type="text" id="parentName" class="input-field" placeholder="Enter your full name">
+                        </div>
+
+                        <div class="form-field">
+                            <label data-i18n="phoneNumber">Phone number</label>
+                            <input type="tel" id="parentPhone" class="input-field" placeholder="+998 XX XXX XX XX">
+                        </div>
+
+                        <div class="form-field">
+                            <label data-i18n="preferredContact">Preferred contact method</label>
                     <h3 class="submit-title" data-i18n="submit.title">Request a detailed calculation and consultation</h3>
 
                     <div class="submit-form">
@@ -353,6 +395,7 @@
                         <div class="form-field">
                             <label class="checkbox-container">
                                 <input type="checkbox" id="waitlistCheck">
+                                <span data-i18n="waitlistCheck">Add younger child to waitlist for future years</span>
                                 <span data-i18n="submit.waitlist">Add younger child to waitlist for future years</span>
                             </label>
                         </div>
@@ -369,6 +412,9 @@
         <div class="screen" id="thankYouScreen">
             <div class="screen-content centered">
                 <div class="thank-you-icon">✓</div>
+                <h2 class="thank-you-title" data-i18n="thankYou">Thank you</h2>
+                <p class="thank-you-text" data-i18n="thankYouText1">Your request has been received by our Admissions team.</p>
+                <p class="thank-you-text" data-i18n="thankYouText2">They will contact you soon to provide a detailed calculation and answer your questions.</p>
                 <h2 class="thank-you-title" data-i18n="thankYou.title">Thank you</h2>
                 <p class="thank-you-text" data-i18n="thankYou.message1">Your request has been received by our Admissions team.</p>
                 <p class="thank-you-text" data-i18n="thankYou.message2">They will contact you soon to provide a detailed calculation and answer your questions.</p>

@@ -26,7 +26,7 @@ Place your campus photos in the `public/images/` directory:
 
 ```
 public/images/
-├── campus-hero.jpg      # Hero banner (1200x500px)
+├── campus-hero.png      # Hero banner (1200x500px)
 ├── campus-mu.jpg        # MU Campus (800x600px)
 └── campus-yash.jpg      # Yashnobod Campus (800x600px)
 ```
