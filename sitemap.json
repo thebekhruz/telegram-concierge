@@ -1,0 +1,217 @@
+{
+  "appName": "Oxbridge Admissions Mini App",
+  "version": "1.0",
+  "pages": [
+    {
+      "id": "welcomeScreen",
+      "name": "Welcome / Language Selection",
+      "path": "/",
+      "type": "entry",
+      "file": "public/index.html",
+      "lineRange": [23, 46],
+      "components": [
+        "logo",
+        "welcome-title",
+        "welcome-subtitle",
+        "welcome-text",
+        "language-buttons"
+      ],
+      "navigation": {
+        "next": ["menuScreen"],
+        "previous": null
+      }
+    },
+    {
+      "id": "menuScreen",
+      "name": "Main Menu / Admissions Menu",
+      "path": "/menu",
+      "type": "navigation",
+      "file": "public/index.html",
+      "lineRange": [48, 219],
+      "components": [
+        "tuition-calculator-button",
+        "includedSection",
+        "campusSection",
+        "ibSection",
+        "faqSection"
+      ],
+      "sections": [
+        {
+          "id": "includedSection",
+          "name": "What is included in tuition",
+          "type": "collapsible"
+        },
+        {
+          "id": "campusSection",
+          "name": "Campuses & location",
+          "type": "collapsible"
+        },
+        {
+          "id": "ibSection",
+          "name": "What is IB?",
+          "type": "collapsible",
+          "includesFaq": true,
+          "faqKey": "faq.ibProgram"
+        },
+        {
+          "id": "faqSection",
+          "name": "FAQ Section",
+          "type": "collapsible",
+          "includesFaq": true,
+          "faqKeys": [
+            "faq.philosophy",
+            "faq.academicSupport",
+            "faq.quality",
+            "faq.competition",
+            "faq.safety",
+            "faq.parentInvolvement",
+            "faq.notRightFit"
+          ]
+        }
+      ],
+      "navigation": {
+        "next": ["campusScreen"],
+        "previous": ["welcomeScreen"]
+      }
+    },
+    {
+      "id": "campusScreen",
+      "name": "Campus Selection",
+      "path": "/campus",
+      "type": "form",
+      "file": "public/index.html",
+      "lineRange": [221, 251],
+      "components": [
+        "campus-options",
+        "stream-choice-faq"
+      ],
+      "faqs": [
+        {
+          "key": "faq.streamChoice",
+          "question": "Русский поток или IB поток? Что выбрать для моего ребёнка?",
+          "location": "embedded"
+        }
+      ],
+      "navigation": {
+        "next": ["dobScreen"],
+        "previous": ["menuScreen"]
+      }
+    },
+    {
+      "id": "dobScreen",
+      "name": "Date of Birth Entry",
+      "path": "/dob",
+      "type": "form",
+      "file": "public/index.html",
+      "lineRange": [253, 280],
+      "components": [
+        "early-education-faq",
+        "children-dob-list",
+        "add-child-button",
+        "calculate-button"
+      ],
+      "faqs": [
+        {
+          "key": "faq.earlyEducation",
+          "question": "Ребёнку всего 2 года. Зачем так рано думать о школе?",
+          "location": "embedded"
+        }
+      ],
+      "navigation": {
+        "next": ["resultsScreen"],
+        "previous": ["campusScreen"]
+      }
+    },
+    {
+      "id": "resultsScreen",
+      "name": "Results & Submission",
+      "path": "/results",
+      "type": "results",
+      "file": "public/index.html",
+      "lineRange": [281, 368],
+      "components": [
+        "results-container",
+        "value-faq",
+        "outcomes-faq",
+        "sibling-note",
+        "next-steps-faq",
+        "submit-form"
+      ],
+      "faqs": [
+        {
+          "key": "faq.value",
+          "question": "Это дорого. Как понять, что оно того стоит?",
+          "location": "embedded"
+        },
+        {
+          "key": "faq.outcomes",
+          "question": "Куда поступают ваши выпускники?",
+          "location": "embedded"
+        },
+        {
+          "key": "faq.nextSteps",
+          "question": "Как сделать следующий шаг?",
+          "location": "embedded"
+        }
+      ],
+      "navigation": {
+        "next": ["thankYouScreen"],
+        "previous": ["dobScreen"]
+      }
+    },
+    {
+      "id": "thankYouScreen",
+      "name": "Thank You / Confirmation",
+      "path": "/thank-you",
+      "type": "confirmation",
+      "file": "public/index.html",
+      "lineRange": [369, 382],
+      "components": [
+        "thank-you-icon",
+        "thank-you-title",
+        "thank-you-message",
+        "close-button"
+      ],
+      "navigation": {
+        "next": null,
+        "previous": ["resultsScreen"]
+      }
+    }
+  ],
+  "faqs": {
+    "total": 13,
+    "locations": {
+      "menuScreen": {
+        "ibSection": ["faq.ibProgram"],
+        "faqSection": [
+          "faq.philosophy",
+          "faq.academicSupport",
+          "faq.quality",
+          "faq.competition",
+          "faq.safety",
+          "faq.parentInvolvement",
+          "faq.notRightFit"
+        ]
+      },
+      "campusScreen": ["faq.streamChoice"],
+      "dobScreen": ["faq.earlyEducation"],
+      "resultsScreen": ["faq.value", "faq.outcomes", "faq.nextSteps"]
+    }
+  },
+  "translations": {
+    "supportedLanguages": ["en", "uz", "ru", "tr"],
+    "faqLanguage": "ru",
+    "fileLocation": "public/js/translations/{lang}.json"
+  },
+  "navigationFlow": {
+    "entry": "welcomeScreen",
+    "flow": [
+      "welcomeScreen → menuScreen → campusScreen → dobScreen → resultsScreen → thankYouScreen"
+    ],
+    "alternativePaths": [
+      "menuScreen → [any collapsible section] (stays on menu)",
+      "resultsScreen → dobScreen (modify children)"
+    ]
+  }
+}
+

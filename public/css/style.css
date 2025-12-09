@@ -1018,6 +1018,105 @@ body {
     }
 }
 
+/* FAQ Styles */
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.faq-item,
+.faq-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.faq-item:hover,
+.faq-card:hover {
+    border-color: var(--primary-light);
+}
+
+.faq-question {
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-md);
+    font-family: var(--font-family);
+    transition: background 0.2s ease;
+}
+
+.faq-question:hover {
+    background: rgba(55, 73, 120, 0.02);
+}
+
+.faq-question span:first-child {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.4;
+}
+
+.faq-icon {
+    font-size: 20px;
+    color: var(--primary);
+    font-weight: 300;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.faq-item.active .faq-icon,
+.faq-card.active .faq-icon {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background: var(--bg-main);
+}
+
+.faq-item.active .faq-answer,
+.faq-card.active .faq-answer {
+    max-height: 2000px;
+    padding: var(--spacing-lg);
+}
+
+.faq-answer div {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    white-space: pre-line;
+}
+
+.faq-answer div strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.faq-answer div p {
+    margin-bottom: var(--spacing-sm);
+}
+
+.faq-answer div p:last-child {
+    margin-bottom: 0;
+}
+
 /* Dark Theme Support (Telegram) */
 body.dark-theme {
     --bg-main: #1A1A1A;

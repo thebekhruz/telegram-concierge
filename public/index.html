@@ -27,11 +27,14 @@
                 <img src="/images/hero.jpg" alt="Oxbridge Campus" class="hero-image" onerror="this.style.display='none'">
 
                 <div class="welcome-inner">
-                    <img src="/images/oxbridge-logo.png" alt="Oxbridge" class="logo" onerror="this.style.display='none'">
-                    <h1 class="welcome-title" data-i18n="welcomeTitle">Oxbridge International School</h1>
-                    <p class="welcome-subtitle" data-i18n="welcomeSubtitle">Admissions Assistant</p>
-                    <p class="welcome-text" data-i18n="welcomeText">Plan your child's education at our Mirzo-Ulugbek and Yashnobod campuses for 2025–2026.</p>
-                    <p class="welcome-instruction" data-i18n="welcomeInstruction">Choose your language to begin.</p>
+                    <div class="logo-container">
+                        <img src="/images/oxbridge-logo.png" alt="Oxbridge" class="logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div class="logo-text" style="display: none;">OXBRIDGE</div>
+                    </div>
+                    <h1 class="welcome-title" data-i18n="welcome.title">Oxbridge International School</h1>
+                    <p class="welcome-subtitle" data-i18n="welcome.subtitle">Admissions Assistant</p>
+                    <p class="welcome-text" data-i18n="welcome.description">Plan your child's education at our Mirzo-Ulugbek and Yashnobod campuses for 2025–2026.</p>
+                    <p class="welcome-instruction" data-i18n="welcome.instruction">Choose your language to begin.</p>
 
                     <div class="language-buttons">
                         <button class="lang-btn" onclick="selectLanguage('uz')">O'zbekcha</button>
@@ -53,80 +56,169 @@
                     <button class="menu-card primary" onclick="startCalculator()">
                         <div class="menu-card-title" data-i18n="tuitionCalculator">Tuition Calculator</div>
                         <div class="menu-card-desc" data-i18n="tuitionCalculatorDesc">Calculate tuition for your children</div>
+                <h2 class="screen-title" data-i18n="menu.title">Admissions 2025–2026</h2>
+
+                <div class="menu-sections">
+                    <button class="menu-card primary" onclick="startCalculator()">
+                        <div class="menu-card-title" data-i18n="menu.tuitionCalculator">Tuition Calculator</div>
+                        <div class="menu-card-desc" data-i18n="menu.tuitionCalculatorDesc">Calculate tuition for your children</div>
                     </button>
 
                     <button class="menu-card collapsible" onclick="toggleSection('includedSection')">
-                        <div class="menu-card-title">What is included in tuition</div>
+                        <div class="menu-card-title" data-i18n="menu.whatIncluded">What is included in tuition</div>
                         <span class="expand-icon">+</span>
                     </button>
                     <div class="collapsible-content" id="includedSection">
                         <div class="info-grid">
                             <div class="info-item">
-                                <div class="info-title">Academic programme</div>
-                                <div class="info-desc">Full-day learning programme with qualified international and local teachers</div>
+                                <div class="info-title" data-i18n="included.academicProgramme">Academic programme</div>
+                                <div class="info-desc" data-i18n="included.academicProgrammeDesc">Full-day learning programme with qualified international and local teachers</div>
                             </div>
                             <div class="info-item">
-                                <div class="info-title">Campus facilities</div>
-                                <div class="info-desc">Access to modern classrooms, laboratories, libraries, and sports facilities</div>
+                                <div class="info-title" data-i18n="included.campusFacilities">Campus facilities</div>
+                                <div class="info-desc" data-i18n="included.campusFacilitiesDesc">Access to modern classrooms, laboratories, libraries, and sports facilities</div>
                             </div>
                             <div class="info-item">
-                                <div class="info-title">Sports & activities</div>
-                                <div class="info-desc">PE lessons, sports clubs, and extracurricular activities</div>
+                                <div class="info-title" data-i18n="included.sportsActivities">Sports & activities</div>
+                                <div class="info-desc" data-i18n="included.sportsActivitiesDesc">PE lessons, sports clubs, and extracurricular activities</div>
                             </div>
                             <div class="info-item">
-                                <div class="info-title">Meals</div>
-                                <div class="info-desc">Daily meals including breakfast, lunch, and snacks</div>
+                                <div class="info-title" data-i18n="included.meals">Meals</div>
+                                <div class="info-desc" data-i18n="included.mealsDesc">Daily meals including breakfast, lunch, and snacks</div>
                             </div>
                             <div class="info-item">
-                                <div class="info-title">Pastoral care</div>
-                                <div class="info-desc">Individual support and wellbeing programmes for every student</div>
+                                <div class="info-title" data-i18n="included.pastoralCare">Pastoral care</div>
+                                <div class="info-desc" data-i18n="included.pastoralCareDesc">Individual support and wellbeing programmes for every student</div>
                             </div>
                         </div>
                     </div>
 
                     <button class="menu-card collapsible" onclick="toggleSection('campusSection')">
-                        <div class="menu-card-title">Campuses & location</div>
+                        <div class="menu-card-title" data-i18n="menu.campusesLocation">Campuses & location</div>
                         <span class="expand-icon">+</span>
                     </button>
                     <div class="collapsible-content" id="campusSection">
                         <div class="campus-block">
                             <img src="/images/campus-mu.jpg" alt="MU Campus" class="campus-image" onerror="this.src='/images/placeholder.svg'">
-                            <h4>Mirzo-Ulugbek Campus</h4>
+                            <h4 data-i18n="campusInfo.muTitle">Mirzo-Ulugbek Campus</h4>
                             <ul class="campus-features">
-                                <li>Convenient for families in central Tashkent</li>
-                                <li>Established campus with sports halls, labs, and theatre</li>
-                                <li>Russian & IB streams available</li>
+                                <li data-i18n="campusInfo.muFeature1">Convenient for families in central Tashkent</li>
+                                <li data-i18n="campusInfo.muFeature2">Established campus with sports halls, labs, and theatre</li>
+                                <li data-i18n="campusInfo.muFeature3">Russian & IB streams available</li>
                             </ul>
                         </div>
                         <div class="campus-block">
                             <img src="/images/campus-yash.jpg" alt="Yashnobod Campus" class="campus-image" onerror="this.src='/images/placeholder.svg'">
-                            <h4>Yashnobod Campus</h4>
+                            <h4 data-i18n="campusInfo.yashTitle">Yashnobod Campus</h4>
                             <ul class="campus-features">
-                                <li>New large campus with modern facilities</li>
-                                <li>Spacious territory with extensive outdoor areas</li>
-                                <li>Russian & IB programmes, long-term development</li>
+                                <li data-i18n="campusInfo.yashFeature1">New large campus with modern facilities</li>
+                                <li data-i18n="campusInfo.yashFeature2">Spacious territory with extensive outdoor areas</li>
+                                <li data-i18n="campusInfo.yashFeature3">Russian & IB programmes, long-term development</li>
                             </ul>
                         </div>
                     </div>
 
                     <button class="menu-card collapsible" onclick="toggleSection('ibSection')">
-                        <div class="menu-card-title">What is IB?</div>
+                        <div class="menu-card-title" data-i18n="menu.whatIsIB">What is IB?</div>
                         <span class="expand-icon">+</span>
                     </button>
                     <div class="collapsible-content" id="ibSection">
-                        <p>The International Baccalaureate is an internationally recognised programme used by schools worldwide.</p>
+                        <p data-i18n="ib.description">The International Baccalaureate is an internationally recognised programme used by schools worldwide.</p>
                         <div class="ib-features">
                             <div class="ib-item">
-                                <div class="ib-title">Global recognition</div>
-                                <div class="ib-desc">Accepted by universities across the world</div>
+                                <div class="ib-title" data-i18n="ib.globalRecognition">Global recognition</div>
+                                <div class="ib-desc" data-i18n="ib.globalRecognitionDesc">Accepted by universities across the world</div>
                             </div>
                             <div class="ib-item">
-                                <div class="ib-title">Critical thinking</div>
-                                <div class="ib-desc">Focus on inquiry-based learning and analytical skills</div>
+                                <div class="ib-title" data-i18n="ib.criticalThinking">Critical thinking</div>
+                                <div class="ib-desc" data-i18n="ib.criticalThinkingDesc">Focus on inquiry-based learning and analytical skills</div>
                             </div>
                             <div class="ib-item">
-                                <div class="ib-title">University preparation</div>
-                                <div class="ib-desc">Excellent foundation for international higher education</div>
+                                <div class="ib-title" data-i18n="ib.universityPrep">University preparation</div>
+                                <div class="ib-desc" data-i18n="ib.universityPrepDesc">Excellent foundation for international higher education</div>
+                            </div>
+                        </div>
+                        <!-- IB FAQ -->
+                        <div class="faq-item" style="margin-top: var(--spacing-lg);">
+                            <button class="faq-question" onclick="toggleFaqItem(this)">
+                                <span data-i18n="faq.ibProgram.question">Я ничего не знаю про IB. Это только для тех, кто едет за границу?</span>
+                                <span class="faq-icon">+</span>
+                            </button>
+                            <div class="faq-answer">
+                                <div data-i18n-html="faq.ibProgram.answer"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Section -->
+                    <button class="menu-card collapsible" onclick="toggleSection('faqSection')">
+                        <div class="menu-card-title" data-i18n="faq.title">Часто задаваемые вопросы</div>
+                        <span class="expand-icon">+</span>
+                    </button>
+                    <div class="collapsible-content" id="faqSection">
+                        <div class="faq-list">
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaqItem(this)">
+                                    <span data-i18n="faq.philosophy.question">Чем Oxbridge отличается от других школ в Ташкенте?</span>
+                                    <span class="faq-icon">+</span>
+                                </button>
+                                <div class="faq-answer">
+                                    <div data-i18n-html="faq.philosophy.answer"></div>
+                                </div>
+                            </div>
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaqItem(this)">
+                                    <span data-i18n="faq.academicSupport.question">А если у ребёнка проблемы с учёбой? Он не отстанет?</span>
+                                    <span class="faq-icon">+</span>
+                                </button>
+                                <div class="faq-answer">
+                                    <div data-i18n-html="faq.academicSupport.answer"></div>
+                                </div>
+                            </div>
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaqItem(this)">
+                                    <span data-i18n="faq.quality.question">У вас 1100+ учеников. Как вы следите за качеством?</span>
+                                    <span class="faq-icon">+</span>
+                                </button>
+                                <div class="faq-answer">
+                                    <div data-i18n-html="faq.quality.answer"></div>
+                                </div>
+                            </div>
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaqItem(this)">
+                                    <span data-i18n="faq.competition.question">Мой ребёнок привык к рейтингам и конкуренции. Без оценок на виду он не расслабится?</span>
+                                    <span class="faq-icon">+</span>
+                                </button>
+                                <div class="faq-answer">
+                                    <div data-i18n-html="faq.competition.answer"></div>
+                                </div>
+                            </div>
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaqItem(this)">
+                                    <span data-i18n="faq.safety.question">Меня беспокоит безопасность. Как вы защищаете моего ребёнка?</span>
+                                    <span class="faq-icon">+</span>
+                                </button>
+                                <div class="faq-answer">
+                                    <div data-i18n-html="faq.safety.answer"></div>
+                                </div>
+                            </div>
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaqItem(this)">
+                                    <span data-i18n="faq.parentInvolvement.question">Насколько активно должны участвовать родители?</span>
+                                    <span class="faq-icon">+</span>
+                                </button>
+                                <div class="faq-answer">
+                                    <div data-i18n-html="faq.parentInvolvement.answer"></div>
+                                </div>
+                            </div>
+                            <div class="faq-item">
+                                <button class="faq-question" onclick="toggleFaqItem(this)">
+                                    <span data-i18n="faq.notRightFit.question">Что, если мы начнём и поймём, что это не наше?</span>
+                                    <span class="faq-icon">+</span>
+                                </button>
+                                <div class="faq-answer">
+                                    <div data-i18n-html="faq.notRightFit.answer"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -149,10 +241,32 @@
                     </button>
                     <button class="campus-option-card" onclick="selectCampus('BOTH')">
                         <div class="campus-option-title" data-i18n="bothCampuses">Show both campuses</div>
+                <h2 class="screen-title" data-i18n="campus.selectPreference">Select campus preference</h2>
+
+                <div class="campus-options">
+                    <button class="campus-option-card" onclick="selectCampus('MU')">
+                        <div class="campus-option-title" data-i18n="campus.muCampus">Mirzo-Ulugbek Campus</div>
+                    </button>
+                    <button class="campus-option-card" onclick="selectCampus('YASH')">
+                        <div class="campus-option-title" data-i18n="campus.yashCampus">Yashnobod Campus</div>
+                    </button>
+                    <button class="campus-option-card" onclick="selectCampus('BOTH')">
+                        <div class="campus-option-title" data-i18n="campus.showBoth">Show both campuses</div>
                     </button>
                 </div>
 
-                <button class="back-link" onclick="goToMenu()">← Back to menu</button>
+                <!-- Stream Choice FAQ -->
+                <div class="faq-card" style="margin-top: var(--spacing-xl); margin-bottom: var(--spacing-lg);">
+                    <button class="faq-question" onclick="toggleFaqItem(this)">
+                        <span data-i18n="faq.streamChoice.question">Русский поток или IB поток? Что выбрать для моего ребёнка?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div data-i18n-html="faq.streamChoice.answer"></div>
+                    </div>
+                </div>
+
+                <button class="back-link" onclick="goToMenu()" data-i18n="campus.backToMenu">← Back to menu</button>
             </div>
         </div>
 
@@ -164,15 +278,27 @@
                 
                 <div id="campusImageContainer" class="campus-image-container">
                     <img id="campusImage" src="" alt="Campus" class="page-hero-image" style="display: none;" onerror="this.style.display='none'">
+                <h2 class="screen-title" data-i18n="dob.title">Children applying for 2025–2026</h2>
+                <p class="screen-subtitle" data-i18n="dob.subtitle">Enter date of birth for each child</p>
+
+                <!-- Early Education FAQ -->
+                <div class="faq-card" style="margin-bottom: var(--spacing-lg);">
+                    <button class="faq-question" onclick="toggleFaqItem(this)">
+                        <span data-i18n="faq.earlyEducation.question">Ребёнку всего 2 года. Зачем так рано думать о школе?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div data-i18n-html="faq.earlyEducation.answer"></div>
+                    </div>
                 </div>
 
                 <div id="childrenDobList" class="dob-list"></div>
 
-                <button class="add-child-btn" onclick="addChildDob()">+ Add another child</button>
+                <button class="add-child-btn" onclick="addChildDob()" data-i18n="dob.addChild">+ Add another child</button>
 
-                <button class="primary-btn" onclick="calculateTuition()">Calculate tuition</button>
+                <button class="primary-btn" onclick="calculateTuition()" data-i18n="dob.calculate">Calculate tuition</button>
 
-                <button class="back-link" onclick="goToCampusSelection()">← Back</button>
+                <button class="back-link" onclick="goToCampusSelection()" data-i18n="dob.back">← Back</button>
             </div>
         </div>
 
@@ -180,12 +306,46 @@
         <div class="screen" id="resultsScreen">
             <div class="screen-content">
                 <h2 class="screen-title" data-i18n="availableOptions">Available options for 2025–2026</h2>
+                <h2 class="screen-title" data-i18n="results.title">Available options for 2025–2026</h2>
 
                 <div id="resultsContainer"></div>
+
+                <!-- Value & Outcomes FAQs -->
+                <div class="faq-card" style="margin-top: var(--spacing-xl); margin-bottom: var(--spacing-lg);">
+                    <button class="faq-question" onclick="toggleFaqItem(this)">
+                        <span data-i18n="faq.value.question">Это дорого. Как понять, что оно того стоит?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div data-i18n-html="faq.value.answer"></div>
+                    </div>
+                </div>
+
+                <div class="faq-card" style="margin-bottom: var(--spacing-lg);">
+                    <button class="faq-question" onclick="toggleFaqItem(this)">
+                        <span data-i18n="faq.outcomes.question">Куда поступают ваши выпускники?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div data-i18n-html="faq.outcomes.answer"></div>
+                    </div>
+                </div>
 
                 <!-- Sibling note -->
                 <div class="sibling-note" id="siblingNote" style="display: none;">
                     <p data-i18n="siblingNote">For your family enrolling multiple children in 2025–2026, tuition will be calculated with family discounts where applicable. Our admissions team will prepare a personalised offer.</p>
+                    <p data-i18n="results.siblingNote">For your family enrolling multiple children in 2025–2026, tuition will be calculated with family discounts where applicable. Our admissions team will prepare a personalised offer.</p>
+                </div>
+
+                <!-- Next Steps FAQ -->
+                <div class="faq-card" style="margin-bottom: var(--spacing-xl);">
+                    <button class="faq-question" onclick="toggleFaqItem(this)">
+                        <span data-i18n="faq.nextSteps.question">Как сделать следующий шаг?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div data-i18n-html="faq.nextSteps.answer"></div>
+                    </div>
                 </div>
 
                 <!-- Submit Form -->
@@ -205,14 +365,29 @@
 
                         <div class="form-field">
                             <label data-i18n="preferredContact">Preferred contact method</label>
+                    <h3 class="submit-title" data-i18n="submit.title">Request a detailed calculation and consultation</h3>
+
+                    <div class="submit-form">
+                        <div class="form-field">
+                            <label data-i18n="submit.parentName">Parent name</label>
+                            <input type="text" id="parentName" class="input-field" data-i18n="submit.parentNamePlaceholder" placeholder="Enter your full name">
+                        </div>
+
+                        <div class="form-field">
+                            <label data-i18n="submit.phoneNumber">Phone number</label>
+                            <input type="tel" id="parentPhone" class="input-field" data-i18n="submit.phonePlaceholder" placeholder="+998 XX XXX XX XX">
+                        </div>
+
+                        <div class="form-field">
+                            <label data-i18n="submit.contactMethod">Preferred contact method</label>
                             <div class="radio-options">
                                 <label class="radio-label">
                                     <input type="radio" name="contactMethod" value="telegram" checked>
-                                    <span>Telegram</span>
+                                    <span data-i18n="submit.telegram">Telegram</span>
                                 </label>
                                 <label class="radio-label">
                                     <input type="radio" name="contactMethod" value="call">
-                                    <span>Phone call</span>
+                                    <span data-i18n="submit.phoneCall">Phone call</span>
                                 </label>
                             </div>
                         </div>
@@ -221,14 +396,15 @@
                             <label class="checkbox-container">
                                 <input type="checkbox" id="waitlistCheck">
                                 <span data-i18n="waitlistCheck">Add younger child to waitlist for future years</span>
+                                <span data-i18n="submit.waitlist">Add younger child to waitlist for future years</span>
                             </label>
                         </div>
 
-                        <button class="primary-btn" onclick="submitRequest()">Submit request to Admissions</button>
+                        <button class="primary-btn" onclick="submitRequest()" data-i18n="submit.submit">Submit request to Admissions</button>
                     </div>
                 </div>
 
-                <button class="back-link" onclick="goToDobEntry()">← Modify children</button>
+                <button class="back-link" onclick="goToDobEntry()" data-i18n="results.modifyChildren">← Modify children</button>
             </div>
         </div>
 
@@ -239,8 +415,11 @@
                 <h2 class="thank-you-title" data-i18n="thankYou">Thank you</h2>
                 <p class="thank-you-text" data-i18n="thankYouText1">Your request has been received by our Admissions team.</p>
                 <p class="thank-you-text" data-i18n="thankYouText2">They will contact you soon to provide a detailed calculation and answer your questions.</p>
+                <h2 class="thank-you-title" data-i18n="thankYou.title">Thank you</h2>
+                <p class="thank-you-text" data-i18n="thankYou.message1">Your request has been received by our Admissions team.</p>
+                <p class="thank-you-text" data-i18n="thankYou.message2">They will contact you soon to provide a detailed calculation and answer your questions.</p>
 
-                <button class="secondary-btn" onclick="tg.close()">Close</button>
+                <button class="secondary-btn" onclick="tg.close()" data-i18n="thankYou.close">Close</button>
             </div>
         </div>
 
@@ -250,6 +429,7 @@
         </div>
     </div>
 
+    <script src="/js/translations.js"></script>
     <script src="/js/app.js"></script>
 </body>
 </html>
