@@ -53,6 +53,91 @@ const state = {
 };
 
 // ============================================================================
+// LANGUAGE SELECTION - Define early so it's available immediately
+// ============================================================================
+
+/**
+ * Select language and apply translations
+ * Dynamically loads the selected language file
+ * @param {string} lang - Language code (en, ru, uz, tr)
+ * @param {boolean} skipNavigation - If true, don't navigate to valuePropositionScreen (used when called from modal)
+ */
+window.selectLanguage = async function(lang, skipNavigation = false) {
+    console.log('selectLanguage called with:', lang);
+    
+    if (!lang || !['en', 'ru', 'uz', 'tr'].includes(lang)) {
+        console.error('Invalid language:', lang);
+        alert('Invalid language selected. Please try again.');
+        return;
+    }
+    
+    try {
+        // Update state
+        state.language = lang;
+        console.log('Language set to:', state.language);
+        
+        // Load the language file dynamically
+        const loadLang = window.loadLanguage || (() => Promise.resolve());
+        await loadLang(lang);
+        console.log(`Language "${lang}" loaded`);
+        
+        // Navigate to next screen (unless skipNavigation is true)
+        if (!skipNavigation) {
+            const targetScreen = document.getElementById('valuePropositionScreen');
+            const bottomNav = document.getElementById('bottomNav');
+            const allScreens = document.querySelectorAll('.screen');
+            
+            if (targetScreen) {
+                allScreens.forEach(screen => screen.classList.remove('active'));
+                targetScreen.classList.add('active');
+                if (bottomNav) {
+                    bottomNav.classList.remove('hidden');
+                }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                console.log('Navigated to valuePropositionScreen');
+            } else {
+                console.error('valuePropositionScreen not found');
+            }
+        }
+        
+        // Apply translations after language is loaded
+        const applyTranslationsNow = () => {
+            if (typeof applyTranslations === 'function') {
+                applyTranslations();
+                return true;
+            } else if (typeof window.applyTranslations === 'function') {
+                window.applyTranslations();
+                return true;
+            }
+            return false;
+        };
+        
+        // Apply translations immediately
+        applyTranslationsNow();
+        
+        // Retry after a short delay to ensure DOM is ready
+        setTimeout(() => {
+            applyTranslationsNow();
+        }, 100);
+        
+    } catch (error) {
+        console.error('Error in selectLanguage:', error);
+        // Fallback: just navigate to next screen (if not skipping)
+        if (!skipNavigation) {
+            const targetScreen = document.getElementById('valuePropositionScreen');
+            if (targetScreen) {
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                targetScreen.classList.add('active');
+                const bottomNav = document.getElementById('bottomNav');
+                if (bottomNav) {
+                    bottomNav.classList.remove('hidden');
+                }
+            }
+        }
+    }
+};
+
+// ============================================================================
 // INITIALIZATION
 // ============================================================================
 
@@ -75,6 +160,89 @@ function applyTelegramTheme() {
 }
 
 // ============================================================================
+// LANGUAGE SELECTION SCREEN
+// ============================================================================
+
+/**
+ * Show language selection screen
+ * Allows users to change language from the main menu
+ */
+window.showLanguageSelection = function() {
+    // Create or show language selection modal/overlay
+    const existingModal = document.getElementById('languageSelectionModal');
+    
+    if (existingModal) {
+        existingModal.classList.remove('hidden');
+        return;
+    }
+    
+    // Create modal overlay
+    const modal = document.createElement('div');
+    modal.id = 'languageSelectionModal';
+    modal.className = 'fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4';
+    modal.innerHTML = `
+        <div class="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-primary" data-i18n="select_language_title">Select Language</h2>
+                <button onclick="closeLanguageSelection()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="space-y-3">
+                <button onclick="selectLanguage('uz', true); closeLanguageSelection();" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border-2 border-gray-200 hover:border-primary hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" data-i18n="lang_uz">
+                    O'zbekcha
+                </button>
+
+                <button onclick="selectLanguage('en', true); closeLanguageSelection();" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border-2 border-gray-200 hover:border-primary hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" data-i18n="lang_en">
+                    English
+                </button>
+
+                <button onclick="selectLanguage('ru', true); closeLanguageSelection();" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border-2 border-gray-200 hover:border-primary hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" data-i18n="lang_ru">
+                    Русский
+                </button>
+
+                <button onclick="selectLanguage('tr', true); closeLanguageSelection();" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border-2 border-gray-200 hover:border-primary hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" data-i18n="lang_tr">
+                    Türkçe
+                </button>
+            </div>
+        </div>
+    `;
+    
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeLanguageSelection();
+        }
+    });
+    
+    document.body.appendChild(modal);
+    
+    // Apply translations to modal
+    setTimeout(() => {
+        if (typeof applyTranslations === 'function') {
+            applyTranslations();
+        }
+    }, 50);
+};
+
+/**
+ * Close language selection modal
+ */
+window.closeLanguageSelection = function() {
+    const modal = document.getElementById('languageSelectionModal');
+    if (modal) {
+        modal.classList.add('hidden');
+        // Remove after animation
+        setTimeout(() => {
+            modal.remove();
+        }, 200);
+    }
+};
+
+// ============================================================================
 // NAVIGATION
 // ============================================================================
 
@@ -89,6 +257,11 @@ function showScreen(screenId, param) {
     const allScreens = document.querySelectorAll('.screen');
     const targetScreen = document.getElementById(screenId);
     const bottomNav = document.getElementById('bottomNav');
+
+    if (!targetScreen) {
+        console.error('Screen not found:', screenId);
+        return;
+    }
 
     // Hide all screens and show target
     allScreens.forEach(screen => screen.classList.remove('active'));
@@ -114,6 +287,11 @@ function showScreen(screenId, param) {
         leadCaptureTitle.textContent = titles[param] || titles.tour;
     }
 
+    // Re-apply translations when switching screens
+    setTimeout(() => {
+        applyTranslations();
+    }, 50);
+
     // Scroll to top for better UX
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -126,27 +304,41 @@ function showScreen(screenId, param) {
  * Apply translations to all elements with data-i18n attribute
  */
 function applyTranslations() {
+    const tFunc = window.t || (typeof t !== 'undefined' ? t : null);
+    
+    if (!tFunc) {
+        console.warn('Translation function t() is not available yet');
+        return;
+    }
+    
     console.log('Applying translations for language:', state.language);
     const elements = document.querySelectorAll('[data-i18n]');
     console.log('Found', elements.length, 'elements with data-i18n');
 
     elements.forEach(element => {
         const key = element.getAttribute('data-i18n');
-        const translation = t(key, state.language);
-        element.textContent = translation;
+        if (!key) return;
+        
+        try {
+            const translation = tFunc(key, state.language);
+            if (translation && translation !== key) {
+                // Preserve button text if it's a button with onclick
+                if (element.tagName === 'BUTTON' && element.hasAttribute('onclick')) {
+                    // For language buttons, keep the native language name
+                    if (key.startsWith('lang_')) {
+                        // Don't translate language button labels - they should stay in their native language
+                        return;
+                    }
+                }
+                element.textContent = translation;
+            }
+        } catch (error) {
+            console.error('Error translating key:', key, error);
+        }
     });
 }
 
-/**
- * Select language and apply translations
- * @param {string} lang - Language code (en, ru, uz, tr)
- */
-function selectLanguage(lang) {
-    console.log('Language selected:', lang);
-    state.language = lang;
-    applyTranslations();
-    showScreen('valuePropositionScreen');
-}
+// selectLanguage is now defined earlier in the file (moved to top for immediate availability)
 
 // ============================================================================
 // QUIZ HANDLING - SMART USER ROUTING
@@ -485,9 +677,15 @@ tg.BackButton.onClick(() => {
 // Make functions accessible to HTML onclick handlers and Alpine.js
 // ============================================================================
 
-window.selectLanguage = selectLanguage;
+// Ensure t function is available (from translations.js)
+if (typeof t === 'undefined') {
+    console.error('Translation function t() is not available. Make sure translations.js is loaded before app.js');
+}
+
+// selectLanguage is already defined on window at the top of the file
 window.showScreen = showScreen;
 window.addChild = addChild;
 window.removeChild = removeChild;
 window.updateChild = updateChild;
 window.calculateTuition = calculateTuition;
+window.applyTranslations = applyTranslations;

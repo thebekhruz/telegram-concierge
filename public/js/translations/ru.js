@@ -1,0 +1,112 @@
+// Russian translations
+window.translations = window.translations || {};
+window.translations.ru = {
+    // Welcome Screen
+    welcome_title: "Международная школа Оксбридж",
+    welcome_subtitle: "Помощник по приёму",
+    welcome_text: "Спланируйте образование вашего ребёнка в наших кампусах Мирзо-Улугбек и Яшнобод на 2025–2026 гг.",
+    welcome_instruction: "Выберите язык для начала.",
+
+    // Language buttons
+    lang_uz: "O'zbekcha",
+    lang_ru: "Русский",
+    lang_tr: "Türkçe",
+    lang_en: "English",
+
+    // Main Menu
+    menu_title: "Приём 2025–2026",
+    calculator_title: "Калькулятор стоимости",
+    calculator_desc: "Рассчитайте стоимость обучения для ваших детей",
+
+    // Collapsible Sections
+    section_included_title: "Что входит в стоимость",
+    section_campus_title: "Кампусы и расположение",
+    section_ib_title: "Что такое IB?",
+
+    // What's Included
+    included_academic_title: "Учебная программа",
+    included_academic_desc: "Полный день обучения с квалифицированными международными и местными учителями",
+    included_facilities_title: "Инфраструктура кампуса",
+    included_facilities_desc: "Доступ к современным классам, лабораториям, библиотекам и спортивным объектам",
+    included_sports_title: "Спорт и мероприятия",
+    included_sports_desc: "Уроки физкультуры, спортивные секции и внеклассные мероприятия",
+    included_meals_title: "Питание",
+    included_meals_desc: "Ежедневное питание, включая завтрак, обед и перекусы",
+    included_pastoral_title: "Забота о детях",
+    included_pastoral_desc: "Индивидуальная поддержка и программы благополучия для каждого ученика",
+
+    // Campus Selection
+    campus_screen_title: "Выберите кампус",
+    campus_mu: "Мирзо-Улугбек",
+    campus_yash: "Яшнобод",
+    campus_both: "Показать оба кампуса",
+    campus_mu_feature_1: "Удобно для семей в центре Ташкента",
+    campus_mu_feature_2: "Установленный кампус со спортивными залами, лабораториями и театром",
+    campus_yash_feature_1: "Современный кампус в развивающемся районе",
+    campus_yash_feature_2: "Современные удобства и открытые пространства",
+
+    // DOB Entry
+    dob_screen_title: "Введите даты рождения",
+    dob_instruction: "Введите дату рождения для каждого ребёнка, которого хотите записать.",
+    child_number: "Ребёнок",
+    add_child: "+ Добавить ещё одного ребёнка",
+    remove_child: "Удалить",
+    calculate_btn: "Рассчитать стоимость",
+
+    // Results
+    results_screen_title: "Результаты расчёта",
+    age_as_of: "Возраст",
+    as_of_date: "(на 1 сентября 2025)",
+    price_from: "от",
+    price_per_month: "сум в месяц",
+    price_per_quarter: "сум в квартал",
+    price_approx: "(приблизительно)",
+
+    sibling_note: "У вас несколько детей. Наша приёмная комиссия применит семейные скидки при подготовке вашего персонального предложения.",
+
+    price_disclaimer_1: "Указанные цены являются приблизительными и основаны на тарифах 2025–2026 гг. В вашем окончательном предложении будут учтены семейные скидки, планы оплаты и любые применимые акции.",
+    price_disclaimer_2: "Наша приёмная комиссия подготовит персональный расчёт для вашей семьи.",
+
+    too_young_msg_1: "Этому ребёнку будет меньше 3 лет на начало 2025–2026 учебного года.",
+    too_young_msg_2: "Мы приглашаем вас добавить его в лист ожидания для будущего зачисления.",
+
+    // Submit Form
+    submit_title: "Запросить звонок от приёмной комиссии",
+    parent_name_label: "Ваше полное имя",
+    parent_name_placeholder: "Введите ваше имя",
+    parent_phone_label: "Номер телефона",
+    parent_phone_placeholder: "+998 XX XXX XX XX",
+    contact_method_label: "Предпочтительный способ связи",
+    contact_telegram: "Telegram",
+    contact_call: "Телефонный звонок",
+    waitlist_label: "Добавить в лист ожидания для будущего зачисления",
+    submit_btn: "Отправить запрос",
+
+    // Thank You
+    thank_you_title: "Спасибо!",
+    thank_you_msg_1: "Ваш запрос получен. Наша приёмная комиссия свяжется с вами в ближайшее время.",
+    thank_you_msg_2: "Мы с нетерпением ждём возможности приветствовать вашу семью в Международной школе Оксбридж.",
+
+    // Programme Names
+    prog_ib_kg: "IB Детский сад",
+    prog_ib_pyp: "IB Начальная школа",
+    prog_ib_myp: "IB Средняя школа",
+    prog_ib_dp: "IB Дипломная программа",
+    prog_rus: "Русская школа",
+    prog_kg_rus: "Русский детский сад",
+    prog_kg_bi: "Двуязычный детский сад",
+
+    // Buttons
+    btn_back: "Назад",
+    btn_next: "Далее",
+    btn_close: "Закрыть",
+    btn_change_language: "Изменить язык",
+    select_language_title: "Выберите язык",
+
+    // Validation
+    val_enter_dob: "Пожалуйста, введите дату рождения для всех детей",
+    val_enter_name: "Пожалуйста, введите ваше полное имя",
+    val_enter_phone: "Пожалуйста, введите ваш номер телефона",
+    val_error: "Что-то пошло не так. Пожалуйста, попробуйте снова или свяжитесь с нами напрямую."
+};
+

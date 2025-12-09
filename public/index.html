@@ -57,7 +57,13 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['-apple-system', 'BlinkMacSystemFont', 'San Francisco', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                        // Philosopher for Latin & Cyrillic, Noto Sans as fallback for broad language support
+                        sans: [
+                            'Philosopher',           // Main: Philosopher (Latin, Cyrillic, Greek)
+                            'Noto Sans',             // Multi-script fallback (Google Fonts)
+                            'Segoe UI', 'Roboto', 'Helvetica Neue', // Modern system fonts
+                            'Arial', 'sans-serif'
+                        ],
                     }
                 }
             }
@@ -68,6 +74,9 @@
 
     <!-- Translations -->
     <script src="/js/translations.js"></script>
+    
+    <!-- App.js - Load early so selectLanguage is available immediately -->
+    <script src="/js/app.js"></script>
 
     <!-- Alpine.js for interactive components (accordions, tabs, modals) -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>
@@ -138,19 +147,19 @@
                     Choose your language to begin.
                 </p>
 
-                <button onclick="selectLanguage('uz')" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                <button onclick="selectLanguage('uz')" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" data-i18n="lang_uz">
                     O'zbekcha
                 </button>
 
-                <button onclick="selectLanguage('en')" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                <button onclick="selectLanguage('en')" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" data-i18n="lang_en">
                     English
                 </button>
 
-                <button onclick="selectLanguage('ru')" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                <button onclick="selectLanguage('ru')" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" data-i18n="lang_ru">
                     Русский
                 </button>
 
-                <button onclick="selectLanguage('tr')" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                <button onclick="selectLanguage('tr')" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" data-i18n="lang_tr">
                     Türkçe
                 </button>
             </div>
@@ -225,6 +234,14 @@
                         Read FAQs
                     </button>
                 </div>
+
+                <!-- Language Change Button -->
+                <button onclick="showLanguageSelection()" class="w-full px-4 py-3 bg-gray-50 text-gray-700 font-medium rounded-xl border border-gray-200 hover:bg-gray-100 hover:border-gray-300 transition-all duration-200 flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+                    </svg>
+                    <span data-i18n="btn_change_language">Change Language</span>
+                </button>
             </div>
         </div>
     </div>
@@ -433,36 +450,48 @@
 
                 <!-- Learning & Programs FAQs -->
                 <div x-show="activeCategory === 'learning'" x-transition class="space-y-3">
-                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
-                            <span class="font-semibold text-gray-900">Why don't children fear learning here?</span>
-                            <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary"></span>
+                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md">
+                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left group">
+                            <span class="font-semibold text-gray-900 pr-3">Why don't children fear learning here?</span>
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-200 group-hover:bg-primary/20" :class="open ? 'bg-primary/20' : ''">
+                                <svg class="w-4 h-4 text-primary transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
                         </button>
-                        <div x-show="open" x-transition class="px-5 pb-4">
+                        <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="px-5 pb-4 pt-0">
                             <p class="text-gray-700 leading-relaxed">
                                 We focus on personal growth rather than competition. Students compete with themselves, not each other, which removes fear and builds genuine interest in learning.
                             </p>
                         </div>
                     </div>
 
-                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
-                            <span class="font-semibold text-gray-900">Is IB only for going abroad?</span>
-                            <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary"></span>
+                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md">
+                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left group">
+                            <span class="font-semibold text-gray-900 pr-3">Is IB only for going abroad?</span>
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-200 group-hover:bg-primary/20" :class="open ? 'bg-primary/20' : ''">
+                                <svg class="w-4 h-4 text-primary transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
                         </button>
-                        <div x-show="open" x-transition class="px-5 pb-4">
+                        <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="px-5 pb-4 pt-0">
                             <p class="text-gray-700 leading-relaxed">
                                 No! IB Diploma is recognized locally too. IB graduates can skip directly to 2nd year at many Tashkent universities, plus they earn both IB Diploma and Uzbek State Certificate.
                             </p>
                         </div>
                     </div>
 
-                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
-                            <span class="font-semibold text-gray-900">Russian Stream or IB Stream?</span>
-                            <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary"></span>
+                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md">
+                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left group">
+                            <span class="font-semibold text-gray-900 pr-3">Russian Stream or IB Stream?</span>
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-200 group-hover:bg-primary/20" :class="open ? 'bg-primary/20' : ''">
+                                <svg class="w-4 h-4 text-primary transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
                         </button>
-                        <div x-show="open" x-transition class="px-5 pb-4">
+                        <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="px-5 pb-4 pt-0">
                             <p class="text-gray-700 leading-relaxed mb-2">
                                 <strong>Russian Stream:</strong> Systematic, structured learning. Best for students who thrive with clear structure. Earns Uzbek State Certificate.
                             </p>
@@ -475,24 +504,32 @@
 
                 <!-- Admissions FAQs -->
                 <div x-show="activeCategory === 'admissions'" x-transition class="space-y-3">
-                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
-                            <span class="font-semibold text-gray-900">How do I book a school tour?</span>
-                            <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary"></span>
+                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md">
+                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left group">
+                            <span class="font-semibold text-gray-900 pr-3">How do I book a school tour?</span>
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-200 group-hover:bg-primary/20" :class="open ? 'bg-primary/20' : ''">
+                                <svg class="w-4 h-4 text-primary transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
                         </button>
-                        <div x-show="open" x-transition class="px-5 pb-4">
+                        <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="px-5 pb-4 pt-0">
                             <p class="text-gray-700 leading-relaxed">
                                 Click "Next Steps" in the bottom navigation and choose "School Tour". We'll contact you within 2 hours to schedule your visit.
                             </p>
                         </div>
                     </div>
 
-                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
-                            <span class="font-semibold text-gray-900">What documents are needed for enrollment?</span>
-                            <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary"></span>
+                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md">
+                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left group">
+                            <span class="font-semibold text-gray-900 pr-3">What documents are needed for enrollment?</span>
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-200 group-hover:bg-primary/20" :class="open ? 'bg-primary/20' : ''">
+                                <svg class="w-4 h-4 text-primary transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
                         </button>
-                        <div x-show="open" x-transition class="px-5 pb-4">
+                        <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="px-5 pb-4 pt-0">
                             <p class="text-gray-700 leading-relaxed">
                                 Birth certificate, passport copies (parent and child), previous school records, and medical certificate. Our admissions team will guide you through the complete list.
                             </p>
@@ -502,36 +539,48 @@
 
                 <!-- Tuition FAQs -->
                 <div x-show="activeCategory === 'tuition'" x-transition class="space-y-3">
-                    <div x-data="{ open: true }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
-                            <span class="font-semibold text-gray-900">Can I pay monthly?</span>
-                            <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary"></span>
+                    <div x-data="{ open: true }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md">
+                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left group">
+                            <span class="font-semibold text-gray-900 pr-3">Can I pay monthly?</span>
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-200 group-hover:bg-primary/20" :class="open ? 'bg-primary/20' : ''">
+                                <svg class="w-4 h-4 text-primary transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
                         </button>
-                        <div x-show="open" x-transition class="px-5 pb-4">
+                        <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="px-5 pb-4 pt-0">
                             <p class="text-gray-700 leading-relaxed">
                                 Yes! We offer flexible payment plans including monthly installments. Use the Calculator to see monthly payment options for your family.
                             </p>
                         </div>
                     </div>
 
-                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
-                            <span class="font-semibold text-gray-900">Are there sibling discounts?</span>
-                            <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary"></span>
+                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md">
+                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left group">
+                            <span class="font-semibold text-gray-900 pr-3">Are there sibling discounts?</span>
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-200 group-hover:bg-primary/20" :class="open ? 'bg-primary/20' : ''">
+                                <svg class="w-4 h-4 text-primary transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
                         </button>
-                        <div x-show="open" x-transition class="px-5 pb-4">
+                        <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="px-5 pb-4 pt-0">
                             <p class="text-gray-700 leading-relaxed">
                                 Yes! We offer 10% discount on the second child's tuition. This is automatically calculated in our Tuition Calculator.
                             </p>
                         </div>
                     </div>
 
-                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
-                            <span class="font-semibold text-gray-900">What's included in tuition?</span>
-                            <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary"></span>
+                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md">
+                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left group">
+                            <span class="font-semibold text-gray-900 pr-3">What's included in tuition?</span>
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-200 group-hover:bg-primary/20" :class="open ? 'bg-primary/20' : ''">
+                                <svg class="w-4 h-4 text-primary transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
                         </button>
-                        <div x-show="open" x-transition class="px-5 pb-4">
+                        <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="px-5 pb-4 pt-0">
                             <p class="text-gray-700 leading-relaxed">
                                 Full academic program, textbooks, materials, three-tier support system, small class sizes (max 18-22 students), meals, and all learning support programs.
                             </p>
@@ -885,6 +934,15 @@
         </div>
     </nav>
 
-    <script src="/js/app.js"></script>
+    <script>
+        // Verify selectLanguage is available after scripts load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof selectLanguage === 'function' || typeof window.selectLanguage === 'function') {
+                console.log('✓ selectLanguage function is available');
+            } else {
+                console.error('✗ selectLanguage function is NOT available');
+            }
+        });
+    </script>
 </body>
 </html>
