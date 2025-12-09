@@ -1,23 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+<!--
+    ============================================================================
+    OXBRIDGE INTERNATIONAL SCHOOL - ADMISSIONS MINI APP
+    ============================================================================
+
+    Phase 1: Complete UX Restructure (9 Core Pages)
+
+    Pages:
+    1. Welcome + Language Selection
+    2. Value Proposition (3 Key Differentiators)
+    3. Personalization Quiz (Smart Routing)
+    4. Program Explorer (Kindergarten, Russian Stream, IB Stream)
+    5. FAQ Hub (Searchable, Categorized)
+    6. Enhanced Calculator (Sibling Discounts)
+    7. Next Steps (3 Action Paths)
+    8. Lead Capture Form (AMO CRM Ready)
+    9. Thank You Page
+
+    Technologies:
+    - Alpine.js 3.13.5 (Interactive components)
+    - Tailwind CSS (CDN, Oxbridge brand colors)
+    - Telegram Web App SDK
+    - Multi-language support (en, ru, uz, tr)
+
+    Brand Colors:
+    - Blue: #374878 to #436097
+    - Red: #953135
+    - Yellow: #F9DD5E
+
+    @version 1.0.0 (Phase 1)
+    ============================================================================
+-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Oxbridge International School - Admissions</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+        // Oxbridge International School Brand Colors
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         primary: {
-                            DEFAULT: '#374978',
-                            light: '#4A5D8F',
-                            dark: '#2A3A5F',
+                            DEFAULT: '#374878',  // Oxbridge Blue R55G72B120
+                            light: '#436097',    // Oxbridge Blue Light R67G96B163
+                            dark: '#2A3A5F',     // Darker shade for hover states
                         },
                         accent: {
-                            DEFAULT: '#F93135',
-                            dark: '#953135',
+                            DEFAULT: '#953135',  // Oxbridge Red R149G49B53
+                            light: '#B13B3F',    // Lighter red for hover states
+                        },
+                        brand: {
+                            yellow: '#F9DD5E',   // Oxbridge Yellow R249G221B94
                         }
                     },
                     fontFamily: {
@@ -27,19 +63,37 @@
             }
         }
     </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Telegram Web App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="/js/translations.js"></script>
-    <style>
-        .screen { display: none; }
-        .screen.active { display: block; }
 
+    <!-- Translations -->
+    <script src="/js/translations.js"></script>
+
+    <!-- Alpine.js for interactive components (accordions, tabs, modals) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>
+    <style>
+        /* =============================================
+           SCREEN NAVIGATION SYSTEM
+           ============================================= */
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* =============================================
+           DESIGN UTILITIES
+           ============================================= */
+        /* Glass morphism effect for headers */
         .glass {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
         }
 
+        /* Bottom navigation shadow */
         .nav-bottom {
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
         }
@@ -53,9 +107,24 @@
     <div class="screen active" id="welcomeScreen">
         <div class="min-h-screen flex flex-col justify-center px-6 py-12 max-w-md mx-auto">
             <div class="text-center mb-12">
+                <!-- School Logo/Crest Placeholder -->
+                <div class="mb-6 flex justify-center">
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center shadow-lg">
+                        <span class="text-white text-3xl font-bold">O</span>
+                    </div>
+                </div>
+
                 <h1 class="text-4xl font-bold text-primary mb-3" data-i18n="welcome_title">
                     Oxbridge International School
                 </h1>
+
+                <!-- Brand accent line -->
+                <div class="flex items-center justify-center gap-2 mb-4">
+                    <div class="h-0.5 w-12 bg-accent"></div>
+                    <div class="h-1 w-1 rounded-full bg-brand-yellow"></div>
+                    <div class="h-0.5 w-12 bg-accent"></div>
+                </div>
+
                 <p class="text-lg text-gray-600 mb-6" data-i18n="welcome_subtitle">
                     Admissions Assistant
                 </p>
@@ -93,6 +162,16 @@
          ======================================== -->
     <div class="screen" id="valuePropositionScreen">
         <div class="min-h-screen px-6 py-12 max-w-2xl mx-auto">
+            <!-- Branded Header -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center gap-2 mb-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center">
+                        <span class="text-white text-lg font-bold">O</span>
+                    </div>
+                    <span class="text-sm font-semibold text-gray-600">OXBRIDGE</span>
+                </div>
+            </div>
+
             <h1 class="text-3xl font-bold text-primary mb-8 text-center">
                 Three Things That Make Us Different
             </h1>
@@ -109,7 +188,7 @@
                 </div>
 
                 <!-- Differentiator 2 -->
-                <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 border-l-4 border-l-brand-yellow">
                     <h3 class="text-xl font-bold text-gray-900 mb-3">
                         ▸ IB students earn two diplomas: IB Diploma + State Certificate
                     </h3>
