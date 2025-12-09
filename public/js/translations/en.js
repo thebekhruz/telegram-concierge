@@ -102,6 +102,23 @@ window.translations.en = {
     btn_close: "Close",
     btn_change_language: "Change Language",
     select_language_title: "Select Language",
+    btn_explore_programs: "Explore Programs",
+    btn_calculate_tuition: "Calculate Tuition",
+    btn_read_faqs: "Read FAQs",
+
+    // Value Proposition
+    value_prop_title: "Three Things That Make Us Different",
+    value_prop_1_title: "Students compete with themselves, not each other",
+    value_prop_1_desc: "No public rankings, personal growth focus",
+    value_prop_2_title: "IB students earn two diplomas: IB Diploma + State Certificate",
+    value_prop_2_desc: "Opens both international and local university paths",
+    value_prop_2_highlight: "Skip to 2nd year at many Tashkent universities",
+    value_prop_3_title: "99% parent satisfaction on \"being heard\"",
+    value_prop_3_desc: "Your voice matters here",
+
+    // Quiz
+    quiz_title: "What matters most for your child's education?",
+    quiz_subtitle: "Select all that apply:",
 
     // Validation
     val_enter_dob: "Please enter date of birth for all children",

@@ -102,6 +102,23 @@ window.translations.uz = {
     btn_close: "Yopish",
     btn_change_language: "Tilni o'zgartirish",
     select_language_title: "Tilni tanlang",
+    btn_explore_programs: "Dasturlarni o'rganish",
+    btn_calculate_tuition: "To'lovni hisoblash",
+    btn_read_faqs: "FAQ o'qish",
+
+    // Value Proposition
+    value_prop_title: "Bizni farqlovchi uchta narsa",
+    value_prop_1_title: "O'quvchilar bir-biri bilan emas, o'zlari bilan raqobat qiladi",
+    value_prop_1_desc: "Ochiq reytinglar yo'q, shaxsiy o'sishga e'tibor",
+    value_prop_2_title: "IB o'quvchilari ikkita diplom oladi: IB diplom + Davlat sertifikati",
+    value_prop_2_desc: "Xalqaro va mahalliy universitet yo'llarini ochadi",
+    value_prop_2_highlight: "Ko'plab Toshkent universitetlarida 2-kursga o'tish",
+    value_prop_3_title: "Ota-onalarning 99% \"eshitilgan\" bo'lishdan mamnun",
+    value_prop_3_desc: "Sizning ovozingiz bu yerda muhim",
+
+    // Quiz
+    quiz_title: "Farzandingiz ta'limi uchun eng muhim nima?",
+    quiz_subtitle: "Qo'llanadigan barchasini tanlang:",
 
     // Validation
     val_enter_dob: "Iltimos, barcha bolalar uchun tug'ilgan kunni kiriting",

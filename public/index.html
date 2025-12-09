@@ -118,9 +118,7 @@
             <div class="text-center mb-12">
                 <!-- School Logo/Crest Placeholder -->
                 <div class="mb-6 flex justify-center">
-                    <div class="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center shadow-lg">
-                        <span class="text-white text-3xl font-bold">O</span>
-                    </div>
+                    <img src="./images/LOGO.png" alt="School Logo" class="w-24 h-24 rounded-full shadow-lg object-cover bg-white" />
                 </div>
 
                 <h1 class="text-4xl font-bold text-primary mb-3" data-i18n="welcome_title">
@@ -174,47 +172,44 @@
             <!-- Branded Header -->
             <div class="text-center mb-8">
                 <div class="inline-flex items-center justify-center gap-2 mb-3">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center">
-                        <span class="text-white text-lg font-bold">O</span>
-                    </div>
-                    <span class="text-sm font-semibold text-gray-600">OXBRIDGE</span>
+                    <img src="./images/LOGO.png" alt="Oxbridge Logo" class="w-20 h-20 rounded-full bg-white p-1 shadow" />
                 </div>
             </div>
 
-            <h1 class="text-3xl font-bold text-primary mb-8 text-center">
+            <h1 class="text-3xl font-bold text-primary mb-8 text-center" data-i18n="value_prop_title">
                 Three Things That Make Us Different
             </h1>
 
             <div class="space-y-6 mb-12">
                 <!-- Differentiator 1 -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="value_prop_1_title">
                         ▸ Students compete with themselves, not each other
                     </h3>
-                    <p class="text-gray-600 leading-relaxed">
+                    <p class="text-gray-600 leading-relaxed" data-i18n="value_prop_1_desc">
                         No public rankings, personal growth focus
                     </p>
                 </div>
 
                 <!-- Differentiator 2 -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 border-l-4 border-l-brand-yellow">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="value_prop_2_title">
                         ▸ IB students earn two diplomas: IB Diploma + State Certificate
                     </h3>
-                    <p class="text-gray-600 leading-relaxed mb-2">
+                    <p class="text-gray-600 leading-relaxed mb-2" data-i18n="value_prop_2_desc">
                         Opens both international and local university paths
                     </p>
-                    <p class="text-accent font-medium">
+                    <p class="text-accent font-medium" data-i18n="value_prop_2_highlight">
                         Skip to 2nd year at many Tashkent universities
                     </p>
                 </div>
 
                 <!-- Differentiator 3 -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="value_prop_3_title">
                         ▸ 99% parent satisfaction on "being heard"
                     </h3>
-                    <p class="text-gray-600 leading-relaxed">
+                    <p class="text-gray-600 leading-relaxed" data-i18n="value_prop_3_desc">
                         Your voice matters here
                     </p>
                 </div>
@@ -222,15 +217,15 @@
 
             <!-- CTAs -->
             <div class="space-y-3">
-                <button onclick="showScreen('quizScreen')" class="w-full px-6 py-4 bg-gradient-to-r from-primary to-primary-light text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                <button onclick="showScreen('quizScreen')" class="w-full px-6 py-4 bg-gradient-to-r from-primary to-primary-light text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" data-i18n="btn_explore_programs">
                     Explore Programs
                 </button>
 
                 <div class="flex gap-3">
-                    <button onclick="showScreen('calculatorScreen')" class="flex-1 px-4 py-3 bg-white text-primary font-semibold rounded-xl border-2 border-primary/20 hover:border-primary transition-all duration-200">
+                    <button onclick="showScreen('calculatorScreen')" class="flex-1 px-4 py-3 bg-white text-primary font-semibold rounded-xl border-2 border-primary/20 hover:border-primary transition-all duration-200" data-i18n="btn_calculate_tuition">
                         Calculate Tuition
                     </button>
-                    <button onclick="showScreen('faqScreen')" class="flex-1 px-4 py-3 bg-white text-primary font-semibold rounded-xl border-2 border-primary/20 hover:border-primary transition-all duration-200">
+                    <button onclick="showScreen('faqScreen')" class="flex-1 px-4 py-3 bg-white text-primary font-semibold rounded-xl border-2 border-primary/20 hover:border-primary transition-all duration-200" data-i18n="btn_read_faqs">
                         Read FAQs
                     </button>
                 </div>
@@ -251,10 +246,10 @@
          ======================================== -->
     <div class="screen" id="quizScreen">
         <div class="min-h-screen px-6 py-12 max-w-2xl mx-auto">
-            <h1 class="text-3xl font-bold text-primary mb-4 text-center">
+            <h1 class="text-3xl font-bold text-primary mb-4 text-center" data-i18n="quiz_title">
                 What matters most for your child's education?
             </h1>
-            <p class="text-gray-600 text-center mb-8">
+            <p class="text-gray-600 text-center mb-8" data-i18n="quiz_subtitle">
                 Select all that apply:
             </p>
 
@@ -340,7 +335,7 @@
                             Children whose parents want to build foundational independence and confidence
                         </p>
                     </div>
-                    <button onclick="showScreen('calculatorScreen')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors">
+                    <button onclick="showScreen('calculatorScreen')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors" data-i18n="btn_calculate_tuition">
                         Calculate Tuition
                     </button>
                 </div>
@@ -373,7 +368,7 @@
                             Uzbek State Certificate (one diploma)
                         </p>
                     </div>
-                    <button onclick="showScreen('calculatorScreen')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors">
+                    <button onclick="showScreen('calculatorScreen')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors" data-i18n="btn_calculate_tuition">
                         Calculate Tuition
                     </button>
                 </div>
@@ -412,7 +407,7 @@
                             IB Diploma holders can enter directly into 2nd year at many Tashkent universities
                         </p>
                     </div>
-                    <button onclick="showScreen('calculatorScreen')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors">
+                    <button onclick="showScreen('calculatorScreen')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors" data-i18n="btn_calculate_tuition">
                         Calculate Tuition
                     </button>
                 </div>
@@ -620,7 +615,7 @@
                     + Add another child
                 </button>
 
-                <button onclick="calculateTuition()" class="w-full px-6 py-4 bg-gradient-to-r from-primary to-primary-light text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                <button onclick="calculateTuition()" class="w-full px-6 py-4 bg-gradient-to-r from-primary to-primary-light text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200" data-i18n="btn_calculate_tuition">
                     Calculate Tuition
                 </button>
             </div>
@@ -888,7 +883,7 @@
                     <button onclick="showScreen('valuePropositionScreen')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors">
                         Return to Home
                     </button>
-                    <button onclick="showScreen('calculatorScreen')" class="w-full px-6 py-3 bg-white text-primary font-semibold rounded-xl border-2 border-primary/20 hover:border-primary transition-all duration-200">
+                    <button onclick="showScreen('calculatorScreen')" class="w-full px-6 py-3 bg-white text-primary font-semibold rounded-xl border-2 border-primary/20 hover:border-primary transition-all duration-200" data-i18n="btn_calculate_tuition">
                         Calculate Tuition
                     </button>
                 </div>

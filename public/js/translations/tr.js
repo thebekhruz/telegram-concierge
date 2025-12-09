@@ -102,6 +102,23 @@ window.translations.tr = {
     btn_close: "Kapat",
     btn_change_language: "Dili Değiştir",
     select_language_title: "Dil Seçin",
+    btn_explore_programs: "Programları Keşfet",
+    btn_calculate_tuition: "Ücreti Hesapla",
+    btn_read_faqs: "SSS Oku",
+
+    // Value Proposition
+    value_prop_title: "Bizi Farklı Kılan Üç Şey",
+    value_prop_1_title: "Öğrenciler birbirleriyle değil, kendileriyle yarışır",
+    value_prop_1_desc: "Halka açık sıralama yok, kişisel gelişime odaklanma",
+    value_prop_2_title: "IB öğrencileri iki diploma kazanır: IB Diploması + Devlet Sertifikası",
+    value_prop_2_desc: "Hem uluslararası hem de yerel üniversite yollarını açar",
+    value_prop_2_highlight: "Birçok Taşkent üniversitesinde 2. yıla geçiş",
+    value_prop_3_title: "Ebeveynlerin %99'u \"dinlenildiklerini\" belirtiyor",
+    value_prop_3_desc: "Sesiniz burada önemli",
+
+    // Quiz
+    quiz_title: "Çocuğunuzun eğitimi için en önemli olan nedir?",
+    quiz_subtitle: "Uygulananların tümünü seçin:",
 
     // Validation
     val_enter_dob: "Lütfen tüm çocuklar için doğum tarihini girin",
