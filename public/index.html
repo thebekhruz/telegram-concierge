@@ -4,251 +4,807 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Oxbridge International School - Admissions</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#374978',
+                            light: '#4A5D8F',
+                            dark: '#2A3A5F',
+                        },
+                        accent: {
+                            DEFAULT: '#F93135',
+                            dark: '#953135',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', 'San Francisco', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="/js/translations.js"></script>
+    <style>
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .nav-bottom {
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
-<body>
-    <!-- App Header (shown on all screens except welcome) -->
-    <div class="app-header" id="appHeader" style="display: none;">
-        <button class="header-back-btn" id="headerBackBtn" onclick="goBack()">
-            ←
-        </button>
-        <div class="header-title" id="headerTitle">Admissions</div>
-        <button class="header-lang-btn" onclick="showLanguageSelection()" id="headerLangBtn">
-            <span id="currentLangDisplay">EN</span>
-        </button>
+<body class="bg-gray-50 font-sans antialiased pb-20">
+
+    <!-- ========================================
+         PAGE 1: WELCOME + LANGUAGE SELECTION
+         ======================================== -->
+    <div class="screen active" id="welcomeScreen">
+        <div class="min-h-screen flex flex-col justify-center px-6 py-12 max-w-md mx-auto">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-primary mb-3" data-i18n="welcome_title">
+                    Oxbridge International School
+                </h1>
+                <p class="text-lg text-gray-600 mb-6" data-i18n="welcome_subtitle">
+                    Admissions Assistant
+                </p>
+                <p class="text-base text-gray-500" data-i18n="welcome_text">
+                    Plan your child's education at our Mirzo-Ulugbek and Yashnobod campuses for 2025–2026.
+                </p>
+            </div>
+
+            <div class="space-y-3">
+                <p class="text-sm text-gray-500 text-center mb-4" data-i18n="welcome_instruction">
+                    Choose your language to begin.
+                </p>
+
+                <button onclick="selectLanguage('uz')" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                    O'zbekcha
+                </button>
+
+                <button onclick="selectLanguage('en')" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                    English
+                </button>
+
+                <button onclick="selectLanguage('ru')" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                    Русский
+                </button>
+
+                <button onclick="selectLanguage('tr')" class="w-full px-6 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                    Türkçe
+                </button>
+            </div>
+        </div>
     </div>
 
-    <div class="app-container">
-        <!-- Welcome Screen -->
-        <div class="screen active" id="welcomeScreen">
-            <div class="welcome-content">
-                <img src="/images/hero.jpg" alt="Oxbridge Campus" class="hero-image" onerror="this.style.display='none'">
+    <!-- ========================================
+         PAGE 2: VALUE PROPOSITION
+         ======================================== -->
+    <div class="screen" id="valuePropositionScreen">
+        <div class="min-h-screen px-6 py-12 max-w-2xl mx-auto">
+            <h1 class="text-3xl font-bold text-primary mb-8 text-center">
+                Three Things That Make Us Different
+            </h1>
 
-                <div class="welcome-inner">
-                    <img src="/images/oxbridge-logo.png" alt="Oxbridge" class="logo" onerror="this.style.display='none'">
-                    <h1 class="welcome-title" data-i18n="welcomeTitle">Oxbridge International School</h1>
-                    <p class="welcome-subtitle" data-i18n="welcomeSubtitle">Admissions Assistant</p>
-                    <p class="welcome-text" data-i18n="welcomeText">Plan your child's education at our Mirzo-Ulugbek and Yashnobod campuses for 2025–2026.</p>
-                    <p class="welcome-instruction" data-i18n="welcomeInstruction">Choose your language to begin.</p>
-
-                    <div class="language-buttons">
-                        <button class="lang-btn" onclick="selectLanguage('uz')">O'zbekcha</button>
-                        <button class="lang-btn" onclick="selectLanguage('ru')">Русский</button>
-                        <button class="lang-btn" onclick="selectLanguage('tr')">Türkçe</button>
-                        <button class="lang-btn" onclick="selectLanguage('en')">English</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Menu Screen -->
-        <div class="screen" id="menuScreen">
-            <div class="screen-content">
-                <h2 class="screen-title" data-i18n="menuTitle">Admissions 2025–2026</h2>
-                <img src="/images/hero.png" alt="Oxbridge Campus" class="page-hero-image" onerror="this.style.display='none'">
-
-                <div class="menu-sections">
-                    <button class="menu-card primary" onclick="startCalculator()">
-                        <div class="menu-card-title" data-i18n="tuitionCalculator">Tuition Calculator</div>
-                        <div class="menu-card-desc" data-i18n="tuitionCalculatorDesc">Calculate tuition for your children</div>
-                    </button>
-
-                    <button class="menu-card collapsible" onclick="toggleSection('includedSection')">
-                        <div class="menu-card-title">What is included in tuition</div>
-                        <span class="expand-icon">+</span>
-                    </button>
-                    <div class="collapsible-content" id="includedSection">
-                        <div class="info-grid">
-                            <div class="info-item">
-                                <div class="info-title">Academic programme</div>
-                                <div class="info-desc">Full-day learning programme with qualified international and local teachers</div>
-                            </div>
-                            <div class="info-item">
-                                <div class="info-title">Campus facilities</div>
-                                <div class="info-desc">Access to modern classrooms, laboratories, libraries, and sports facilities</div>
-                            </div>
-                            <div class="info-item">
-                                <div class="info-title">Sports & activities</div>
-                                <div class="info-desc">PE lessons, sports clubs, and extracurricular activities</div>
-                            </div>
-                            <div class="info-item">
-                                <div class="info-title">Meals</div>
-                                <div class="info-desc">Daily meals including breakfast, lunch, and snacks</div>
-                            </div>
-                            <div class="info-item">
-                                <div class="info-title">Pastoral care</div>
-                                <div class="info-desc">Individual support and wellbeing programmes for every student</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button class="menu-card collapsible" onclick="toggleSection('campusSection')">
-                        <div class="menu-card-title">Campuses & location</div>
-                        <span class="expand-icon">+</span>
-                    </button>
-                    <div class="collapsible-content" id="campusSection">
-                        <div class="campus-block">
-                            <img src="/images/campus-mu.jpg" alt="MU Campus" class="campus-image" onerror="this.src='/images/placeholder.svg'">
-                            <h4>Mirzo-Ulugbek Campus</h4>
-                            <ul class="campus-features">
-                                <li>Convenient for families in central Tashkent</li>
-                                <li>Established campus with sports halls, labs, and theatre</li>
-                                <li>Russian & IB streams available</li>
-                            </ul>
-                        </div>
-                        <div class="campus-block">
-                            <img src="/images/campus-yash.jpg" alt="Yashnobod Campus" class="campus-image" onerror="this.src='/images/placeholder.svg'">
-                            <h4>Yashnobod Campus</h4>
-                            <ul class="campus-features">
-                                <li>New large campus with modern facilities</li>
-                                <li>Spacious territory with extensive outdoor areas</li>
-                                <li>Russian & IB programmes, long-term development</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <button class="menu-card collapsible" onclick="toggleSection('ibSection')">
-                        <div class="menu-card-title">What is IB?</div>
-                        <span class="expand-icon">+</span>
-                    </button>
-                    <div class="collapsible-content" id="ibSection">
-                        <p>The International Baccalaureate is an internationally recognised programme used by schools worldwide.</p>
-                        <div class="ib-features">
-                            <div class="ib-item">
-                                <div class="ib-title">Global recognition</div>
-                                <div class="ib-desc">Accepted by universities across the world</div>
-                            </div>
-                            <div class="ib-item">
-                                <div class="ib-title">Critical thinking</div>
-                                <div class="ib-desc">Focus on inquiry-based learning and analytical skills</div>
-                            </div>
-                            <div class="ib-item">
-                                <div class="ib-title">University preparation</div>
-                                <div class="ib-desc">Excellent foundation for international higher education</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Calculator: Campus Selection -->
-        <div class="screen" id="campusScreen">
-            <div class="screen-content">
-                <h2 class="screen-title" data-i18n="selectCampus">Select campus preference</h2>
-                <img src="/images/hero.png" alt="Oxbridge Campus" class="page-hero-image" onerror="this.style.display='none'">
-
-                <div class="campus-options">
-                    <button class="campus-option-card" onclick="selectCampus('MU')">
-                        <div class="campus-option-title" data-i18n="muCampus">Mirzo-Ulugbek Campus</div>
-                    </button>
-                    <button class="campus-option-card" onclick="selectCampus('YASH')">
-                        <div class="campus-option-title" data-i18n="yashCampus">Yashnobod Campus</div>
-                    </button>
-                    <button class="campus-option-card" onclick="selectCampus('BOTH')">
-                        <div class="campus-option-title" data-i18n="bothCampuses">Show both campuses</div>
-                    </button>
+            <div class="space-y-6 mb-12">
+                <!-- Differentiator 1 -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                        ▸ Students compete with themselves, not each other
+                    </h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        No public rankings, personal growth focus
+                    </p>
                 </div>
 
-                <button class="back-link" onclick="goToMenu()">← Back to menu</button>
-            </div>
-        </div>
-
-        <!-- Calculator: Children DOB -->
-        <div class="screen" id="dobScreen">
-            <div class="screen-content">
-                <h2 class="screen-title" data-i18n="childrenApplying">Children applying for 2025–2026</h2>
-                <p class="screen-subtitle" data-i18n="enterDob">Enter date of birth for each child</p>
-                
-                <div id="campusImageContainer" class="campus-image-container">
-                    <img id="campusImage" src="" alt="Campus" class="page-hero-image" style="display: none;" onerror="this.style.display='none'">
+                <!-- Differentiator 2 -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                        ▸ IB students earn two diplomas: IB Diploma + State Certificate
+                    </h3>
+                    <p class="text-gray-600 leading-relaxed mb-2">
+                        Opens both international and local university paths
+                    </p>
+                    <p class="text-accent font-medium">
+                        Skip to 2nd year at many Tashkent universities
+                    </p>
                 </div>
 
-                <div id="childrenDobList" class="dob-list"></div>
-
-                <button class="add-child-btn" onclick="addChildDob()">+ Add another child</button>
-
-                <button class="primary-btn" onclick="calculateTuition()">Calculate tuition</button>
-
-                <button class="back-link" onclick="goToCampusSelection()">← Back</button>
-            </div>
-        </div>
-
-        <!-- Results Screen -->
-        <div class="screen" id="resultsScreen">
-            <div class="screen-content">
-                <h2 class="screen-title" data-i18n="availableOptions">Available options for 2025–2026</h2>
-
-                <div id="resultsContainer"></div>
-
-                <!-- Sibling note -->
-                <div class="sibling-note" id="siblingNote" style="display: none;">
-                    <p data-i18n="siblingNote">For your family enrolling multiple children in 2025–2026, tuition will be calculated with family discounts where applicable. Our admissions team will prepare a personalised offer.</p>
+                <!-- Differentiator 3 -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                        ▸ 99% parent satisfaction on "being heard"
+                    </h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Your voice matters here
+                    </p>
                 </div>
+            </div>
 
-                <!-- Submit Form -->
-                <div class="submit-section">
-                    <h3 class="submit-title" data-i18n="requestCalculation">Request a detailed calculation and consultation</h3>
+            <!-- CTAs -->
+            <div class="space-y-3">
+                <button onclick="showScreen('quizScreen')" class="w-full px-6 py-4 bg-gradient-to-r from-primary to-primary-light text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                    Explore Programs
+                </button>
 
-                    <div class="submit-form">
-                        <div class="form-field">
-                            <label data-i18n="parentName">Parent name</label>
-                            <input type="text" id="parentName" class="input-field" placeholder="Enter your full name">
-                        </div>
-
-                        <div class="form-field">
-                            <label data-i18n="phoneNumber">Phone number</label>
-                            <input type="tel" id="parentPhone" class="input-field" placeholder="+998 XX XXX XX XX">
-                        </div>
-
-                        <div class="form-field">
-                            <label data-i18n="preferredContact">Preferred contact method</label>
-                            <div class="radio-options">
-                                <label class="radio-label">
-                                    <input type="radio" name="contactMethod" value="telegram" checked>
-                                    <span>Telegram</span>
-                                </label>
-                                <label class="radio-label">
-                                    <input type="radio" name="contactMethod" value="call">
-                                    <span>Phone call</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="form-field">
-                            <label class="checkbox-container">
-                                <input type="checkbox" id="waitlistCheck">
-                                <span data-i18n="waitlistCheck">Add younger child to waitlist for future years</span>
-                            </label>
-                        </div>
-
-                        <button class="primary-btn" onclick="submitRequest()">Submit request to Admissions</button>
-                    </div>
+                <div class="flex gap-3">
+                    <button onclick="showScreen('calculatorScreen')" class="flex-1 px-4 py-3 bg-white text-primary font-semibold rounded-xl border-2 border-primary/20 hover:border-primary transition-all duration-200">
+                        Calculate Tuition
+                    </button>
+                    <button onclick="showScreen('faqScreen')" class="flex-1 px-4 py-3 bg-white text-primary font-semibold rounded-xl border-2 border-primary/20 hover:border-primary transition-all duration-200">
+                        Read FAQs
+                    </button>
                 </div>
-
-                <button class="back-link" onclick="goToDobEntry()">← Modify children</button>
             </div>
-        </div>
-
-        <!-- Thank You Screen -->
-        <div class="screen" id="thankYouScreen">
-            <div class="screen-content centered">
-                <div class="thank-you-icon">✓</div>
-                <h2 class="thank-you-title" data-i18n="thankYou">Thank you</h2>
-                <p class="thank-you-text" data-i18n="thankYouText1">Your request has been received by our Admissions team.</p>
-                <p class="thank-you-text" data-i18n="thankYouText2">They will contact you soon to provide a detailed calculation and answer your questions.</p>
-
-                <button class="secondary-btn" onclick="tg.close()">Close</button>
-            </div>
-        </div>
-
-        <!-- Loading Overlay -->
-        <div class="loading-overlay" id="loadingOverlay" style="display: none;">
-            <div class="spinner"></div>
         </div>
     </div>
+
+    <!-- ========================================
+         PAGE 3: PERSONALIZATION QUIZ
+         ======================================== -->
+    <div class="screen" id="quizScreen">
+        <div class="min-h-screen px-6 py-12 max-w-2xl mx-auto">
+            <h1 class="text-3xl font-bold text-primary mb-4 text-center">
+                What matters most for your child's education?
+            </h1>
+            <p class="text-gray-600 text-center mb-8">
+                Select all that apply:
+            </p>
+
+            <div x-data="{ selected: [], showResult: false, resultPage: '' }" class="space-y-4">
+                <!-- Quiz Options -->
+                <label class="flex items-start p-5 bg-white rounded-2xl border-2 border-gray-200 hover:border-primary/50 transition-all cursor-pointer">
+                    <input type="checkbox" value="academic" x-model="selected" class="w-5 h-5 mt-0.5 text-primary focus:ring-primary rounded">
+                    <span class="ml-3 text-gray-900 font-medium">Academic excellence</span>
+                </label>
+
+                <label class="flex items-start p-5 bg-white rounded-2xl border-2 border-gray-200 hover:border-primary/50 transition-all cursor-pointer">
+                    <input type="checkbox" value="safety" x-model="selected" class="w-5 h-5 mt-0.5 text-primary focus:ring-primary rounded">
+                    <span class="ml-3 text-gray-900 font-medium">Emotional safety and well-being</span>
+                </label>
+
+                <label class="flex items-start p-5 bg-white rounded-2xl border-2 border-gray-200 hover:border-primary/50 transition-all cursor-pointer">
+                    <input type="checkbox" value="attention" x-model="selected" class="w-5 h-5 mt-0.5 text-primary focus:ring-primary rounded">
+                    <span class="ml-3 text-gray-900 font-medium">Individual attention and support</span>
+                </label>
+
+                <label class="flex items-start p-5 bg-white rounded-2xl border-2 border-gray-200 hover:border-primary/50 transition-all cursor-pointer">
+                    <input type="checkbox" value="international" x-model="selected" class="w-5 h-5 mt-0.5 text-primary focus:ring-primary rounded">
+                    <span class="ml-3 text-gray-900 font-medium">International university opportunities</span>
+                </label>
+
+                <label class="flex items-start p-5 bg-white rounded-2xl border-2 border-gray-200 hover:border-primary/50 transition-all cursor-pointer">
+                    <input type="checkbox" value="value" x-model="selected" class="w-5 h-5 mt-0.5 text-primary focus:ring-primary rounded">
+                    <span class="ml-3 text-gray-900 font-medium">Quality education with clear value</span>
+                </label>
+
+                <label class="flex items-start p-5 bg-white rounded-2xl border-2 border-gray-200 hover:border-primary/50 transition-all cursor-pointer">
+                    <input type="checkbox" value="balance" x-model="selected" class="w-5 h-5 mt-0.5 text-primary focus:ring-primary rounded">
+                    <span class="ml-3 text-gray-900 font-medium">Balance of traditional rigor and modern skills</span>
+                </label>
+
+                <button @click="handleQuizSubmit(selected)" :disabled="selected.length === 0" :class="selected.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-xl hover:scale-[1.02]'" class="w-full px-6 py-4 bg-gradient-to-r from-primary to-primary-light text-white font-bold rounded-2xl shadow-lg active:scale-[0.98] transition-all duration-200 mt-8">
+                    Continue
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         PAGE 6: PROGRAM EXPLORER
+         ======================================== -->
+    <div class="screen" id="programsScreen">
+        <div class="min-h-screen px-6 py-8 max-w-2xl mx-auto">
+            <h1 class="text-3xl font-bold text-primary mb-6 text-center">
+                Select Your Child's Age Range
+            </h1>
+
+            <div x-data="{ activeTab: 'kindergarten' }" class="space-y-6">
+                <!-- Tabs -->
+                <div class="flex gap-2 bg-gray-100 p-2 rounded-2xl">
+                    <button @click="activeTab = 'kindergarten'" :class="activeTab === 'kindergarten' ? 'bg-white shadow-sm' : ''" class="flex-1 px-4 py-3 font-semibold rounded-xl transition-all duration-200">
+                        Kindergarten
+                    </button>
+                    <button @click="activeTab = 'russian'" :class="activeTab === 'russian' ? 'bg-white shadow-sm' : ''" class="flex-1 px-4 py-3 font-semibold rounded-xl transition-all duration-200">
+                        Russian
+                    </button>
+                    <button @click="activeTab = 'ib'" :class="activeTab === 'ib' ? 'bg-white shadow-sm' : ''" class="flex-1 px-4 py-3 font-semibold rounded-xl transition-all duration-200">
+                        IB
+                    </button>
+                </div>
+
+                <!-- Kindergarten Content -->
+                <div x-show="activeTab === 'kindergarten'" x-transition class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                        KINDERGARTEN (Ages 2-5)
+                    </h2>
+                    <div class="space-y-3 text-gray-700 mb-6">
+                        <p>▸ Foundation of student agency and self-sufficiency</p>
+                        <p>▸ Social confidence as primary goal</p>
+                        <p>▸ Practical life skills: self-care, emotional regulation</p>
+                        <p>▸ IB-integrated thematic learning</p>
+                        <p>▸ Maximum 20 students per group, 2 teachers</p>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-4">
+                        <p class="text-sm font-medium text-blue-900">
+                            Who thrives here:
+                        </p>
+                        <p class="text-sm text-blue-800">
+                            Children whose parents want to build foundational independence and confidence
+                        </p>
+                    </div>
+                    <button onclick="showScreen('calculatorScreen')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors">
+                        Calculate Tuition
+                    </button>
+                </div>
+
+                <!-- Russian Stream Content -->
+                <div x-show="activeTab === 'russian'" x-transition class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                        RUSSIAN STREAM (Ages 6-18)
+                    </h2>
+                    <div class="space-y-3 text-gray-700 mb-6">
+                        <p>▸ Systematic, structured curriculum</p>
+                        <p>▸ Strong foundation: Mathematics + English</p>
+                        <p>▸ Uzbek State Certificate upon graduation</p>
+                        <p>▸ Progressive autonomy as students mature</p>
+                        <p>▸ Flexible grouping and support systems</p>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-4">
+                        <p class="text-sm font-medium text-blue-900">
+                            Who thrives here:
+                        </p>
+                        <p class="text-sm text-blue-800">
+                            Students who excel with clear structure and systematic knowledge building
+                        </p>
+                    </div>
+                    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-4">
+                        <p class="text-sm font-semibold text-amber-900 mb-1">
+                            Diploma earned:
+                        </p>
+                        <p class="text-sm text-amber-800">
+                            Uzbek State Certificate (one diploma)
+                        </p>
+                    </div>
+                    <button onclick="showScreen('calculatorScreen')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors">
+                        Calculate Tuition
+                    </button>
+                </div>
+
+                <!-- IB Stream Content -->
+                <div x-show="activeTab === 'ib'" x-transition class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">
+                        IB STREAM (Ages 6-18)
+                    </h2>
+                    <div class="space-y-3 text-gray-700 mb-6">
+                        <p>▸ Inquiry-based, cross-disciplinary learning</p>
+                        <p>▸ PYP (Primary Years) → MYP (Middle Years) → DP (Diploma)</p>
+                        <p>▸ TWO diplomas: IB Diploma + Uzbek State Certificate</p>
+                        <p>▸ Three-tier support system</p>
+                        <p>▸ Critical thinking and research skills focus</p>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-4">
+                        <p class="text-sm font-medium text-blue-900">
+                            Who thrives here:
+                        </p>
+                        <p class="text-sm text-blue-800">
+                            Students who constantly ask "why?" and enjoy connecting ideas across subjects
+                        </p>
+                    </div>
+                    <div class="bg-green-50 border border-green-200 rounded-2xl p-4 mb-4">
+                        <p class="text-sm font-semibold text-green-900 mb-1">
+                            Diplomas earned:
+                        </p>
+                        <p class="text-sm text-green-800 mb-2">
+                            IB Diploma + Uzbek State Certificate (two diplomas)
+                        </p>
+                        <p class="text-sm font-semibold text-green-900">
+                            Special advantage:
+                        </p>
+                        <p class="text-sm text-green-800">
+                            IB Diploma holders can enter directly into 2nd year at many Tashkent universities
+                        </p>
+                    </div>
+                    <button onclick="showScreen('calculatorScreen')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors">
+                        Calculate Tuition
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         PAGE 10: FAQ HUB
+         ======================================== -->
+    <div class="screen" id="faqScreen">
+        <div class="min-h-screen px-6 py-8 max-w-2xl mx-auto">
+            <h1 class="text-3xl font-bold text-primary mb-6 text-center">
+                Frequently Asked Questions
+            </h1>
+
+            <!-- Search Bar -->
+            <div x-data="{ search: '' }" class="mb-6">
+                <input x-model="search" type="text" placeholder="Find answers to your questions..." class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+            </div>
+
+            <!-- Category Tabs -->
+            <div x-data="{ activeCategory: 'learning' }" class="space-y-6">
+                <div class="flex gap-2 overflow-x-auto pb-2">
+                    <button @click="activeCategory = 'learning'" :class="activeCategory === 'learning' ? 'bg-primary text-white' : 'bg-white text-gray-700'" class="px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-colors">
+                        Learning & Programs
+                    </button>
+                    <button @click="activeCategory = 'admissions'" :class="activeCategory === 'admissions' ? 'bg-primary text-white' : 'bg-white text-gray-700'" class="px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-colors">
+                        Admissions
+                    </button>
+                    <button @click="activeCategory = 'tuition'" :class="activeCategory === 'tuition' ? 'bg-primary text-white' : 'bg-white text-gray-700'" class="px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-colors">
+                        Tuition
+                    </button>
+                </div>
+
+                <!-- Learning & Programs FAQs -->
+                <div x-show="activeCategory === 'learning'" x-transition class="space-y-3">
+                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">Why don't children fear learning here?</span>
+                            <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary"></span>
+                        </button>
+                        <div x-show="open" x-transition class="px-5 pb-4">
+                            <p class="text-gray-700 leading-relaxed">
+                                We focus on personal growth rather than competition. Students compete with themselves, not each other, which removes fear and builds genuine interest in learning.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">Is IB only for going abroad?</span>
+                            <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary"></span>
+                        </button>
+                        <div x-show="open" x-transition class="px-5 pb-4">
+                            <p class="text-gray-700 leading-relaxed">
+                                No! IB Diploma is recognized locally too. IB graduates can skip directly to 2nd year at many Tashkent universities, plus they earn both IB Diploma and Uzbek State Certificate.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">Russian Stream or IB Stream?</span>
+                            <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary"></span>
+                        </button>
+                        <div x-show="open" x-transition class="px-5 pb-4">
+                            <p class="text-gray-700 leading-relaxed mb-2">
+                                <strong>Russian Stream:</strong> Systematic, structured learning. Best for students who thrive with clear structure. Earns Uzbek State Certificate.
+                            </p>
+                            <p class="text-gray-700 leading-relaxed">
+                                <strong>IB Stream:</strong> Inquiry-based, cross-disciplinary learning. Best for students who ask "why?" constantly. Earns TWO diplomas: IB Diploma + State Certificate.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admissions FAQs -->
+                <div x-show="activeCategory === 'admissions'" x-transition class="space-y-3">
+                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">How do I book a school tour?</span>
+                            <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary"></span>
+                        </button>
+                        <div x-show="open" x-transition class="px-5 pb-4">
+                            <p class="text-gray-700 leading-relaxed">
+                                Click "Next Steps" in the bottom navigation and choose "School Tour". We'll contact you within 2 hours to schedule your visit.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">What documents are needed for enrollment?</span>
+                            <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary"></span>
+                        </button>
+                        <div x-show="open" x-transition class="px-5 pb-4">
+                            <p class="text-gray-700 leading-relaxed">
+                                Birth certificate, passport copies (parent and child), previous school records, and medical certificate. Our admissions team will guide you through the complete list.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tuition FAQs -->
+                <div x-show="activeCategory === 'tuition'" x-transition class="space-y-3">
+                    <div x-data="{ open: true }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">Can I pay monthly?</span>
+                            <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary"></span>
+                        </button>
+                        <div x-show="open" x-transition class="px-5 pb-4">
+                            <p class="text-gray-700 leading-relaxed">
+                                Yes! We offer flexible payment plans including monthly installments. Use the Calculator to see monthly payment options for your family.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">Are there sibling discounts?</span>
+                            <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary"></span>
+                        </button>
+                        <div x-show="open" x-transition class="px-5 pb-4">
+                            <p class="text-gray-700 leading-relaxed">
+                                Yes! We offer 10% discount on the second child's tuition. This is automatically calculated in our Tuition Calculator.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">What's included in tuition?</span>
+                            <span x-text="open ? '−' : '+'" class="text-2xl font-light text-primary"></span>
+                        </button>
+                        <div x-show="open" x-transition class="px-5 pb-4">
+                            <p class="text-gray-700 leading-relaxed">
+                                Full academic program, textbooks, materials, three-tier support system, small class sizes (max 18-22 students), meals, and all learning support programs.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 bg-gray-100 rounded-2xl p-6 text-center">
+                <p class="text-gray-900 font-semibold mb-2">
+                    Didn't find your answer?
+                </p>
+                <p class="text-gray-600 text-sm mb-4">
+                    Response time: Within 2 hours during business hours
+                </p>
+                <button onclick="showScreen('nextStepsScreen')" class="px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors">
+                    Contact Us
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         PAGE 12: TUITION CALCULATOR (ENHANCED)
+         ======================================== -->
+    <div class="screen" id="calculatorScreen">
+        <div class="min-h-screen px-6 py-8 max-w-2xl mx-auto">
+            <h1 class="text-3xl font-bold text-primary mb-6 text-center">
+                Calculate Tuition for Your Family
+            </h1>
+
+            <!-- Calculator Form -->
+            <div id="calculatorForm" class="space-y-6">
+                <div id="childrenList" class="space-y-4"></div>
+
+                <button onclick="addChild()" class="w-full px-6 py-3 bg-white text-primary font-semibold rounded-2xl shadow-sm border-2 border-primary/20 hover:border-primary transition-all duration-200">
+                    + Add another child
+                </button>
+
+                <button onclick="calculateTuition()" class="w-full px-6 py-4 bg-gradient-to-r from-primary to-primary-light text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                    Calculate Tuition
+                </button>
+            </div>
+
+            <!-- Results Container -->
+            <div id="calculatorResults" class="hidden space-y-6 mt-8">
+                <div id="resultsContent"></div>
+
+                <div class="bg-gray-100 rounded-2xl p-6">
+                    <h3 class="font-bold text-gray-900 mb-3">
+                        What's Included in This Investment
+                    </h3>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <p>▸ IB Diploma + State Certificate (for IB students)</p>
+                        <p>▸ Three-tier support system for every child</p>
+                        <p>▸ Small class sizes (maximum 18-22 students)</p>
+                        <p>▸ All textbooks and learning materials</p>
+                        <p>▸ 20+ years of proven educational systems</p>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <button onclick="showScreen('nextStepsScreen')" class="w-full px-6 py-4 bg-accent text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                        Book a School Tour
+                    </button>
+                    <button onclick="showScreen('nextStepsScreen')" class="w-full px-6 py-3 bg-white text-primary font-semibold rounded-xl border-2 border-primary/20 hover:border-primary transition-all duration-200">
+                        Ask Questions
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         PAGE 13: NEXT STEPS
+         ======================================== -->
+    <div class="screen" id="nextStepsScreen">
+        <div class="min-h-screen px-6 py-8 max-w-2xl mx-auto">
+            <h1 class="text-3xl font-bold text-primary mb-6 text-center">
+                Ready to Take the Next Step?
+            </h1>
+            <p class="text-gray-600 text-center mb-8">
+                Choose the best option for your family:
+            </p>
+
+            <div class="space-y-4">
+                <!-- Option 1: School Tour -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                        1. SCHOOL TOUR
+                    </h3>
+                    <div class="space-y-2 text-sm text-gray-700 mb-4">
+                        <p class="font-medium">What happens:</p>
+                        <p>▸ See classrooms during active learning</p>
+                        <p>▸ Meet teachers and observe teaching methods</p>
+                        <p>▸ Ask questions specific to your child</p>
+                        <p>▸ Duration: 60-90 minutes</p>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">
+                        Best for: Parents who want to see our philosophy in action
+                    </p>
+                    <button onclick="showScreen('leadCaptureScreen', 'tour')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors">
+                        Schedule Tour
+                    </button>
+                </div>
+
+                <!-- Option 2: Open House -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                        2. OPEN HOUSE EVENT
+                    </h3>
+                    <div class="space-y-2 text-sm text-gray-700 mb-4">
+                        <p class="font-medium">What happens:</p>
+                        <p>▸ Meet current parents and hear their experiences</p>
+                        <p>▸ Attend short program presentations</p>
+                        <p>▸ Campus tours available</p>
+                        <p>▸ Q&A with leadership team</p>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">
+                        Best for: Parents comparing multiple schools
+                    </p>
+                    <button onclick="showScreen('leadCaptureScreen', 'openhouse')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors">
+                        Register for Open House
+                    </button>
+                </div>
+
+                <!-- Option 3: Admissions Interview -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                        3. ADMISSIONS INTERVIEW
+                    </h3>
+                    <div class="space-y-2 text-sm text-gray-700 mb-4">
+                        <p class="font-medium">What happens:</p>
+                        <p>▸ Discuss your child's specific needs and readiness</p>
+                        <p>▸ Understand whether we're the right fit</p>
+                        <p>▸ Learn about enrollment process and timeline</p>
+                        <p>▸ Receive personalized program recommendation</p>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">
+                        Best for: Families ready to begin enrollment process
+                    </p>
+                    <button onclick="showScreen('leadCaptureScreen', 'interview')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors">
+                        Request Interview
+                    </button>
+                </div>
+
+                <!-- Not Ready Yet -->
+                <div class="bg-gray-100 rounded-2xl p-6 mt-8">
+                    <p class="text-gray-900 font-semibold mb-3 text-center">
+                        Not Ready Yet?
+                    </p>
+                    <p class="text-gray-600 text-sm text-center mb-4">
+                        We're here to answer questions
+                    </p>
+                    <div class="space-y-2 text-sm text-gray-700">
+                        <p>▸ Telegram: @oxbridgeadmissions</p>
+                        <p>▸ Phone: +998 71 202 99 44</p>
+                        <p>▸ Email: admissions@oxbridge.uz</p>
+                    </div>
+                    <p class="text-xs text-gray-500 text-center mt-3">
+                        Response time: Within 2 hours during business hours
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         PAGE 14: LEAD CAPTURE FORM
+         ======================================== -->
+    <div class="screen" id="leadCaptureScreen">
+        <div class="min-h-screen px-6 py-8 max-w-2xl mx-auto">
+            <h1 class="text-3xl font-bold text-primary mb-6 text-center" id="leadCaptureTitle">
+                Book Your School Tour
+            </h1>
+            <p class="text-gray-600 text-center mb-8">
+                Quick Form (30 seconds to complete)
+            </p>
+
+            <form id="leadCaptureForm" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Parent/Guardian Name *
+                    </label>
+                    <input type="text" id="parentName" required class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Phone Number *
+                    </label>
+                    <input type="tel" id="parentPhone" required placeholder="+998" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Email Address *
+                    </label>
+                    <input type="email" id="parentEmail" required class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Number of Children *
+                    </label>
+                    <select id="numChildren" required class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                        <option value="">Select...</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4+">4+</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-3">
+                        Children's Ages (Select all that apply)
+                    </label>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" name="childAges" value="2-3" class="w-4 h-4 text-primary focus:ring-primary rounded">
+                            <span class="ml-2 text-sm text-gray-700">2-3 years</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="childAges" value="4-5" class="w-4 h-4 text-primary focus:ring-primary rounded">
+                            <span class="ml-2 text-sm text-gray-700">4-5 years</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="childAges" value="6-10" class="w-4 h-4 text-primary focus:ring-primary rounded">
+                            <span class="ml-2 text-sm text-gray-700">6-10 years</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="childAges" value="11-15" class="w-4 h-4 text-primary focus:ring-primary rounded">
+                            <span class="ml-2 text-sm text-gray-700">11-15 years</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="childAges" value="16-18" class="w-4 h-4 text-primary focus:ring-primary rounded">
+                            <span class="ml-2 text-sm text-gray-700">16-18 years</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Program Interest (Optional)
+                    </label>
+                    <select id="programInterest" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                        <option value="">Not sure yet</option>
+                        <option value="kindergarten">Kindergarten</option>
+                        <option value="russian">Russian Stream</option>
+                        <option value="ib">IB Stream</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Any Specific Questions? (Optional)
+                    </label>
+                    <textarea id="specificQuestions" rows="3" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"></textarea>
+                </div>
+
+                <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 text-sm text-blue-900">
+                    <p class="mb-2">▸ Your information is secure and confidential</p>
+                    <p class="mb-2">▸ Personal manager will contact you within 2 hours</p>
+                    <p>▸ No spam or unwanted follow-up</p>
+                </div>
+
+                <button type="submit" class="w-full px-6 py-4 bg-gradient-to-r from-primary to-primary-light text-white font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                    Submit Request
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ========================================
+         PAGE 15: THANK YOU
+         ======================================== -->
+    <div class="screen" id="thankYouScreen">
+        <div class="min-h-screen px-6 py-12 max-w-2xl mx-auto flex flex-col justify-center">
+            <div class="text-center">
+                <div class="text-6xl mb-6">✓</div>
+                <h1 class="text-3xl font-bold text-primary mb-4">
+                    Request Received Successfully
+                </h1>
+                <p class="text-gray-600 mb-8">
+                    What happens next
+                </p>
+
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 text-left mb-8 space-y-4">
+                    <div>
+                        <p class="font-semibold text-gray-900 mb-1">1. Personal manager review</p>
+                        <p class="text-sm text-gray-600">Your request is now in our system</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-gray-900 mb-1">2. Contact within 2 hours</p>
+                        <p class="text-sm text-gray-600">During business hours (Mon-Fri, 9:00-18:00)</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-gray-900 mb-1">3. Confirmation and preparation</p>
+                        <p class="text-sm text-gray-600">We'll confirm your preferred time and send details</p>
+                    </div>
+                </div>
+
+                <div class="text-center space-y-3">
+                    <button onclick="showScreen('valuePropositionScreen')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors">
+                        Return to Home
+                    </button>
+                    <button onclick="showScreen('calculatorScreen')" class="w-full px-6 py-3 bg-white text-primary font-semibold rounded-xl border-2 border-primary/20 hover:border-primary transition-all duration-200">
+                        Calculate Tuition
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         BOTTOM NAVIGATION
+         ======================================== -->
+    <nav id="bottomNav" class="hidden fixed bottom-0 left-0 right-0 bg-white nav-bottom z-50">
+        <div class="flex justify-around items-center h-16 max-w-2xl mx-auto px-4">
+            <button onclick="showScreen('valuePropositionScreen')" class="flex flex-col items-center justify-center flex-1 py-2">
+                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                <span class="text-xs text-gray-600 mt-1">Home</span>
+            </button>
+            <button onclick="showScreen('programsScreen')" class="flex flex-col items-center justify-center flex-1 py-2">
+                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+                <span class="text-xs text-gray-600 mt-1">Programs</span>
+            </button>
+            <button onclick="showScreen('faqScreen')" class="flex flex-col items-center justify-center flex-1 py-2">
+                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="text-xs text-gray-600 mt-1">FAQ</span>
+            </button>
+            <button onclick="showScreen('calculatorScreen')" class="flex flex-col items-center justify-center flex-1 py-2">
+                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                </svg>
+                <span class="text-xs text-gray-600 mt-1">Calculator</span>
+            </button>
+            <button onclick="showScreen('nextStepsScreen')" class="flex flex-col items-center justify-center flex-1 py-2">
+                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+                <span class="text-xs text-gray-600 mt-1">Contact</span>
+            </button>
+        </div>
+    </nav>
 
     <script src="/js/app.js"></script>
 </body>
