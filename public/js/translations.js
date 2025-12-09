@@ -436,6 +436,7 @@ const translations = {
 };
 
 // Translation function
-function t(key, lang = state.language) {
+// Safe to call even before app.js loads
+function t(key, lang = 'en') {
     return translations[lang]?.[key] || translations['en'][key] || key;
 }

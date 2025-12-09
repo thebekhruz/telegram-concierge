@@ -57,9 +57,15 @@ const state = {
 // ============================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, initializing...');
     applyTelegramTheme();
-    applyTranslations(); // Apply default language translations
     initCalculator();
+
+    // Apply translations after a brief delay to ensure Alpine is ready
+    setTimeout(() => {
+        applyTranslations();
+        console.log('Translations applied');
+    }, 50);
 });
 
 function applyTelegramTheme() {
@@ -120,7 +126,10 @@ function showScreen(screenId, param) {
  * Apply translations to all elements with data-i18n attribute
  */
 function applyTranslations() {
+    console.log('Applying translations for language:', state.language);
     const elements = document.querySelectorAll('[data-i18n]');
+    console.log('Found', elements.length, 'elements with data-i18n');
+
     elements.forEach(element => {
         const key = element.getAttribute('data-i18n');
         const translation = t(key, state.language);
@@ -133,6 +142,7 @@ function applyTranslations() {
  * @param {string} lang - Language code (en, ru, uz, tr)
  */
 function selectLanguage(lang) {
+    console.log('Language selected:', lang);
     state.language = lang;
     applyTranslations();
     showScreen('valuePropositionScreen');
