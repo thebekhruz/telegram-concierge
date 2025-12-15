@@ -420,25 +420,20 @@
          ======================================== -->
     <div class="screen" id="faqScreen">
         <div class="min-h-screen px-6 py-8 max-w-2xl mx-auto">
-            <h1 class="text-3xl font-bold text-primary mb-6 text-center">
+            <h1 class="text-3xl font-bold text-primary mb-6 text-center" data-i18n="faq_title">
                 Frequently Asked Questions
             </h1>
-
-            <!-- Search Bar -->
-            <div x-data="{ search: '' }" class="mb-6">
-                <input x-model="search" type="text" placeholder="Find answers to your questions..." class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
-            </div>
 
             <!-- Category Tabs -->
             <div x-data="{ activeCategory: 'learning' }" class="space-y-6">
                 <div class="flex gap-2 overflow-x-auto pb-2">
-                    <button @click="activeCategory = 'learning'" :class="activeCategory === 'learning' ? 'bg-primary text-white' : 'bg-white text-gray-700'" class="px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-colors">
+                    <button @click="activeCategory = 'learning'" :class="activeCategory === 'learning' ? 'bg-primary text-white' : 'bg-white text-gray-700'" class="px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-colors" data-i18n="faq_category_learning">
                         Learning & Programs
                     </button>
-                    <button @click="activeCategory = 'admissions'" :class="activeCategory === 'admissions' ? 'bg-primary text-white' : 'bg-white text-gray-700'" class="px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-colors">
+                    <button @click="activeCategory = 'admissions'" :class="activeCategory === 'admissions' ? 'bg-primary text-white' : 'bg-white text-gray-700'" class="px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-colors" data-i18n="faq_category_admissions">
                         Admissions
                     </button>
-                    <button @click="activeCategory = 'tuition'" :class="activeCategory === 'tuition' ? 'bg-primary text-white' : 'bg-white text-gray-700'" class="px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-colors">
+                    <button @click="activeCategory = 'tuition'" :class="activeCategory === 'tuition' ? 'bg-primary text-white' : 'bg-white text-gray-700'" class="px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-colors" data-i18n="faq_category_tuition">
                         Tuition
                     </button>
                 </div>
@@ -447,7 +442,7 @@
                 <div x-show="activeCategory === 'learning'" x-transition class="space-y-3">
                     <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md">
                         <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left group">
-                            <span class="font-semibold text-gray-900 pr-3">Why don't children fear learning here?</span>
+                            <span class="font-semibold text-gray-900 pr-3" data-i18n="faq_q1_question">Why don't children fear learning here?</span>
                             <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-200 group-hover:bg-primary/20" :class="open ? 'bg-primary/20' : ''">
                                 <svg class="w-4 h-4 text-primary transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -455,7 +450,7 @@
                             </div>
                         </button>
                         <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="px-5 pb-4 pt-0">
-                            <p class="text-gray-700 leading-relaxed">
+                            <p class="text-gray-700 leading-relaxed" data-i18n="faq_q1_answer">
                                 We focus on personal growth rather than competition. Students compete with themselves, not each other, which removes fear and builds genuine interest in learning.
                             </p>
                         </div>
@@ -463,7 +458,7 @@
 
                     <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md">
                         <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left group">
-                            <span class="font-semibold text-gray-900 pr-3">Is IB only for going abroad?</span>
+                            <span class="font-semibold text-gray-900 pr-3" data-i18n="faq_q2_question">Is IB only for going abroad?</span>
                             <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-200 group-hover:bg-primary/20" :class="open ? 'bg-primary/20' : ''">
                                 <svg class="w-4 h-4 text-primary transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -471,7 +466,7 @@
                             </div>
                         </button>
                         <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="px-5 pb-4 pt-0">
-                            <p class="text-gray-700 leading-relaxed">
+                            <p class="text-gray-700 leading-relaxed" data-i18n="faq_q2_answer">
                                 No! IB Diploma is recognized locally too. IB graduates can skip directly to 2nd year at many Tashkent universities, plus they earn both IB Diploma and Uzbek State Certificate.
                             </p>
                         </div>
@@ -479,7 +474,7 @@
 
                     <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md">
                         <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left group">
-                            <span class="font-semibold text-gray-900 pr-3">Russian Stream or IB Stream?</span>
+                            <span class="font-semibold text-gray-900 pr-3" data-i18n="faq_q3_question">Russian Stream or IB Stream?</span>
                             <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-200 group-hover:bg-primary/20" :class="open ? 'bg-primary/20' : ''">
                                 <svg class="w-4 h-4 text-primary transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -488,10 +483,10 @@
                         </button>
                         <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="px-5 pb-4 pt-0">
                             <p class="text-gray-700 leading-relaxed mb-2">
-                                <strong>Russian Stream:</strong> Systematic, structured learning. Best for students who thrive with clear structure. Earns Uzbek State Certificate.
+                                <strong data-i18n="faq_q3_answer_russian">Russian Stream:</strong> <span data-i18n="faq_q3_answer_russian_desc">Systematic, structured learning. Best for students who thrive with clear structure. Earns Uzbek State Certificate.</span>
                             </p>
                             <p class="text-gray-700 leading-relaxed">
-                                <strong>IB Stream:</strong> Inquiry-based, cross-disciplinary learning. Best for students who ask "why?" constantly. Earns TWO diplomas: IB Diploma + State Certificate.
+                                <strong data-i18n="faq_q3_answer_ib">IB Stream:</strong> <span data-i18n="faq_q3_answer_ib_desc">Inquiry-based, cross-disciplinary learning. Best for students who ask "why?" constantly. Earns TWO diplomas: IB Diploma + State Certificate.</span>
                             </p>
                         </div>
                     </div>
@@ -501,7 +496,7 @@
                 <div x-show="activeCategory === 'admissions'" x-transition class="space-y-3">
                     <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md">
                         <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left group">
-                            <span class="font-semibold text-gray-900 pr-3">How do I book a school tour?</span>
+                            <span class="font-semibold text-gray-900 pr-3" data-i18n="faq_q4_question">How do I book a school tour?</span>
                             <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-200 group-hover:bg-primary/20" :class="open ? 'bg-primary/20' : ''">
                                 <svg class="w-4 h-4 text-primary transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -509,7 +504,7 @@
                             </div>
                         </button>
                         <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="px-5 pb-4 pt-0">
-                            <p class="text-gray-700 leading-relaxed">
+                            <p class="text-gray-700 leading-relaxed" data-i18n="faq_q4_answer">
                                 Click "Next Steps" in the bottom navigation and choose "School Tour". We'll contact you within 2 hours to schedule your visit.
                             </p>
                         </div>
@@ -517,7 +512,7 @@
 
                     <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md">
                         <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left group">
-                            <span class="font-semibold text-gray-900 pr-3">What documents are needed for enrollment?</span>
+                            <span class="font-semibold text-gray-900 pr-3" data-i18n="faq_q5_question">What documents are needed for enrollment?</span>
                             <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-200 group-hover:bg-primary/20" :class="open ? 'bg-primary/20' : ''">
                                 <svg class="w-4 h-4 text-primary transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -525,7 +520,7 @@
                             </div>
                         </button>
                         <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="px-5 pb-4 pt-0">
-                            <p class="text-gray-700 leading-relaxed">
+                            <p class="text-gray-700 leading-relaxed" data-i18n="faq_q5_answer">
                                 Birth certificate, passport copies (parent and child), previous school records, and medical certificate. Our admissions team will guide you through the complete list.
                             </p>
                         </div>
@@ -536,7 +531,7 @@
                 <div x-show="activeCategory === 'tuition'" x-transition class="space-y-3">
                     <div x-data="{ open: true }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md">
                         <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left group">
-                            <span class="font-semibold text-gray-900 pr-3">Can I pay monthly?</span>
+                            <span class="font-semibold text-gray-900 pr-3" data-i18n="faq_q6_question">Can I pay monthly?</span>
                             <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-200 group-hover:bg-primary/20" :class="open ? 'bg-primary/20' : ''">
                                 <svg class="w-4 h-4 text-primary transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -544,7 +539,7 @@
                             </div>
                         </button>
                         <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="px-5 pb-4 pt-0">
-                            <p class="text-gray-700 leading-relaxed">
+                            <p class="text-gray-700 leading-relaxed" data-i18n="faq_q6_answer">
                                 Yes! We offer flexible payment plans including monthly installments. Use the Calculator to see monthly payment options for your family.
                             </p>
                         </div>
@@ -552,7 +547,7 @@
 
                     <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md">
                         <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left group">
-                            <span class="font-semibold text-gray-900 pr-3">Are there sibling discounts?</span>
+                            <span class="font-semibold text-gray-900 pr-3" data-i18n="faq_q7_question">Are there sibling discounts?</span>
                             <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-200 group-hover:bg-primary/20" :class="open ? 'bg-primary/20' : ''">
                                 <svg class="w-4 h-4 text-primary transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -560,7 +555,7 @@
                             </div>
                         </button>
                         <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="px-5 pb-4 pt-0">
-                            <p class="text-gray-700 leading-relaxed">
+                            <p class="text-gray-700 leading-relaxed" data-i18n="faq_q7_answer">
                                 Yes! We offer 10% discount on the second child's tuition. This is automatically calculated in our Tuition Calculator.
                             </p>
                         </div>
@@ -568,7 +563,7 @@
 
                     <div x-data="{ open: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 hover:shadow-md">
                         <button @click="open = !open" class="w-full px-5 py-4 flex items-center justify-between text-left group">
-                            <span class="font-semibold text-gray-900 pr-3">What's included in tuition?</span>
+                            <span class="font-semibold text-gray-900 pr-3" data-i18n="faq_q8_question">What's included in tuition?</span>
                             <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-200 group-hover:bg-primary/20" :class="open ? 'bg-primary/20' : ''">
                                 <svg class="w-4 h-4 text-primary transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -576,7 +571,7 @@
                             </div>
                         </button>
                         <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="px-5 pb-4 pt-0">
-                            <p class="text-gray-700 leading-relaxed">
+                            <p class="text-gray-700 leading-relaxed" data-i18n="faq_q8_answer">
                                 Full academic program, textbooks, materials, three-tier support system, small class sizes (max 18-22 students), meals, and all learning support programs.
                             </p>
                         </div>
@@ -585,13 +580,13 @@
             </div>
 
             <div class="mt-8 bg-gray-100 rounded-2xl p-6 text-center">
-                <p class="text-gray-900 font-semibold mb-2">
+                <p class="text-gray-900 font-semibold mb-2" data-i18n="faq_no_answer_title">
                     Didn't find your answer?
                 </p>
-                <p class="text-gray-600 text-sm mb-4">
+                <p class="text-gray-600 text-sm mb-4" data-i18n="faq_response_time">
                     Response time: Within 2 hours during business hours
                 </p>
-                <button onclick="showScreen('nextStepsScreen')" class="px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors">
+                <button onclick="showScreen('nextStepsScreen')" class="px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors" data-i18n="faq_contact_us">
                     Contact Us
                 </button>
             </div>
@@ -633,7 +628,7 @@
                         <p data-i18n="calculator_included_2">▸ Three-tier support system for every child</p>
                         <p data-i18n="calculator_included_3">▸ Small class sizes (maximum 18-22 students)</p>
                         <p data-i18n="calculator_included_4">▸ All textbooks and learning materials</p>
-                        <p data-i18n="calculator_included_5">▸ 20+ years of proven educational systems</p>
+                        <p data-i18n="calculator_included_5">▸ 8+ years of proven educational systems</p>
                     </div>
                 </div>
 
@@ -654,88 +649,88 @@
          ======================================== -->
     <div class="screen" id="nextStepsScreen">
         <div class="min-h-screen px-6 py-8 max-w-2xl mx-auto">
-            <h1 class="text-3xl font-bold text-primary mb-6 text-center">
+            <h1 class="text-3xl font-bold text-primary mb-6 text-center" data-i18n="next_steps_title">
                 Ready to Take the Next Step?
             </h1>
-            <p class="text-gray-600 text-center mb-8">
+            <p class="text-gray-600 text-center mb-8" data-i18n="next_steps_subtitle">
                 Choose the best option for your family:
             </p>
 
             <div class="space-y-4">
                 <!-- Option 1: School Tour -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="next_steps_option1_title">
                         1. SCHOOL TOUR
                     </h3>
                     <div class="space-y-2 text-sm text-gray-700 mb-4">
-                        <p class="font-medium">What happens:</p>
-                        <p>▸ See classrooms during active learning</p>
-                        <p>▸ Meet teachers and observe teaching methods</p>
-                        <p>▸ Ask questions specific to your child</p>
-                        <p>▸ Duration: 60-90 minutes</p>
+                        <p class="font-medium" data-i18n="next_steps_option1_what">What happens:</p>
+                        <p data-i18n="next_steps_option1_point1">▸ See classrooms during active learning</p>
+                        <p data-i18n="next_steps_option1_point2">▸ Meet teachers and observe teaching methods</p>
+                        <p data-i18n="next_steps_option1_point3">▸ Ask questions specific to your child</p>
+                        <p data-i18n="next_steps_option1_point4">▸ Duration: 60-90 minutes</p>
                     </div>
-                    <p class="text-sm text-gray-600 mb-4">
+                    <p class="text-sm text-gray-600 mb-4" data-i18n="next_steps_option1_best">
                         Best for: Parents who want to see our philosophy in action
                     </p>
-                    <button onclick="showScreen('leadCaptureScreen', 'tour')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors">
+                    <button onclick="showScreen('leadCaptureScreen', 'tour')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors" data-i18n="next_steps_option1_button">
                         Schedule Tour
                     </button>
                 </div>
 
                 <!-- Option 2: Open House -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="next_steps_option2_title">
                         2. OPEN HOUSE EVENT
                     </h3>
                     <div class="space-y-2 text-sm text-gray-700 mb-4">
-                        <p class="font-medium">What happens:</p>
-                        <p>▸ Meet current parents and hear their experiences</p>
-                        <p>▸ Attend short program presentations</p>
-                        <p>▸ Campus tours available</p>
-                        <p>▸ Q&A with leadership team</p>
+                        <p class="font-medium" data-i18n="next_steps_option2_what">What happens:</p>
+                        <p data-i18n="next_steps_option2_point1">▸ Meet current parents and hear their experiences</p>
+                        <p data-i18n="next_steps_option2_point2">▸ Attend short program presentations</p>
+                        <p data-i18n="next_steps_option2_point3">▸ Campus tours available</p>
+                        <p data-i18n="next_steps_option2_point4">▸ Q&A with leadership team</p>
                     </div>
-                    <p class="text-sm text-gray-600 mb-4">
+                    <p class="text-sm text-gray-600 mb-4" data-i18n="next_steps_option2_best">
                         Best for: Parents comparing multiple schools
                     </p>
-                    <button onclick="showScreen('leadCaptureScreen', 'openhouse')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors">
+                    <button onclick="showScreen('leadCaptureScreen', 'openhouse')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors" data-i18n="next_steps_option2_button">
                         Register for Open House
                     </button>
                 </div>
 
                 <!-- Option 3: Admissions Interview -->
                 <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="next_steps_option3_title">
                         3. ADMISSIONS INTERVIEW
                     </h3>
                     <div class="space-y-2 text-sm text-gray-700 mb-4">
-                        <p class="font-medium">What happens:</p>
-                        <p>▸ Discuss your child's specific needs and readiness</p>
-                        <p>▸ Understand whether we're the right fit</p>
-                        <p>▸ Learn about enrollment process and timeline</p>
-                        <p>▸ Receive personalized program recommendation</p>
+                        <p class="font-medium" data-i18n="next_steps_option3_what">What happens:</p>
+                        <p data-i18n="next_steps_option3_point1">▸ Discuss your child's specific needs and readiness</p>
+                        <p data-i18n="next_steps_option3_point2">▸ Understand whether we're the right fit</p>
+                        <p data-i18n="next_steps_option3_point3">▸ Learn about enrollment process and timeline</p>
+                        <p data-i18n="next_steps_option3_point4">▸ Receive personalized program recommendation</p>
                     </div>
-                    <p class="text-sm text-gray-600 mb-4">
+                    <p class="text-sm text-gray-600 mb-4" data-i18n="next_steps_option3_best">
                         Best for: Families ready to begin enrollment process
                     </p>
-                    <button onclick="showScreen('leadCaptureScreen', 'interview')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors">
+                    <button onclick="showScreen('leadCaptureScreen', 'interview')" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary-dark transition-colors" data-i18n="next_steps_option3_button">
                         Request Interview
                     </button>
                 </div>
 
                 <!-- Not Ready Yet -->
                 <div class="bg-gray-100 rounded-2xl p-6 mt-8">
-                    <p class="text-gray-900 font-semibold mb-3 text-center">
+                    <p class="text-gray-900 font-semibold mb-3 text-center" data-i18n="next_steps_not_ready_title">
                         Not Ready Yet?
                     </p>
-                    <p class="text-gray-600 text-sm text-center mb-4">
+                    <p class="text-gray-600 text-sm text-center mb-4" data-i18n="next_steps_not_ready_subtitle">
                         We're here to answer questions
                     </p>
                     <div class="space-y-2 text-sm text-gray-700">
-                        <p>▸ Telegram: @oxbridgeadmissions</p>
-                        <p>▸ Phone: +998 71 202 99 44</p>
-                        <p>▸ Email: admissions@oxbridge.uz</p>
+                        <p data-i18n="next_steps_telegram">▸ Telegram: @oxbridgeadmissions</p>
+                        <p data-i18n="next_steps_phone">▸ Phone: +998 71 202 99 44</p>
+                        <p data-i18n="next_steps_email">▸ Email: admissions@oxbridge.uz</p>
                     </div>
-                    <p class="text-xs text-gray-500 text-center mt-3">
+                    <p class="text-xs text-gray-500 text-center mt-3" data-i18n="next_steps_response_time">
                         Response time: Within 2 hours during business hours
                     </p>
                 </div>
@@ -900,31 +895,31 @@
                 <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                 </svg>
-                <span class="text-xs text-gray-600 mt-1">Home</span>
+                <span class="text-xs text-gray-600 mt-1" data-i18n="nav_home">Home</span>
             </button>
             <button onclick="showScreen('programsScreen')" class="flex flex-col items-center justify-center flex-1 py-2">
                 <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                 </svg>
-                <span class="text-xs text-gray-600 mt-1">Programs</span>
+                <span class="text-xs text-gray-600 mt-1" data-i18n="nav_programs">Programs</span>
             </button>
             <button onclick="showScreen('faqScreen')" class="flex flex-col items-center justify-center flex-1 py-2">
                 <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
-                <span class="text-xs text-gray-600 mt-1">FAQ</span>
+                <span class="text-xs text-gray-600 mt-1" data-i18n="nav_faq">FAQ</span>
             </button>
             <button onclick="showScreen('calculatorScreen')" class="flex flex-col items-center justify-center flex-1 py-2">
                 <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
                 </svg>
-                <span class="text-xs text-gray-600 mt-1">Calculator</span>
+                <span class="text-xs text-gray-600 mt-1" data-i18n="nav_calculator">Calculator</span>
             </button>
             <button onclick="showScreen('nextStepsScreen')" class="flex flex-col items-center justify-center flex-1 py-2">
                 <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>
-                <span class="text-xs text-gray-600 mt-1">Contact</span>
+                <span class="text-xs text-gray-600 mt-1" data-i18n="nav_contact">Contact</span>
             </button>
         </div>
     </nav>

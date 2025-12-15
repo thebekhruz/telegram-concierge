@@ -67,7 +67,9 @@ window.selectLanguage = async function(lang, skipNavigation = false) {
     
     if (!lang || !['en', 'ru', 'uz', 'tr'].includes(lang)) {
         console.error('Invalid language:', lang);
-        alert('Invalid language selected. Please try again.');
+        const tFunc = window.t || (typeof t !== 'undefined' ? t : null);
+        const errorMsg = tFunc ? tFunc('error_invalid_language', state.language || 'en') : 'Invalid language selected. Please try again.';
+        alert(errorMsg);
         return;
     }
     
@@ -115,10 +117,16 @@ window.selectLanguage = async function(lang, skipNavigation = false) {
         // Apply translations immediately
         applyTranslationsNow();
         
-        // Retry after a short delay to ensure DOM is ready
+        // Re-render calculator form if it's visible (to update labels)
+        // Wait a bit to ensure translations are loaded
+        const calculatorScreen = document.getElementById('calculatorScreen');
         setTimeout(() => {
             applyTranslationsNow();
-        }, 100);
+            // Re-render calculator after translations are loaded
+            if (calculatorScreen && calculatorScreen.classList.contains('active')) {
+                renderChildren();
+            }
+        }, 150);
         
     } catch (error) {
         console.error('Error in selectLanguage:', error);
@@ -279,10 +287,12 @@ function showScreen(screenId, param) {
     if (screenId === 'leadCaptureScreen' && param) {
         state.leadType = param;
         const leadCaptureTitle = document.getElementById('leadCaptureTitle');
+        const tFunc = window.t || (typeof t !== 'undefined' ? t : null);
+        const lang = state.language || 'en';
         const titles = {
-            'tour': 'Book Your School Tour',
-            'openhouse': 'Register for Open House',
-            'interview': 'Request Admissions Interview'
+            'tour': tFunc ? tFunc('lead_title_tour', lang) : 'Book Your School Tour',
+            'openhouse': tFunc ? tFunc('lead_title_openhouse', lang) : 'Register for Open House',
+            'interview': tFunc ? tFunc('lead_title_interview', lang) : 'Request Admissions Interview'
         };
         leadCaptureTitle.textContent = titles[param] || titles.tour;
     }
@@ -290,6 +300,11 @@ function showScreen(screenId, param) {
     // Re-apply translations when switching screens
     setTimeout(() => {
         applyTranslations();
+        
+        // Re-render calculator form when calculator screen is shown to update labels with current language
+        if (screenId === 'calculatorScreen') {
+            renderChildren();
+        }
     }, 50);
 
     // Scroll to top for better UX
@@ -334,6 +349,22 @@ function applyTranslations() {
             }
         } catch (error) {
             console.error('Error translating key:', key, error);
+        }
+    });
+    
+    // Handle placeholder translations
+    const placeholderElements = document.querySelectorAll('[data-i18n-placeholder]');
+    placeholderElements.forEach(element => {
+        const key = element.getAttribute('data-i18n-placeholder');
+        if (!key) return;
+        
+        try {
+            const translation = tFunc(key, state.language);
+            if (translation && translation !== key) {
+                element.placeholder = translation;
+            }
+        } catch (error) {
+            console.error('Error translating placeholder key:', key, error);
         }
     });
 }
@@ -397,16 +428,41 @@ function renderChildren() {
     const container = document.getElementById('childrenList');
     if (!container) return;
 
+    const tFunc = window.t || (typeof t !== 'undefined' ? t : null);
+    const lang = state.language || 'en';
+    
+    // Helper function to get translation for current language with proper fallback
+    const getTranslation = (key, fallback) => {
+        if (!tFunc) return fallback;
+        const translation = tFunc(key, lang);
+        // If translation function returns the key itself, it means translation not found
+        // Try English fallback, or use the provided fallback
+        if (translation === key && lang !== 'en') {
+            const enTranslation = tFunc(key, 'en');
+            return enTranslation !== key ? enTranslation : fallback;
+        }
+        return translation !== key ? translation : fallback;
+    };
+
+    const childLabel = getTranslation('calculator_child_label', 'Child');
+    const removeText = getTranslation('remove_child', 'Remove');
+    const dobLabel = getTranslation('calculator_dob_label', 'Date of Birth');
+    const programLabel = getTranslation('calculator_program_label', 'Program');
+    const selectProgram = getTranslation('calculator_select_program', 'Select program...');
+    const programKindergarten = getTranslation('calculator_program_kindergarten', 'Kindergarten');
+    const programRussian = getTranslation('calculator_program_russian', 'Russian Stream');
+    const programIB = getTranslation('calculator_program_ib', 'IB Stream');
+
     container.innerHTML = state.children.map((child, index) => `
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
             <div class="flex items-center justify-between mb-4">
-                <span class="font-semibold text-gray-900">Child ${index + 1}</span>
-                ${index > 0 ? `<button onclick="removeChild(${index})" class="px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors">Remove</button>` : ''}
+                <span class="font-semibold text-gray-900">${childLabel} ${index + 1}</span>
+                ${index > 0 ? `<button onclick="removeChild(${index})" class="px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors">${removeText}</button>` : ''}
             </div>
 
             <div class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">${dobLabel}</label>
                     <input
                         type="date"
                         id="dob-${index}"
@@ -418,16 +474,16 @@ function renderChildren() {
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Program</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">${programLabel}</label>
                     <select
                         id="program-${index}"
                         onchange="updateChild(${index}, 'program', this.value)"
                         class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                     >
-                        <option value="">Select program...</option>
-                        <option value="kindergarten" ${child.program === 'kindergarten' ? 'selected' : ''}>Kindergarten</option>
-                        <option value="russian" ${child.program === 'russian' ? 'selected' : ''}>Russian Stream</option>
-                        <option value="ib" ${child.program === 'ib' ? 'selected' : ''}>IB Stream</option>
+                        <option value="">${selectProgram}</option>
+                        <option value="kindergarten" ${child.program === 'kindergarten' ? 'selected' : ''}>${programKindergarten}</option>
+                        <option value="russian" ${child.program === 'russian' ? 'selected' : ''}>${programRussian}</option>
+                        <option value="ib" ${child.program === 'ib' ? 'selected' : ''}>${programIB}</option>
                     </select>
                 </div>
             </div>
@@ -498,7 +554,10 @@ function calculateTuition() {
     const incomplete = state.children.some(child => !child.dob || !child.program);
 
     if (incomplete) {
-        tg.showAlert('Please enter date of birth and select program for all children');
+        const tFunc = window.t || (typeof t !== 'undefined' ? t : null);
+        const lang = state.language || 'en';
+        const errorMsg = tFunc ? tFunc('error_incomplete_calculator', lang) : 'Please enter date of birth and select program for all children';
+        tg.showAlert(errorMsg);
         return;
     }
 
@@ -549,47 +608,62 @@ function displayResults(childResults, total) {
     const calculatorForm = document.getElementById('calculatorForm');
     const calculatorResults = document.getElementById('calculatorResults');
 
+    // Get translation function
+    const tFunc = window.t || (typeof t !== 'undefined' ? t : null);
+    const lang = state.language || 'en';
+    
     // Program display names
     const programNames = {
-        kindergarten: 'Kindergarten',
-        russian: 'Russian Stream',
-        ib: 'IB Stream'
+        kindergarten: tFunc ? tFunc('calculator_program_kindergarten', lang) : 'Kindergarten',
+        russian: tFunc ? tFunc('calculator_program_russian', lang) : 'Russian Stream',
+        ib: tFunc ? tFunc('calculator_program_ib', lang) : 'IB Stream'
     };
 
     // Critical diploma information (corrected in Phase 1)
+    const diplomaRussian = tFunc ? tFunc('calculator_diploma_russian', lang) : 'Earns: Uzbek State Certificate';
+    const diplomaIB = tFunc ? tFunc('calculator_diploma_ib', lang) : 'Earns: IB Diploma + State Certificate (2 diplomas)';
     const diplomaInfo = {
         kindergarten: '',
-        russian: '<p class="text-xs text-amber-700 mt-1">Earns: Uzbek State Certificate</p>',
-        ib: '<p class="text-xs text-green-700 mt-1">Earns: IB Diploma + State Certificate (2 diplomas)</p>'
+        russian: `<p class="text-xs text-amber-700 mt-1">${diplomaRussian}</p>`,
+        ib: `<p class="text-xs text-green-700 mt-1">${diplomaIB}</p>`
     };
-
+    
+    // Get translated text for sibling discount and other labels
+    const siblingDiscountText = tFunc ? tFunc('calculator_sibling_discount', lang) : 'Multiple children: 10% discount applied to second child\'s tuition';
+    const siblingDiscountAppliedText = tFunc ? tFunc('calculator_sibling_discount_applied', lang) : '10% sibling discount applied';
+    const childLabel = tFunc ? tFunc('calculator_child_label', lang) : 'Child';
+    const ageLabel = tFunc ? tFunc('calculator_age_label', lang) : 'Age';
+    const sumPerYearApprox = tFunc ? tFunc('calculator_sum_per_year_approx', lang) : 'sum per year (approx.)';
+    const totalAnnual = tFunc ? tFunc('calculator_total_annual', lang) : 'Total Annual Tuition';
+    const sumPerYear = tFunc ? tFunc('calculator_sum_per_year', lang) : 'sum per year';
+    
     const childrenHTML = childResults.map(child => `
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
             <div class="flex items-center justify-between mb-3">
-                <h3 class="font-bold text-gray-900">Child ${child.childNum}</h3>
-                <span class="text-sm text-gray-500">Age: ${child.age}</span>
+                <h3 class="font-bold text-gray-900">${childLabel} ${child.childNum}</h3>
+                <span class="text-sm text-gray-500">${ageLabel}: ${child.age}</span>
             </div>
             <p class="text-gray-700 mb-2">${programNames[child.program]}</p>
-            ${child.hasDiscount ? '<p class="text-sm text-green-600 mb-2">10% sibling discount applied</p>' : ''}
+            ${child.hasDiscount ? `<p class="text-sm text-green-600 mb-2">${siblingDiscountAppliedText}</p>` : ''}
             <div class="text-left">
                 <div class="text-2xl font-bold text-primary">${formatPrice(child.finalPrice)}</div>
-                <div class="text-sm text-gray-500">sum per year (approx.)</div>
+                <div class="text-sm text-gray-500">${sumPerYearApprox}</div>
                 ${diplomaInfo[child.program]}
             </div>
         </div>
     `).join('');
-
+    
     resultsContainer.innerHTML = `
-        ${state.children.length > 1 ? '<div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-4"><p class="text-sm text-blue-900">Multiple children: 10% discount applied to second child\'s tuition</p></div>' : ''}
+        ${state.children.length > 1 ? `<div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-4"><p class="text-sm text-blue-900">${siblingDiscountText}</p></div>` : ''}
 
         <div class="space-y-4 mb-6">
             ${childrenHTML}
         </div>
 
         <div class="bg-primary text-white rounded-2xl p-6 text-center">
-            <p class="text-sm opacity-90 mb-2">Total Annual Tuition</p>
+            <p class="text-sm opacity-90 mb-2">${totalAnnual}</p>
             <p class="text-4xl font-bold">${formatPrice(total)}</p>
-            <p class="text-sm opacity-90 mt-2">sum per year</p>
+            <p class="text-sm opacity-90 mt-2">${sumPerYear}</p>
         </div>
     `;
 
