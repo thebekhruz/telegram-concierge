@@ -96,6 +96,45 @@ window.translations.ru = {
     prog_kg_rus: "Русский детский сад",
     prog_kg_bi: "Двуязычный детский сад",
 
+    // Program Explorer
+    programs_title: "Выберите возраст вашего ребёнка",
+    programs_tab_kindergarten: "Детский сад",
+    programs_tab_russian: "Русский поток",
+    programs_tab_ib: "IB",
+
+    program_kindergarten_title: "ДЕТСКИЙ САД (2–5 лет)",
+    program_kindergarten_point_1: "▸ Основа самостоятельности и личной ответственности",
+    program_kindergarten_point_2: "▸ Социальная уверенность как главная цель",
+    program_kindergarten_point_3: "▸ Практические навыки: самообслуживание, эмоциональная регуляция",
+    program_kindergarten_point_4: "▸ Тематическое обучение с интеграцией IB",
+    program_kindergarten_point_5: "▸ До 20 детей в группе, 2 педагога",
+    program_kindergarten_thrives_title: "Кому особенно подходит:",
+    program_kindergarten_thrives_desc: "Детям, чьи родители хотят развивать базовую самостоятельность и уверенность",
+
+    program_russian_title: "РУССКИЙ ПОТОК (6–18 лет)",
+    program_russian_point_1: "▸ Системная, структурированная программа",
+    program_russian_point_2: "▸ Сильная база: математика + английский",
+    program_russian_point_3: "▸ Государственный аттестат РУз по окончании",
+    program_russian_point_4: "▸ Постепенное развитие самостоятельности с возрастом",
+    program_russian_point_5: "▸ Гибкие группы и системы поддержки",
+    program_russian_thrives_title: "Кому особенно подходит:",
+    program_russian_thrives_desc: "Ученикам, которым важна чёткая структура и последовательное освоение знаний",
+    program_russian_diploma_title: "Получаемый диплом:",
+    program_russian_diploma_desc: "Государственный аттестат (один диплом)",
+
+    program_ib_title: "IB ПОТОК (6–18 лет)",
+    program_ib_point_1: "▸ Исследовательское, междисциплинарное обучение",
+    program_ib_point_2: "▸ PYP (начальная школа) → MYP (средняя) → DP (диплом)",
+    program_ib_point_3: "▸ ДВА диплома: IB Diploma + Государственный аттестат РУз",
+    program_ib_point_4: "▸ Трёхуровневая система поддержки",
+    program_ib_point_5: "▸ Фокус на критическом мышлении и исследовательских навыках",
+    program_ib_thrives_title: "Кому особенно подходит:",
+    program_ib_thrives_desc: "Ученикам, которые постоянно спрашивают «почему?» и любят связывать идеи между предметами",
+    program_ib_diploma_title: "Получаемые дипломы:",
+    program_ib_diploma_desc: "IB Diploma + Государственный аттестат (два диплома)",
+    program_ib_advantage_title: "Особое преимущество:",
+    program_ib_advantage_desc: "Владельцы IB Diploma могут поступать сразу на 2-й курс во многих вузах Ташкента",
+
     // Buttons
     btn_back: "Назад",
     btn_next: "Далее",
@@ -123,11 +162,29 @@ window.translations.ru = {
     // Quiz
     quiz_title: "Что важнее всего для образования вашего ребёнка?",
     quiz_subtitle: "Выберите всё, что подходит:",
+    quiz_option_academic: "Качество обучения",
+    quiz_option_safety: "Эмоциональная безопасность и благополучие",
+    quiz_option_attention: "Индивидуальное внимание и поддержка",
+    quiz_option_international: "Возможности для поступления в международные университеты",
+    quiz_option_value: "Качественное образование с понятной ценностью",
+    quiz_option_balance: "Баланс классической строгости и современных навыков",
+    quiz_continue: "Продолжить",
 
     // Validation
     val_enter_dob: "Пожалуйста, введите дату рождения для всех детей",
     val_enter_name: "Пожалуйста, введите ваше полное имя",
     val_enter_phone: "Пожалуйста, введите ваш номер телефона",
-    val_error: "Что-то пошло не так. Пожалуйста, попробуйте снова или свяжитесь с нами напрямую."
+    val_error: "Что-то пошло не так. Пожалуйста, попробуйте снова или свяжитесь с нами напрямую.",
+
+    // Calculator Screen
+    calculator_family_title: "Рассчитайте стоимость для вашей семьи",
+    calculator_included_title: "Что входит в это вложение",
+    calculator_included_1: "▸ IB Diploma + Государственный аттестат (для студентов IB)",
+    calculator_included_2: "▸ Трёхуровневая система поддержки для каждого ребёнка",
+    calculator_included_3: "▸ Небольшие классы (максимум 18–22 ученика)",
+    calculator_included_4: "▸ Все учебники и учебные материалы",
+    calculator_included_5: "▸ Более 20 лет проверенных образовательных систем",
+    btn_book_tour: "Записаться на экскурсию",
+    btn_ask_questions: "Задать вопросы"
 };
 

@@ -96,6 +96,45 @@ window.translations.en = {
     prog_kg_rus: "Russian Kindergarten",
     prog_kg_bi: "Bilingual Kindergarten",
 
+    // Program Explorer
+    programs_title: "Select Your Child's Age Range",
+    programs_tab_kindergarten: "Kindergarten",
+    programs_tab_russian: "Russian",
+    programs_tab_ib: "IB",
+
+    program_kindergarten_title: "KINDERGARTEN (Ages 2-5)",
+    program_kindergarten_point_1: "▸ Foundation of student agency and self-sufficiency",
+    program_kindergarten_point_2: "▸ Social confidence as primary goal",
+    program_kindergarten_point_3: "▸ Practical life skills: self-care, emotional regulation",
+    program_kindergarten_point_4: "▸ IB-integrated thematic learning",
+    program_kindergarten_point_5: "▸ Maximum 20 students per group, 2 teachers",
+    program_kindergarten_thrives_title: "Who thrives here:",
+    program_kindergarten_thrives_desc: "Children whose parents want to build foundational independence and confidence",
+
+    program_russian_title: "RUSSIAN STREAM (Ages 6-18)",
+    program_russian_point_1: "▸ Systematic, structured curriculum",
+    program_russian_point_2: "▸ Strong foundation: Mathematics + English",
+    program_russian_point_3: "▸ Uzbek State Certificate upon graduation",
+    program_russian_point_4: "▸ Progressive autonomy as students mature",
+    program_russian_point_5: "▸ Flexible grouping and support systems",
+    program_russian_thrives_title: "Who thrives here:",
+    program_russian_thrives_desc: "Students who excel with clear structure and systematic knowledge building",
+    program_russian_diploma_title: "Diploma earned:",
+    program_russian_diploma_desc: "Uzbek State Certificate (one diploma)",
+
+    program_ib_title: "IB STREAM (Ages 6-18)",
+    program_ib_point_1: "▸ Inquiry-based, cross-disciplinary learning",
+    program_ib_point_2: "▸ PYP (Primary Years) → MYP (Middle Years) → DP (Diploma)",
+    program_ib_point_3: "▸ TWO diplomas: IB Diploma + Uzbek State Certificate",
+    program_ib_point_4: "▸ Three-tier support system",
+    program_ib_point_5: "▸ Critical thinking and research skills focus",
+    program_ib_thrives_title: "Who thrives here:",
+    program_ib_thrives_desc: "Students who constantly ask \"why?\" and enjoy connecting ideas across subjects",
+    program_ib_diploma_title: "Diplomas earned:",
+    program_ib_diploma_desc: "IB Diploma + Uzbek State Certificate (two diplomas)",
+    program_ib_advantage_title: "Special advantage:",
+    program_ib_advantage_desc: "IB Diploma holders can enter directly into 2nd year at many Tashkent universities",
+
     // Buttons
     btn_back: "Back",
     btn_next: "Next",
@@ -119,11 +158,29 @@ window.translations.en = {
     // Quiz
     quiz_title: "What matters most for your child's education?",
     quiz_subtitle: "Select all that apply:",
+    quiz_option_academic: "Academic excellence",
+    quiz_option_safety: "Emotional safety and well-being",
+    quiz_option_attention: "Individual attention and support",
+    quiz_option_international: "International university opportunities",
+    quiz_option_value: "Quality education with clear value",
+    quiz_option_balance: "Balance of traditional rigor and modern skills",
+    quiz_continue: "Continue",
 
     // Validation
     val_enter_dob: "Please enter date of birth for all children",
     val_enter_name: "Please enter your full name",
     val_enter_phone: "Please enter your phone number",
-    val_error: "Something went wrong. Please try again or contact us directly."
+    val_error: "Something went wrong. Please try again or contact us directly.",
+
+    // Calculator Screen
+    calculator_family_title: "Calculate Tuition for Your Family",
+    calculator_included_title: "What's Included in This Investment",
+    calculator_included_1: "▸ IB Diploma + State Certificate (for IB students)",
+    calculator_included_2: "▸ Three-tier support system for every child",
+    calculator_included_3: "▸ Small class sizes (maximum 18-22 students)",
+    calculator_included_4: "▸ All textbooks and learning materials",
+    calculator_included_5: "▸ 20+ years of proven educational systems",
+    btn_book_tour: "Book a School Tour",
+    btn_ask_questions: "Ask Questions"
 };
 

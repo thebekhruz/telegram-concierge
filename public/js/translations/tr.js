@@ -96,6 +96,45 @@ window.translations.tr = {
     prog_kg_rus: "Rus Anaokulu",
     prog_kg_bi: "İki Dilli Anaokulu",
 
+    // Program Explorer
+    programs_title: "Çocuğunuzun Yaş Aralığını Seçin",
+    programs_tab_kindergarten: "Anaokulu",
+    programs_tab_russian: "Rus",
+    programs_tab_ib: "IB",
+
+    program_kindergarten_title: "ANAOKULU (2-5 yaş)",
+    program_kindergarten_point_1: "▸ Öğrenci sorumluluğu ve öz-yeterliliğinin temeli",
+    program_kindergarten_point_2: "▸ Sosyal özgüven temel hedef",
+    program_kindergarten_point_3: "▸ Pratik yaşam becerileri: öz bakım, duygusal düzenleme",
+    program_kindergarten_point_4: "▸ IB ile entegre tematik öğrenme",
+    program_kindergarten_point_5: "▸ Grup başına en fazla 20 öğrenci, 2 öğretmen",
+    program_kindergarten_thrives_title: "Kime uygundur:",
+    program_kindergarten_thrives_desc: "Temel bağımsızlık ve özgüven geliştirmek isteyen ailelerin çocukları için",
+
+    program_russian_title: "RUS AKIŞI (6-18 yaş)",
+    program_russian_point_1: "▸ Sistemli, yapılandırılmış müfredat",
+    program_russian_point_2: "▸ Güçlü temel: Matematik + İngilizce",
+    program_russian_point_3: "▸ Mezuniyette Özbekistan Devlet Sertifikası",
+    program_russian_point_4: "▸ Yaş ilerledikçe artan özerklik",
+    program_russian_point_5: "▸ Esnek gruplar ve destek sistemleri",
+    program_russian_thrives_title: "Kime uygundur:",
+    program_russian_thrives_desc: "Net yapı ve sistematik bilgiyle başarılı olan öğrenciler",
+    program_russian_diploma_title: "Alınan diploma:",
+    program_russian_diploma_desc: "Özbekistan Devlet Sertifikası (tek diploma)",
+
+    program_ib_title: "IB AKIŞI (6-18 yaş)",
+    program_ib_point_1: "▸ Sorgulamaya dayalı, disiplinler arası öğrenme",
+    program_ib_point_2: "▸ PYP (İlk Yıllar) → MYP (Orta Yıllar) → DP (Diploma)",
+    program_ib_point_3: "▸ İKİ diploma: IB Diploması + Özbekistan Devlet Sertifikası",
+    program_ib_point_4: "▸ Üç kademeli destek sistemi",
+    program_ib_point_5: "▸ Eleştirel düşünme ve araştırma becerilerine odak",
+    program_ib_thrives_title: "Kime uygundur:",
+    program_ib_thrives_desc: "Sürekli “neden?” soran ve konular arası bağlantılardan keyif alan öğrenciler",
+    program_ib_diploma_title: "Alınan diplomalar:",
+    program_ib_diploma_desc: "IB Diploması + Özbekistan Devlet Sertifikası (iki diploma)",
+    program_ib_advantage_title: "Özel avantaj:",
+    program_ib_advantage_desc: "IB Diploması sahipleri Taşkent'teki birçok üniversitede doğrudan 2. sınıfa geçebilir",
+
     // Buttons
     btn_back: "Geri",
     btn_next: "İleri",
@@ -119,11 +158,29 @@ window.translations.tr = {
     // Quiz
     quiz_title: "Çocuğunuzun eğitimi için en önemli olan nedir?",
     quiz_subtitle: "Uygulananların tümünü seçin:",
+    quiz_option_academic: "Akademik mükemmellik",
+    quiz_option_safety: "Duygusal güvenlik ve iyi oluş",
+    quiz_option_attention: "Bireysel ilgi ve destek",
+    quiz_option_international: "Uluslararası üniversite fırsatları",
+    quiz_option_value: "Net değeri olan kaliteli eğitim",
+    quiz_option_balance: "Geleneksel disiplin ile modern becerilerin dengesi",
+    quiz_continue: "Devam et",
 
     // Validation
     val_enter_dob: "Lütfen tüm çocuklar için doğum tarihini girin",
     val_enter_name: "Lütfen tam adınızı girin",
     val_enter_phone: "Lütfen telefon numaranızı girin",
-    val_error: "Bir şeyler yanlış gitti. Lütfen tekrar deneyin veya doğrudan bizimle iletişime geçin."
+    val_error: "Bir şeyler yanlış gitti. Lütfen tekrar deneyin veya doğrudan bizimle iletişime geçin.",
+
+    // Calculator Screen
+    calculator_family_title: "Aileniz İçin Ücreti Hesaplayın",
+    calculator_included_title: "Bu Yatırıma Neler Dahil",
+    calculator_included_1: "▸ IB Diploması + Devlet Sertifikası (IB öğrencileri için)",
+    calculator_included_2: "▸ Her çocuk için üç kademeli destek sistemi",
+    calculator_included_3: "▸ Küçük sınıf mevcutları (maksimum 18–22 öğrenci)",
+    calculator_included_4: "▸ Tüm ders kitapları ve öğrenme materyalleri",
+    calculator_included_5: "▸ 20+ yıllık kanıtlanmış eğitim sistemleri",
+    btn_book_tour: "Okul Turu Rezervasyonu",
+    btn_ask_questions: "Sorular Sor"
 };
 
