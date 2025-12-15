@@ -19,107 +19,161 @@ app.use(express.static(path.join(__dirname, '../../public')));
 // API endpoint to submit lead from mini app
 app.post('/api/submit-lead', async (req: Request, res: Response) => {
   try {
-    const { applicationData, telegramUser } = req.body;
+    const {
+      leadType,
+      parentName,
+      parentPhone,
+      parentEmail,
+      numChildren,
+      childAges,
+      programInterest,
+      specificQuestions,
+      language,
+      interests,
+      telegramUser
+    } = req.body;
 
-    if (!telegramUser || !telegramUser.id) {
-      return res.status(400).json({ success: false, error: 'Invalid Telegram user data' });
+    // Validate required fields
+    if (!parentName || !parentPhone) {
+      return res.status(400).json({ success: false, error: 'Parent name and phone are required' });
     }
-
-    if (!applicationData) {
-      return res.status(400).json({ success: false, error: 'Invalid application data' });
-    }
-
-    // Find or create user
-    const user = await userRepo.findOrCreate(
-      telegramUser.id,
-      telegramUser.username,
-      telegramUser.first_name,
-      telegramUser.last_name
-    );
-
-    // Update phone number if provided
-    if (applicationData.parent && applicationData.parent.phone) {
-      await userRepo.setPhoneNumber(user.telegramId, applicationData.parent.phone);
-    }
-
-    // Create lead with mini app data
-    const lead = await leadRepo.createLead({
-      userId: user.id,
-      phoneNumber: applicationData.parent?.phone || user.phoneNumber || undefined,
-      campus: applicationData.campus,
-      programType: applicationData.children?.[0]?.program,
-      classLevel: applicationData.children?.[0]?.grade,
-      numberOfChildren: applicationData.children?.length || 0,
-      year: applicationData.startDate,
-    });
 
     // Send notification to CRM channel if configured
-    if (config.crmChannelId) {
+    if (config.crmChannelId && config.botToken) {
       try {
         const bot = new Telegraf(config.botToken);
 
-        let crmMessage = `🎓 New Application from Mini App\n\n`;
-        crmMessage += `👤 Parent: ${applicationData.parent.name}\n`;
-        if (applicationData.parent.email) {
-          crmMessage += `📧 Email: ${applicationData.parent.email}\n`;
-        }
-        if (applicationData.parent.phone) {
-          crmMessage += `📱 Phone: ${applicationData.parent.phone}\n`;
-        }
-        if (user.username) {
-          crmMessage += `🔗 Username: @${user.username}\n`;
-        }
-        crmMessage += `🆔 Telegram ID: ${user.telegramId}\n`;
+        // Map lead types to friendly names
+        const leadTypeNames: Record<string, string> = {
+          'tour': '🏫 School Tour Request',
+          'openhouse': '🎪 Open House Registration',
+          'interview': '💼 Admissions Interview Request'
+        };
 
-        crmMessage += `\n📊 Application Details:\n`;
-        crmMessage += `🏫 Campus: ${applicationData.campus}\n`;
-        crmMessage += `🌐 Preferred Language: ${applicationData.preferredLanguage}\n`;
-        crmMessage += `📅 Start Date: ${applicationData.startDate}\n`;
+        const leadTypeName = leadTypeNames[leadType] || '📋 New Application';
 
-        if (applicationData.referralSource) {
-          crmMessage += `📢 Referral: ${applicationData.referralSource}\n`;
-        }
+        // Format the message
+        let crmMessage = `${leadTypeName}\n`;
+        crmMessage += `━━━━━━━━━━━━━━━━━━━\n\n`;
 
-        if (applicationData.campusTourRequested) {
-          crmMessage += `🏛️ Tour Requested: Yes\n`;
+        // Parent Information
+        crmMessage += `👤 PARENT INFORMATION\n`;
+        crmMessage += `Name: ${parentName}\n`;
+        crmMessage += `📱 Phone: ${parentPhone}\n`;
+        if (parentEmail) {
+          crmMessage += `📧 Email: ${parentEmail}\n`;
         }
 
-        // List each child
-        if (applicationData.children && applicationData.children.length > 0) {
-          crmMessage += `\n👨‍👩‍👧‍👦 Children (${applicationData.children.length}):\n`;
-          applicationData.children.forEach((child: any, index: number) => {
-            crmMessage += `\n  ${index + 1}. ${child.name}\n`;
-            crmMessage += `     Program: ${child.program}\n`;
-            crmMessage += `     Grade/Level: ${child.grade}\n`;
-          });
+        // Telegram user info
+        if (telegramUser && telegramUser.id) {
+          if (telegramUser.username) {
+            crmMessage += `🔗 Username: @${telegramUser.username}\n`;
+          }
+          crmMessage += `🆔 Telegram ID: ${telegramUser.id}\n`;
+          if (telegramUser.first_name || telegramUser.last_name) {
+            const fullName = [telegramUser.first_name, telegramUser.last_name].filter(Boolean).join(' ');
+            crmMessage += `👨‍💼 Telegram Name: ${fullName}\n`;
+          }
         }
 
-        if (applicationData.additionalComments) {
-          crmMessage += `\n💬 Comments:\n${applicationData.additionalComments}\n`;
+        // Application Details
+        crmMessage += `\n👨‍👩‍👧‍👦 APPLICATION DETAILS\n`;
+        crmMessage += `Children Count: ${numChildren}\n`;
+
+        if (childAges && childAges.length > 0) {
+          crmMessage += `Ages: ${childAges.join(', ')}\n`;
         }
 
-        crmMessage += `\n🔗 Lead ID: #${lead.id}`;
+        if (programInterest) {
+          crmMessage += `Program Interest: ${programInterest}\n`;
+        }
 
-        await bot.telegram.sendMessage(config.crmChannelId, crmMessage, {
-          reply_markup: {
+        // Additional Information
+        crmMessage += `\n📊 PREFERENCES\n`;
+        crmMessage += `🌐 Language: ${language?.toUpperCase() || 'Not specified'}\n`;
+
+        if (interests && interests.length > 0) {
+          crmMessage += `🎯 Interests: ${interests.join(', ')}\n`;
+        }
+
+        if (specificQuestions) {
+          crmMessage += `\n💬 SPECIFIC QUESTIONS\n`;
+          crmMessage += `${specificQuestions}\n`;
+        }
+
+        crmMessage += `\n⏰ Submitted: ${new Date().toLocaleString('en-US', {
+          timeZone: 'Asia/Tashkent',
+          dateStyle: 'medium',
+          timeStyle: 'short'
+        })}`;
+
+        // Send message with contact button
+        const messageOptions: any = {
+          parse_mode: 'HTML' as const,
+        };
+
+        // Add inline keyboard with contact button if Telegram user ID is available
+        if (telegramUser && telegramUser.id) {
+          messageOptions.reply_markup = {
             inline_keyboard: [
               [
                 {
-                  text: '📞 Contact Now',
-                  url: `tg://user?id=${user.telegramId}`,
+                  text: '📞 Contact on Telegram',
+                  url: `tg://user?id=${telegramUser.id}`,
                 },
               ],
             ],
-          },
-        });
+          };
+        }
+
+        await bot.telegram.sendMessage(config.crmChannelId, crmMessage, messageOptions);
+
+        console.log('✅ Lead forwarded to Telegram CRM channel');
       } catch (error) {
-        console.error('Error sending to CRM channel:', error);
+        console.error('❌ Error sending to CRM channel:', error);
+        // Don't fail the request if Telegram sending fails
+        // Log the error but continue
       }
+    } else {
+      console.warn('⚠️ CRM_CHANNEL_ID or BOT_TOKEN not configured. Lead not forwarded to Telegram.');
     }
 
-    res.json({ success: true, leadId: lead.id });
+    // Optionally store in database if repositories are available
+    // This is optional for v1.0 - can be enabled later
+    try {
+      if (telegramUser && telegramUser.id) {
+        const user = await userRepo.findOrCreate(
+          telegramUser.id,
+          telegramUser.username,
+          telegramUser.first_name,
+          telegramUser.last_name
+        );
+
+        if (parentPhone) {
+          await userRepo.setPhoneNumber(user.telegramId, parentPhone);
+        }
+
+        // Create lead record
+        await leadRepo.createLead({
+          userId: user.id,
+          phoneNumber: parentPhone,
+          // campus is optional - not collected in v1.0 form
+          // programType and classLevel are also optional - using generic values
+          classLevel: childAges && childAges.length > 0 ? childAges[0] : undefined,
+          numberOfChildren: parseInt(numChildren) || 0,
+          year: new Date().getFullYear().toString(),
+        });
+
+        console.log('✅ Lead stored in database');
+      }
+    } catch (dbError) {
+      console.error('❌ Error storing lead in database:', dbError);
+      // Continue even if database storage fails
+    }
+
+    res.json({ success: true, message: 'Application submitted successfully' });
   } catch (error) {
-    console.error('Error submitting lead:', error);
+    console.error('❌ Error submitting lead:', error);
     res.status(500).json({ success: false, error: 'Internal server error' });
   }
 });

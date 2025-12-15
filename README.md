@@ -23,9 +23,18 @@ A comprehensive Telegram bot and mini app for Oxbridge International School's ad
   - Personalization quiz for smart routing
   - FAQ hub with searchable, categorized content
   - Enhanced calculator with sibling discounts
-  - Lead capture form (AMO CRM ready)
+  - **Lead capture form with Telegram forwarding (v1.0)** ⭐ NEW
   - Thank you page with next steps
   - Full integration with bot backend
+
+- **📨 Lead Forwarding System (v1.0)** ⭐ NEW
+  - Automatic forwarding of application forms to Telegram channel/chat
+  - Formatted messages with complete applicant information
+  - Display Telegram username and user details
+  - One-click "Contact on Telegram" button for admins
+  - Optional database storage for lead tracking
+  - Graceful error handling (works even if Telegram fails)
+  - See [TELEGRAM_FORWARDING_SETUP.md](./TELEGRAM_FORWARDING_SETUP.md) for setup guide
 
 - **🌐 Multi-Language Support**
   - English 🇬🇧
